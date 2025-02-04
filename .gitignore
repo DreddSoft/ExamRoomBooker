@@ -23,3 +23,10 @@
 /app/Config/core.php
 /app/Config/database.php
 /vendors/*
+
+# Imagenes y archivos especiales
+vscode/
+.env
+.env.local
+*.jpg
+*.jpeg
