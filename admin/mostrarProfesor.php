@@ -33,37 +33,20 @@
         //si no es admin le mando al index
         if($esAdmin == false){
             header("Location:../index.php");
-        //si lo es hago un insert into con los datos del form
+        //si lo es hago un select de toda la tabla profesores
         }else{
             $query2 = "
-                DELETE FROM profesores
-                where idProfesor = '$_POST[idProfesor]';
+                SELECT * FROM Profesores;
             ";
-            //compruebo si se ha creado correctamente o ha dado error
-            if($conexion->query($query2) === TRUE) {
-                echo "El profesor con id '" . $_POST["idProfesor"] . "' ha sido eliminado correctamente";
-            }else{
-                echo "Error" . $query2 . "<br>" . $conexion->error;
+
+            $resultado = mysqli_query($conexion, $query2);
+
+            while($registro = mysqli_fetch_assoc($resultado)){
+                echo "<pre>";
+                           $resgistro["idProfesor"] . $registros["nombreProfesor"] ;
+                echo "</pre>";
             }
-            //cierro la conexion con la bd
             $conexion->close();
         }
     }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <main>
-        <h1>Crear profesor</h1>
-        <form action="crearProfesor.php" method="post">
-            <input type="text" placeholder="ID Profesor a eliminar" name="idProfesor" id="idProfesor"><br>
-        </form>
-    </main>
-</body>
-</html>
