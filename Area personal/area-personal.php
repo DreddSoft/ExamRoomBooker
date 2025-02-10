@@ -24,8 +24,12 @@ $sql = "SELECT "
     <title>Area personal</title>
 </head>
 <body>
+    <?php require_once "_header.php"; ?>
+    
     <table>
 
     </table>
+
+    <?php require_once "_footer.php"; ?>
 </body>
 </html>
