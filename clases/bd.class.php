@@ -7,7 +7,7 @@ require('../vendor/autoload.php');
 use Dotenv\Dotenv;  // Esto es para abrir el archivo .env con la información delicada
 
 
-$dotenv = Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']);
+$dotenv = Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT'] . "/examroombooker");
 $dotenv->load();
 
 class BD
