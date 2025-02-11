@@ -7,7 +7,7 @@
     </div>
     <div class="d-flex flex-column justify-content-start align-items-center">
         <ul class="d-flex flex-column justify-content-start align-items-start p-0">
-            <li><a class="badge badge-danger py-2 px-1 d-flex  align-items-center text-decoration-none" href="https://github.com/ajimvil713">&commat;aajimvil713</a></li>
+            <li><a class="badge badge-danger py-2 px-1 d-flex  align-items-center text-decoration-none" href="https://github.com/ajimvil713">&commat;ajimvil713</a></li>
             <li><a class="py-2 d-flex  align-items-center text-decoration-none text-white" href="https://github.com/davix1997">&commat;davix1997</a></li>
             <li><a class="py-2 d-flex  align-items-center text-decoration-none text-white" href="https://github.com/danielgr29">&commat;danielgr29</a></li>
             <li><a class="py-2 d-flex  align-items-center text-decoration-none text-white" href="">&commat;Ivan</a></li>
