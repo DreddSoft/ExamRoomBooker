@@ -17,6 +17,7 @@
     </main>
 
     <?php require_once "_footer.php"; ?>
+    <script src="script.js"></script>
     
 </body>
 </html>
