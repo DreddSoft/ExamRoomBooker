@@ -19,7 +19,7 @@ if (isset($_SESSION['admin'])) {
                         <a class="nav-link" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./Area personal/area-personal.php">Area Personal</a>
+                        <a class="nav-link" href="#">Area Personal</a>
                     </li>
 
                     <?php if ($admin == 1) : ?>
