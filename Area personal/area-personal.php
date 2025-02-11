@@ -4,16 +4,16 @@
 
 // Inicia la sesión e incluimos la clase de la base de datos
 session_start();
-require_once '../bbdd.php'; // Nombre temporal
+require_once '../clases/bd.class.php';
 
 // Si no hay id de usuario, redirige a la página de login
-if (!isset($_SESSION['id'])) {
-    header('Location: ../login.php');
-    exit;
-}
+//if (!isset($_SESSION['id'])) {
+//    header('Location: ../login.php');
+//    exit;
+//}
 
 // Hacemos la consulta a la base de datos por el id del usuario
-$sql = "SELECT "
+//$sql = "SELECT "
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +22,7 @@ $sql = "SELECT "
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Area personal</title>
+    <link rel="shortcut icon" href="../assets/Logo_type_1.png" type="image/x-icon">
 </head>
 <body>
     <?php require_once "_header.php"; ?>
