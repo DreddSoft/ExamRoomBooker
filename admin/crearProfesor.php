@@ -4,25 +4,25 @@
     //poner en el main, no hacer estilos
     session_start();
 
+
     //compruebo si hay un profesor conectado, so no lo mando al login
-    if(!isset($_SESSION["idProfesor"])){
+    if(!isset($_SESSION["id"])){
         header("Location:../login.php");
     }
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/clases/bd.class.php');
+    $bd = new BD();
+    
+    $conexion = $bd->abrirConexion();
     //compruebo que el método es post
+    
     if($_SERVER["REQUEST_METHOD"] === "POST"){
-        //id del prof que usare en la consulta
-        $idAdmin = $_SESSION["idProfesor"];
-        //datos y conexión bd
-        $host = "localhost";
-        $user = "root";
-        $pass = "";
-        $name_db = "profesores";
-
-        $conexion = mysqli_connect($host, $user, $pass, $name_db);
+    //id del prof que usare en la co1nsulta
+        $idAdmin = $_SESSION["id"];
+       
         //consulta para sacar si el profesor conectado es admin o no
         $query1 = "
             SELECT admin FROM profesores
-            where idProfesor = '$idAdmin';
+            where id = '$idAdmin';
         ";
 
         $resultado = mysqli_query($conexion, $query1);
@@ -34,19 +34,21 @@
         if($esAdmin == false){
             header("Location:../index.php");
         //si lo es hago un insert into con los datos del form
-        }else{//el 1 es el campo activo y el 0 el campo admin
-            $query2 = "
-                INSERT INTO profesores (id, usuario, pass, nombre, ape1, ape2, activo, email, admin)
-                VALUES ('$_POST[idProfesor]', '$_POST[usuario]', '$_POST[pass]', '$_POST[nombre]', '$_POST[ap1]', '$_POST[ape2]', 1, '$_POST[email]', 0); 
+        //}else{//el 1 es el campo activo y el 0 el campo admin
+        $id = $_POST['id'];
+        $usuario = $_POST['usuario'];
+        $passw = $_POST['passw'];
+        $nombre = $_POST['nombre'];
+        $ape1 = $_POST['ape1'];
+        $ape2 = $_POST['ape2'];
+        $email = $_POST['email'];
+        $query2 = "
+                INSERT INTO profesores (id, usuario, passw, nombre, ape1, ape2, activo, email, admin)
+                VALUES ('$id', '$usuario', '$passw', '$nombre', '$ape1', '$ape2', 1, '$email', 0);
             ";
-            //compruebo si se ha creado correctamente o ha dado error
-            if($conexion->query($query2) === TRUE) {
-                echo "Nuevo profesor registrado";
-            }else{
-                echo "Error" . $query2 . "<br>" . $conexion->error;
-            }
+            $bd->insertarDatos($query2);
             //cierro la conexion con la bd
-            $conexion->close();
+            $bd->cerrarConexion();
         }
     }
 ?>
@@ -62,13 +64,14 @@
     <main>
         <h1>Crear profesor</h1>
         <form action="crearProfesor.php" method="post">
-            <input type="text" placeholder="ID Profesor" name="idProfesor" id="idProfesor"><br>
+            <input type="text" placeholder="ID Profesor" name="id" id="id"><br>
             <input type="text" placeholder="Usuario" name="usuario" id="usuario"><br>
-            <input type="password" placeholder="Contraseña" name="pass" id="pass"><br>
+            <input type="password" placeholder="Contraseña" name="passw" id="passw"><br>
             <input type="text" placeholder="Nombre Profesor" name="nombre" id="nombre"><br>
-            <input type="text" placeholder="Primer apellido" name="ap1" id="ap1"><br>
-            <input type="text" placeholder="Segundo apellido" name="ap2" id="ap2"><br>
-            <input type="email" placeholder="Correo electrónico" name="email" id="email">
+            <input type="text" placeholder="Primer apellido" name="ape1" id="ape1"><br>
+            <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2"><br>
+            <input type="email" placeholder="Correo electrónico" name="email" id="email"><br>
+            <button type="submit">Crear</button>
         </form>
     </main>
 </body>
