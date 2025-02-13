@@ -1,9 +1,24 @@
+<?php  
+
+// Capturamos el nombre del archivo
+$filename = basename($_SERVER['PHP_SELF']);
+
+// Si es el index o el login, que están en la carpeta padre
+if ($filename == "index.php" || $filename == "login.php") {
+    // La ruta relativa es esta
+    $ruta = "./";
+} else {    // Cualquier otra
+    // La ruta relativa es esta
+    $ruta = "../";
+}
+
+?>
 <footer class="container-fluid d-flex flex-row justify-content-between p-3 bg-dark shadow">
     <div class="d-flex flex-row justify-content-center align-items-center">
         <a href="#" class="nav-link text-white">GitHub</a>
     </div>
     <div class="d-flex flex-row justify-content-center align-items-center">
-        <img src="<?= $_SERVER["DOCUMENT_ROOT"]?>-assets/ExamRoomBooker.svg" alt="Logo largo en enlace" style="width: 450px;">
+        <img src="<?= $ruta?>assets/ExamRoomBooker.svg" alt="Logo largo en enlace" style="width: 450px;">
     </div>
     <div class="d-flex flex-column justify-content-start align-items-center">
         <ul class="d-flex flex-column justify-content-start align-items-start p-0">

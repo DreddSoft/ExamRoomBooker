@@ -18,7 +18,7 @@ $bd = new BD;
 try {
 
     // Llamamos al método conectar de la clase $bd para establecer una conexión con la base de datos.
-    $bd->conectar();
+    $bd->abrirConexion();
 
     // Definimos una consulta SQL para seleccionar los campos nombre, primer apellido, usuario y contraseña de la tabla profesores.
     $sql = "SELECT nombre, ape1, usuario, passw FROM Profesores";
@@ -63,22 +63,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit();
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Procesamiento de datos</title>
-</head>
-<body>
-
-    <?php require_once "_header.php"; ?>
-
-    <main>
-        
-    </main>
-
-    <?php require_once "_footer.php"; ?>
-    
-</body>
-</html>
