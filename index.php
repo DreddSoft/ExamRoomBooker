@@ -5,9 +5,9 @@ session_start();
 // Esto será la página principal que presentará la aplicación.
 
 // Si no hay ningún usuario registrado, lo redirigiríamos al login para así poder registrarse y/o iniciar sesión
-if (!$_SESSION['profesor']) {
-    header("Location: login.php");
-}
+// if (!$_SESSION['profesor']) {
+//     header("Location: login.php");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,6 +28,8 @@ if (!$_SESSION['profesor']) {
         <h2 class="blue">Página Principal</h2>
         <h3 class="blue">Bienvenido/a</h3>
         <h4 class="blue"><?= $_SESSION['profesor'] ?></h4>
+
+        <?= $_SERVER["DOCUMENT_ROOT"]; ?>
     </main>
 
     <!--<script src="script.js"></script> --> <!--Lo dejo comentado porque no se si se implementará-->
