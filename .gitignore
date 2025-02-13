@@ -1,5 +1,4 @@
 # CakePHP 3
-
 /config/app.php
 
 /tmp/cache/models/*
@@ -17,7 +16,6 @@
 !/logs/empty
 
 # CakePHP 2
-
 /app/tmp/*
 /app/Config/core.php
 /app/Config/database.php
@@ -29,3 +27,21 @@ vscode/
 .env.local
 *.jpg
 *.jpeg
+
+# Carpeta de base de datos
+database/
+
+# Archivos SQL
+*.sql
+
+# Recomendados generales
+node_modules/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+*.bak
+*.swp
+*.swo
+

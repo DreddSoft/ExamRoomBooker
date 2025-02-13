@@ -56,6 +56,8 @@ if (isset($_GET['mensaje'])) {
             <!--Incluimos el archivo _footer.php, que contendrá el pie de página común a todas las páginas del sitio.-->
     <?php require_once "_footer.php"; ?>
 
+    <script src="script.js"></script>
+    
 </body>
 
 </html>
