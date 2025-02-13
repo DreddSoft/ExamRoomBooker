@@ -3,7 +3,9 @@
 // Muestra todas las reservas del profesor logeado ordenados por fecha
 
 /* TAREA PENDIENTE:
-* Hacer consulta, ejecutar consulta y mostrar consulta
+* Arreglar para que no haya duplicados en las reservas
+* Añadir la funcionalidad para editar y eleminar una reserva desde aqui
+* Descomentar el bloque de comprobacion de la sesion (Cambiar el idProfesor de la consulta por el id del profesor logeado)
 */
 
 // Inicia la sesión e incluimos la clase con la base de datos
@@ -23,13 +25,37 @@ require_once('../clases/bd.class.php');
 *
 *   Ordenar por fecha (Desde el mas cercano al dia actual)
 */
-$reservas = "SELECT
-FROM
-ORDER BY
-";
+$reservas =
+"SELECT
+    R.descripcion,
+    R.numAlumnos,
+    R.clase,
+    R.fecha,
+    T.horario,
+    A.nombre
+FROM 
+    RESERVAS R
+    INNER JOIN TURNOS T ON R.idTurno = T.id
+    INNER JOIN ASIGNATURASPROFESORES AP ON R.idProfesor = AP.idProfesor
+    INNER JOIN ASIGNATURAS A ON AP.idAsignatura = A.id
+WHERE 
+    R.idProfesor = 12
+ORDER BY 
+    R.fecha ASC;"
+;
 
 // Ejecutar consulta
+$bd = new BD;
 
+try {
+    $bd->abrirConexion();
+
+    $resultados = $bd->capturarDatos($reservas);
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+} finally {
+    $bd->cerrarConexion();
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,11 +70,39 @@ ORDER BY
 <body>
     <?php require_once "../_header.php"; ?>
 
-    <h1>Area personal</h1>
+    <h1 class="text-center mt-4 text-primary">Area personal</h1>
+    <!--<h1 class="display-4 fw-bold text-center my-4">Area personal</h1>-->
 
-    <!-- Impresion de la consulta en secciones (divs) -->
-    <main>
-        
+    <!-- Impresion de la consulta en secciones -->
+    <main class="container mt-4">
+        <?php if (empty($resultados)): ?>
+            <div class="alert alert-info" role="alert">
+                No tienes reservas pendientes
+            </div>
+        <?php else: ?>
+            <div class="row g-4">
+                <?php foreach ($resultados as $reserva): ?>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <?php echo htmlspecialchars($reserva['nombre']); ?>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Aula: <?php echo htmlspecialchars($reserva['clase']); ?></h5>
+
+                                <p class="card-text">
+                                    <strong>Descripción:</strong> <?php echo htmlspecialchars($reserva['descripcion']); ?><br>
+                                    <strong>Nº Alumnos:</strong> <?php echo htmlspecialchars($reserva['numAlumnos']); ?><br>
+                                    <strong>Fecha:</strong> <?php echo date('d/m/Y', strtotime($reserva['fecha'])); ?><br>
+                                    <strong>Horario:</strong> <?php echo htmlspecialchars($reserva['horario']); ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </main>
 
     <?php require_once "../_footer.php"; ?>
