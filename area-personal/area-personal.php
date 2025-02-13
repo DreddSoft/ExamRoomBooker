@@ -77,7 +77,7 @@ try {
     <main class="container mt-4">
         <?php if (empty($resultados)): ?>
             <div class="alert alert-info" role="alert">
-                No tienes reservas pendientes
+                Actualmente no tienes ninguna reserva en la sala.
             </div>
         <?php else: ?>
             <div class="row g-4">
