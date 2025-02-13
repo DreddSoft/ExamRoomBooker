@@ -1,4 +1,9 @@
 
+<!-- funcion para insertar datos, para select y para delete,
+Funcion inserta con los id del porfesor y de la asignatura, usando los de la base de datos con un select  -->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +14,7 @@
 <body>
 
     <form action="crearReserva.php" method="post">
-        <label for="asignaturas" name="asignaturas"> Ingrese el nombre de la asignatura: </label><input type="text" name="asignaturas">
+        <label for="consulta" name="consulta"> Ingrese el id del profesor para ver la reserva: </label><input type="text" name="consulta">
         <input type="submit" value="Enviar">
     </form>
     
@@ -18,10 +23,10 @@
 
 <?php
 
-require_once ('C:\xampp\htdocs\ExamRoomBooker\clases\bd.class.php');
+
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
-    $asignaturas=$_REQUEST["asignaturas"];
+    $consulta=htmlspecialchars($_REQUEST["id"]);
     $hots="localhost";
     $user="root";
     $pass="";
@@ -33,18 +38,25 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
 
     //Crear y ejecutar consultas
-    $query1 = "SELECT id,nombre,idDepartamento FROM asignaturas WHERE nombre='$asignaturas'";
+    $query1 = "SELECT id,descripcion,numAlumnos FROM reservas WHERE id='$consulta'";
     $resultado = mysqli_query($conexion, $query1);
 
 
-    echo "  <h1>Asignatura DE asignaturas DE " .$asignaturas."</h1>";
+    echo "  <h1>Asignatura DE consulta DE " .$consulta."</h1>";
     //Para ver resultados se usan, mysqli_fetch_row() ó mysqli_fetch_assoc()
     while ($registro = mysqli_fetch_assoc($resultado)) {
         echo "
       
-        Id de la asignatura:  ".$registro["id"]. "<br>"." asignaturas: ".$registro["nombre"]. "<br>"." IdDepartamento: ".$registro["idDepartamento"] . "<br><br><br>";
+        Id de la asignatura:  ".$registro["id"]. "<br>"." consulta: ".$registro["nombre"]. "<br>"." IdDepartamento: ".$registro["idDepartamento"] . "<br><br><br>";
         
     }
+
+
+
+    function obtenerReservasId(): void{
+        
+    }
+
 }
 
 
