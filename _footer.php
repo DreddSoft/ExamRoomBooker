@@ -3,7 +3,7 @@
         <a href="#" class="nav-link text-white">GitHub</a>
     </div>
     <div class="d-flex flex-row justify-content-center align-items-center">
-        <img src="assets/ExamRoomBooker.svg" alt="Logo largo en enlace" style="width: 450px;">
+        <img src="<?= $_SERVER["DOCUMENT_ROOT"]?>-assets/ExamRoomBooker.svg" alt="Logo largo en enlace" style="width: 450px;">
     </div>
     <div class="d-flex flex-column justify-content-start align-items-center">
         <ul class="d-flex flex-column justify-content-start align-items-start p-0">
