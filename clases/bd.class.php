@@ -1,7 +1,7 @@
 <?php
 
 // Incluir el autoload de composer
-require('../vendor/autoload.php');
+require('C:\xampp\htdocs\ExamRoomBooker\vendor\autoload.php');
 
 
 use Dotenv\Dotenv;  // Esto es para abrir el archivo .env con la información delicada
