@@ -6,28 +6,22 @@
     session_start();
     //ESTO ES PARA PRUEBA, BORRAR LUEGO!!!!!!!!!!!
     $_SESSION["id"] = 11;
+    $_SESSION["admin"] = 1;
     //compruebo si hay un profesor conectado, si no lo mando al login
     if(!isset($_SESSION["id"])){
         header("Location:../login.php");
+        exit();
+    }
+    if($_SESSION["admin"] != 1){
+        header("Location:index.php");
+        exit();
     }
     //requiero la clase bd
     require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');
     $bd = new BD();
     //conecto a la base de datos
     $conexion = $bd->abrirConexion();
-    //guardo el id de sesion en una variable para usarlo luego
-    $idAdmin = $_SESSION["id"];
-       
-        //consulta para sacar si el profesor conectado es admin o no
-        $query1 = "
-            SELECT admin FROM profesores
-            where id = '$idAdmin';
-        ";
-        $resultado = $bd->capturarDatos($query1);
-
-        //si no es admin le mando al index
-        if($resultado[0]["admin"] == 0){
-            header("Location:../index.php");
+    
     //compruebo que el método es post
     if($_SERVER["REQUEST_METHOD"] === "POST"){
         //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
@@ -47,20 +41,21 @@
             $bd->insertarDatos($query2);
             //cierro la conexion con la bd
             $bd->cerrarConexion();
-        }
     }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="shortcut icon" href="assets/Logo_type_1.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Crear Profesor</title>
 </head>
 <body>
+    <?php require_once("../_header.php")?>
     <main>
-        <h1>Crear profesor</h1>
         <form action="crearProfesor.php" method="post">
             <input type="text" placeholder="ID Profesor" name="id" id="id"><br>
             <input type="text" placeholder="Usuario" name="usuario" id="usuario"><br>
@@ -72,5 +67,7 @@
             <button type="submit">Crear</button>
         </form>
     </main>
+    <?php require_once("../_footer.php")?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
