@@ -19,7 +19,7 @@ require_once('../clases/bd.class.php');
 
 // Consulta sql para obtener todas las reservas del usuario logeado
 /* Del profesor logeado se obtiene:
-*   - Tabla reservas: descr, numAlumnos, clase, fecha
+*   - Tabla reservas: descripcion, numAlumnos, clase, fecha
 *   - Tabla turno: horario
 *   - Tabla asignatura: nombre
 *
@@ -33,14 +33,14 @@ $reservas =
     R.fecha,
     T.horario,
     A.nombre
-FROM 
+FROM
     RESERVAS R
     INNER JOIN TURNOS T ON R.idTurno = T.id
     INNER JOIN ASIGNATURASPROFESORES AP ON R.idProfesor = AP.idProfesor
     INNER JOIN ASIGNATURAS A ON AP.idAsignatura = A.id
-WHERE 
+WHERE
     R.idProfesor = 12
-ORDER BY 
+ORDER BY
     R.fecha ASC;"
 ;
 
@@ -63,21 +63,22 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Area personal</title>
+    <title>Area Personal</title>
     <link rel="shortcut icon" href="../assets/Logo_type_1.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     <?php require_once "../_header.php"; ?>
 
-    <h1 class="text-center mt-4 text-primary">Area personal</h1>
+    <h1 class="text-center mt-4 text-primary">Area Personal</h1>
     <!--<h1 class="display-4 fw-bold text-center my-4">Area personal</h1>-->
 
     <!-- Impresion de la consulta en secciones -->
     <main class="container mt-4">
         <?php if (empty($resultados)): ?>
             <div class="alert alert-info" role="alert">
-                Actualmente no tienes ninguna reserva en la sala.
+                Actualmente no dispones de ninguna reserva de la sala.<br>
+                <a href="../index.php" class="alert-link">Reservar una sala</a>
             </div>
         <?php else: ?>
             <div class="row g-4">
