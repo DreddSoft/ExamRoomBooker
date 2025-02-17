@@ -33,8 +33,33 @@
     $ape2 = $resultado[0]["ape2"] ? $resultado[0]["ape2"] : "";
     $activo = $resultado[0]["activo"];
     $email = $resultado[0]["email"];
-    $admin = $resultado[0]["admin"];
-    
+    $admin = $resultado[0]["admin"] == 1 ? 1 : 0;
+
+
+    if($_SERVER["REQUEST_METHOD"] === "POST"){
+        //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
+        $usuario = htmlspecialchars($_POST['usuario']);
+        $passw = htmlspecialchars($_POST['passw']);
+        $nombre = htmlspecialchars($_POST['nombre']);
+        $ape1 = htmlspecialchars($_POST['ape1']);
+        $ape2 = htmlspecialchars($_POST['ape2']);
+        $email = htmlspecialchars($_POST['email']);
+        //consulta para insertar en la tabla profesores un nuevo profesor con los datos indcados
+        $query2 = "
+                UPDATE profesores SET 
+                usuario = '$usuario', 
+                passw = '$passw', 
+                nombre = '$nombre', 
+                ape1 = '$ape1', 
+                ape2 = '$ape2', 
+                email = '$email',
+                WHERE id = '$idProfesor';
+            ";
+            //uso el metodo actualizar datos de la clase bd
+            $bd->actualizarDatos($query2);
+            //cierro la conexion con la bd
+            $bd->cerrarConexion();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -49,16 +74,40 @@
 <body>
     <?php require_once("../_header.php")?>
     <main>
-        <section>
-            <form action="modificarProfesor.php" method="post">
+        <section class="text-center">
+            <form action="modificarProfesor.php?idProfesor=<?=$idProfesor?>" method="post">
                 <input type="text" placeholder="Usuario" name="usuario" id="usuario" value="<?=$usuario ?>"><br>
                 <input type="password" placeholder="Contraseña" name="passw" id="passw" value="<?=$pass ?>"><br>
                 <input type="text" placeholder="Nombre Profesor" name="nombre" id="nombre" value="<?=$nombre ?>"><br>
                 <input type="text" placeholder="Primer apellido" name="ape1" id="ape1" value="<?=$ape1 ?>"><br>
                 <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" value="<?=$ape2 ?>"><br>
                 <input type="email" placeholder="Correo electrónico" name="email" id="email" value="<?=$email ?>"><br>
-            <button type="submit">Crear</button>
+            <button type="submit" class="btn btn-primary">Modificar</button>
             </form>
+            <section class="d-inline-flex p-2">
+                <form action="cambiarStatusProfesor.php" method="post">
+                    <?php if($activo == 1):?>
+                        <input type="hidden" value="<?= $idProfesor?>" name="id">
+                        <input type="hidden" value="0" name="activo">
+                        <button type="submit" class="btn btn-danger">Desactivar</button>
+                    <?php else:?>
+                        <input type="hidden" value="<?= $idProfesor?>" name="id">
+                        <input type="hidden" value="1" name="activo">
+                        <button type="submit" class="btn btn-success">Activar</button>
+                        <?php endif ?>
+                </form>
+                <form action="cambiarPrivilegios.php" method="post">
+                    <?php if($admin == 1):?>
+                        <input type="hidden" value="<?= $idProfesor?>" name="id">
+                        <input type="hidden" value="0" name="status">
+                        <button type="submit" class="btn btn-warning">Quitar privilegios</button>
+                    <?php else:?>
+                        <input type="hidden" value="<?= $idProfesor?>" name="id">
+                        <input type="hidden" value="1" name="status">
+                        <button type="submit" class="btn btn-info">Dar privilegios</button>
+                        <?php endif ?>
+                </form>
+            </section>
         </section>
     </main>
     <?php require_once("../_footer.php")?>

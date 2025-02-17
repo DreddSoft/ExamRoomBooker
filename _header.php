@@ -1,9 +1,9 @@
 <?php
 
-$admin = 1;
+$adminHeader = 1;
 // Siempre necesario comprobar y sanitizar
 if (isset($_SESSION['admin'])) {
-    $admin = 1;
+    $adminHeader = 1;
 }
 
 // Capturamos el nombre del archivo
@@ -36,7 +36,7 @@ if ($filename == "index.php" || $filename == "login.php") {
                         <a class="nav-link" href="<?= $ruta?>Area persona/area-personal.php">Area Personal</a>
                     </li>
 
-                    <?php if ($admin == 1) : ?>
+                    <?php if ($adminHeader == 1) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Admin
