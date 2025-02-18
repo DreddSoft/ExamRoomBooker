@@ -34,13 +34,27 @@
             header("Location:index.php");
             exit();
         }
+        if(isset($_POST['mActivos'])){
+            $mActivos = $_POST['mActivos'];
+            if($mActivos == 1){
+                $consulta = "WHERE activo = 1";
+            }else{
+                $consulta = "WHERE activo = 0";
+            }
+        }else{
+            $consulta = "";
+        }   
         //consulta para seleccionar todos los profesores
         $query2 = "
-                SELECT * FROM Profesores;
+                SELECT * FROM Profesores $consulta;
             ";
         //llamo al metodo capturar datos de la clase bd
         $resultado = $bd->capturarDatos($query2);
         //hago una tabla con los datos de resultado
+        echo "<form action='mostrarProfesor.php' method='post'>
+                <input type='checkbox' id='mActivos' name='mActivos' class='m-1'>
+                <button type'submit' class='btn btn-info m-1'>Filtrar desactivados</button>
+            </form>";
         echo "<table id='tabla'>";
         echo "<th>ID</th><th>Usuario</th><th>Contraseña</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th><th>Estado</th><th>Email</th><th>Admin</th>";
         foreach ($resultado as $registro) {
