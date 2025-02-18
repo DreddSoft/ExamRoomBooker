@@ -3,8 +3,6 @@
 // Muestra todas las reservas del profesor logeado ordenados por fecha
 
 /* TAREA PENDIENTE:
-*   Modificar la consulta, para que se adapte a la nueva base de datos
-*   Añadir id para el escuchador de eventos en las tarjetas
 *   Descomentar el bloque de comprobacion de la sesion (Cambiar el idProfesor de la consulta por el id del profesor logeado)
 */
 
@@ -27,22 +25,31 @@ require_once('../clases/bd.class.php');
 *   y por horario
 */
 $reservas =
-"SELECT 
+"SELECT DISTINCT
+    R.id,
     R.descripcion,
     R.numAlumnos,
     R.clase,
     R.fecha,
-    T.horario,
+    GROUP_CONCAT(T.horario ORDER BY T.horario ASC SEPARATOR ', ') as horario,
     A.nombre
-FROM 
+FROM
     RESERVAS R
-    INNER JOIN TURNOS T ON R.idTurno = T.id
+    INNER JOIN RESERVASTURNOS RT ON R.id = RT.idReserva
+    INNER JOIN TURNOS T ON RT.idTurno = T.id
     INNER JOIN ASIGNATURAS A ON R.idAsignatura = A.id
-WHERE 
+WHERE
     R.idProfesor = 12
-ORDER BY 
+GROUP BY
+    R.id,
+    R.descripcion,
+    R.numAlumnos,
+    R.clase,
+    R.fecha,
+    A.nombre
+ORDER BY
     ABS(DATEDIFF(R.fecha, CURRENT_DATE())),
-    T.id ASC;"
+    T.horario ASC;"
 ;
 
 // Ejecutar consulta
@@ -67,7 +74,7 @@ try {
     <title>Area Personal</title>
     <link rel="shortcut icon" href="../assets/Logo_type_1.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="./eventos-area-personal" defer></script>
+    <script src="./eventos-area-personal.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <?php require_once "../_header.php"; ?>
@@ -85,7 +92,7 @@ try {
         <?php else: ?>
             <div class="row g-4">
                 <?php foreach ($resultados as $reserva): ?>
-                    <div class="col-md-4">
+                    <div class="col-md-4" id="reserva-<?php echo $reserva['id']; ?>">
                         <div class="card">
                             <div class="card-header bg-primary text-white">
                                 <?php echo htmlspecialchars($reserva['nombre']); ?>
