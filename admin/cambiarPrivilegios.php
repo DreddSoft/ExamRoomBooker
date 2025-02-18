@@ -18,11 +18,11 @@ session_start();
         if($_SERVER["REQUEST_METHOD"] === "POST"){
             //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
             $idProfesor = $_POST["id"];
-            $activo = $_POST["activo"];
+            $admin = $_POST["admin"];
             //consulta para insertar en la tabla profesores un nuevo profesor con los datos indcados
             $query2 = "
                     UPDATE profesores SET 
-                    activo = '$activo'
+                    admin = '$admin'
                     WHERE id = '$idProfesor';
                 ";
                 //uso el metodo actualizar datos de la clase bd

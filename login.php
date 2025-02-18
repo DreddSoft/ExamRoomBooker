@@ -14,17 +14,18 @@ if (isset($_GET['mensaje'])) {
 <!--Definimos la estructura básica del documento HTML con su cabecera, incluyendo el título y meta etiquetas.-->
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/Logo_type_1.png" type="image/x-icon">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
     <title>ExamRoomBooker | Login</title>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+
     <!--Incluimos el archivo _header.php, que contiene el encabezado común a todas las páginas del sitio.-->
     <?php require_once "_header.php"; ?>
 
@@ -56,10 +57,11 @@ if (isset($_GET['mensaje'])) {
     </main>
     <!--Incluimos el archivo _footer.php, que contendrá el pie de página común a todas las páginas del sitio.-->
     <?php require_once "_footer.php"; ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="script.js"></script>
 
-</body>
 
+</body>
 </html>
