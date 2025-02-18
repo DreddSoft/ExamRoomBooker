@@ -19,29 +19,34 @@
     //requiero la clase bd
     require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');
     $bd = new BD();
+
+    try{
     //conecto a la base de datos
     $conexion = $bd->abrirConexion();
-    
-    //compruebo que el método es post
-    if($_SERVER["REQUEST_METHOD"] === "POST"){
-        //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
-        $id = htmlspecialchars($_POST['id']);
-        $usuario = htmlspecialchars($_POST['usuario']);
-        $passw = htmlspecialchars($_POST['passw']);
-        $nombre = htmlspecialchars($_POST['nombre']);
-        $ape1 = htmlspecialchars($_POST['ape1']);
-        $ape2 = htmlspecialchars($_POST['ape2']);
-        $email = htmlspecialchars($_POST['email']);
-        //consulta para insertar en la tabla profesores un nuevo profesor con los datos indcados
-        $query2 = "
-                INSERT INTO profesores (id, usuario, passw, nombre, ape1, ape2, activo, email, admin)
-                VALUES ('$id', '$usuario', '$passw', '$nombre', '$ape1', '$ape2', 1, '$email', 0);
-            ";
-            //uso el metodo insertar datos de la clase bd
-            $bd->insertarDatos($query2);
+        //compruebo que el método es post
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
+            $id = htmlspecialchars($_POST['id']);
+            $usuario = htmlspecialchars($_POST['usuario']);
+            $passw = htmlspecialchars($_POST['passw']);
+            $nombre = htmlspecialchars($_POST['nombre']);
+            $ape1 = htmlspecialchars($_POST['ape1']);
+            $ape2 = htmlspecialchars($_POST['ape2']);
+            $email = htmlspecialchars($_POST['email']);
+            //consulta para insertar en la tabla profesores un nuevo profesor con los datos indcados
+            $query2 = "
+                    INSERT INTO profesores (id, usuario, passw, nombre, ape1, ape2, activo, email, admin)
+                    VALUES ('$id', '$usuario', '$passw', '$nombre', '$ape1', '$ape2', 1, '$email', 0);
+                ";
+                //uso el metodo insertar datos de la clase bd
+                $bd->insertarDatos($query2);
+            }
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }finally{
             //cierro la conexion con la bd
             $bd->cerrarConexion();
-    }
+        }
 ?>
 
 <!DOCTYPE html>

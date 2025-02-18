@@ -8,4 +8,3 @@ for (let i = 0; i < filas.length; i++) {
         window.location.href = `modificarProfesor.php?idProfesor=${filaid}`
     });
 }
-
