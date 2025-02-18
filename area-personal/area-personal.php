@@ -23,7 +23,8 @@ require_once('../clases/bd.class.php');
 *   - Tabla turno: horario
 *   - Tabla asignatura: nombre
 *
-*   Ordenar por fecha (Desde el mas cercano al dia actual) y por horario
+*   Ordenar por fecha (Desde el mas cercano al dia actual)
+*   y por horario
 */
 $reservas =
 "SELECT 
