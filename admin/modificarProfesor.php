@@ -80,18 +80,18 @@
     <main>
         <section class="text-center">
             <form action="modificarProfesor.php?idProfesor=<?=$idProfesor?>" method="post">
-                <input type="text" placeholder="Usuario" name="usuario" id="usuario" value="<?=$usuario ?>"><br>
-                <input type="password" placeholder="Contraseña" name="passw" id="passw" value="<?=$pass ?>"><br>
-                <input type="text" placeholder="Nombre Profesor" name="nombre" id="nombre" value="<?=$nombre ?>"><br>
-                <input type="text" placeholder="Primer apellido" name="ape1" id="ape1" value="<?=$ape1 ?>"><br>
-                <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" value="<?=$ape2 ?>"><br>
-                <input type="email" placeholder="Correo electrónico" name="email" id="email" value="<?=$email ?>"><br><br>
+                <input type="text" placeholder="Usuario" name="usuario" class="form-control-lg mt-1" id="usuario" value="<?=$usuario ?>"><br>
+                <input type="password" placeholder="Contraseña" name="passw" class="form-control-lg mt-1" id="passw" value="<?=$pass ?>"><br>
+                <input type="text" placeholder="Nombre Profesor" name="nombre" class="form-control-lg mt-1" id="nombre" value="<?=$nombre ?>"><br>
+                <input type="text" placeholder="Primer apellido" name="ape1" class="form-control-lg mt-1" id="ape1" value="<?=$ape1 ?>"><br>
+                <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control-lg mt-1" id="ape2" value="<?=$ape2 ?>"><br>
+                <input type="email" placeholder="Correo electrónico" name="email" class="form-control-lg mt-1" id="email" value="<?=$email ?>"><br><br>
             <section class="d-inline-flex p-2">
-                <button type="submit" class="btn btn-primary">Modificar</button>
+                <button type="submit" class="btn btn-primary m-1">Modificar</button>
                 </form>
                 <form action="eliminarProfesor.php" method="post">
                     <input type="hidden" value="<?= $idProfesor?>" name="id">
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <button type="submit" class="btn btn-danger m-1">Eliminar</button>
                 </form>
             </section>
             <section class="d-inline-flex p-2">
@@ -99,22 +99,22 @@
                     <?php if($activo == 1):?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="0" name="activo">
-                        <button type="submit" class="btn btn-danger">Desactivar</button>
+                        <button type="submit" class="btn btn-secondary m-1">Desactivar</button>
                     <?php else:?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="1" name="activo">
-                        <button type="submit" class="btn btn-success">Activar</button>
+                        <button type="submit" class="btn btn-success m-1">Activar</button>
                         <?php endif ?>
                 </form>
                 <form action="cambiarPrivilegios.php" method="post">
                     <?php if($admin == 1):?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="0" name="admin">
-                        <button type="submit" class="btn btn-warning">Quitar privilegios</button>
+                        <button type="submit" class="btn btn-warning m-1">Quitar privilegios</button>
                     <?php else:?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="1" name="admin">
-                        <button type="submit" class="btn btn-info">Dar privilegios</button>
+                        <button type="submit" class="btn btn-info m-1">Dar privilegios</button>
                         <?php endif ?>
                 </form>
             </section>

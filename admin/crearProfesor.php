@@ -61,16 +61,18 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php")?>
     <main>
-        <form action="crearProfesor.php" method="post">
-            <input type="text" placeholder="ID Profesor" name="id" id="id"><br>
-            <input type="text" placeholder="Usuario" name="usuario" id="usuario"><br>
-            <input type="password" placeholder="Contraseña" name="passw" id="passw"><br>
-            <input type="text" placeholder="Nombre Profesor" name="nombre" id="nombre"><br>
-            <input type="text" placeholder="Primer apellido" name="ape1" id="ape1"><br>
-            <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2"><br>
-            <input type="email" placeholder="Correo electrónico" name="email" id="email"><br>
-            <button type="submit">Crear</button>
-        </form>
+        <section class="text-center"><br>
+            <form action="crearProfesor.php" method="post">
+                <input type="text" placeholder="ID Profesor" name="id" id="id" class="form-control-lg mt-1"><br>
+                <input type="text" placeholder="Usuario" name="usuario" id="usuario" class="form-control-lg mt-1"><br>
+                <input type="password" placeholder="Contraseña" name="passw" id="passw" class="form-control-lg mt-1"><br>
+                <input type="text" placeholder="Nombre Profesor" name="nombre" id="nombre" class="form-control-lg mt-1"><br>
+                <input type="text" placeholder="Primer apellido" name="ape1" id="ape1" class="form-control-lg mt-1"><br>
+                <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" class="form-control-lg mt-1"><br>
+                <input type="email" placeholder="Correo electrónico" name="email" id="email" class="form-control-lg mt-1"><br><br>
+                <button type="submit" class="btn btn-success">Crear</button>
+            </form>
+        </section>
     </main>
     <?php require_once("../_footer.php")?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
