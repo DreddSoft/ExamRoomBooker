@@ -3,8 +3,9 @@
 // Muestra todas las reservas del profesor logeado ordenados por fecha
 
 /* TAREA PENDIENTE:
-* Añadir id para el escuchador de eventos en las tarjetas
-* Descomentar el bloque de comprobacion de la sesion (Cambiar el idProfesor de la consulta por el id del profesor logeado)
+*   Modificar la consulta, para que se adapte a la nueva base de datos
+*   Añadir id para el escuchador de eventos en las tarjetas
+*   Descomentar el bloque de comprobacion de la sesion (Cambiar el idProfesor de la consulta por el id del profesor logeado)
 */
 
 // Inicia la sesión e incluimos la clase con la base de datos
@@ -22,7 +23,7 @@ require_once('../clases/bd.class.php');
 *   - Tabla turno: horario
 *   - Tabla asignatura: nombre
 *
-*   Ordenar por fecha (Desde el mas cercano al dia actual)
+*   Ordenar por fecha (Desde el mas cercano al dia actual) y por horario
 */
 $reservas =
 "SELECT 
@@ -40,7 +41,7 @@ WHERE
     R.idProfesor = 12
 ORDER BY 
     ABS(DATEDIFF(R.fecha, CURRENT_DATE())),
-    T.id ASC;;"
+    T.id ASC;"
 ;
 
 // Ejecutar consulta
@@ -67,7 +68,7 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="./eventos-area-personal" defer></script>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php require_once "../_header.php"; ?>
 
     <h1 class="text-center mt-4 text-primary">Area Personal</h1>
