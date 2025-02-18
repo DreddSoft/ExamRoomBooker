@@ -4,11 +4,11 @@ session_start();
 
 require_once "clases/bd.class.php";
 
-//TODO: Descomentar la redireccion
+
 // Si no hay ningún usuario registrado, lo redirigiríamos al login para así poder registrarse y/o iniciar sesión
-// if (!$_SESSION['profesor']) {
-//     header("Location: login.php");
-// }
+if (!$_SESSION['idProfesor']) {
+    header("Location: login.php");
+}
 
 // Siempre sanitizamos el codigo en variables
 $profesor = null;
@@ -21,7 +21,14 @@ if (isset($_SESSION['nombre'])) {
 // Capturamos el lunes de la semana actual
 $diaActual = date("d/m/Y");
 
+// Sacamos el lunes de la semana actual
 $lunesSemanaActual = strtotime('monday this week');
+
+// Si recibimos parametros get de la semana
+if (isset($_GET["semana"])) {
+    $numSemana = $_GET["semana"];
+    $lunesSemanaActual = strtotime("+$numSemana week", $lunesSemanaActual);
+}
 $lunes = Date("d/m/Y", $lunesSemanaActual);
 $martes = Date("d/m/Y", strtotime('+1 day', $lunesSemanaActual));
 $miercoles = Date("d/m/Y", strtotime('+2 days', $lunesSemanaActual));
@@ -92,26 +99,26 @@ try {
 
     <main class="d-flex flex-column justify-content-center align-items-center py-4 bg-light">
         <div class="d-flex flex-column justify-content-center align-items-center my-3">
-            <h2 class="text-violet">Página Principal</h2>
+            <h2 class="" style="color: #642686;">APP Reserva de Sala de Examen - IES Jorge Guillén</h2>
             <h3 class="text-primary">Bienvenido/a <?= ($profesor) ? $profesor : "No Identificado" ?></h3>
         </div>
 
 
         <div class="d-flex flex-column justify-content-center align-items-center container-fluid">
-            <div class="d-flex flex-row justify-content-around align-items-center">
-                <div class="div"><a href="">&lt;&lt; Anterior</a></div>
-                <div class="div"><a href="">Siguiente &gt;&gt;</a></div>
+            <div class="d-flex justify-content-between w-100 my-4">
+                <div><a href="index.php?semana=-1" class="btn btn-link">&lt;&lt; Anterior</a></div>
+                <div><a href="index.php?semana=1" class="btn btn-link">Siguiente &gt;&gt;</a></div>
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <table class="table table-bordered">
                     <thead>
-                        <tr>
-                            <th class="text-center">Tramos</th>
-                            <th class="text-center" style="<?= ($lunes < $diaActual) ? 'background-color: rgba(100, 100, 100, 0.2); cursor: not-allowed;' : '' ?><?= ($lunes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Lunes <br><?= $lunes ?></th>
-                            <th class="text-center" style="<?= ($martes < $diaActual) ? 'background-color: rgba(100, 100, 100, 0.2); cursor: not-allowed;' : '' ?><?= ($martes == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Martes <br><?= $martes ?></th>
-                            <th class="text-center" style="<?= ($miercoles < $diaActual) ? 'background-color: rgba(100, 100, 100, 0.2); cursor: not-allowed;' : '' ?><?= ($miercoles == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Miércoles <br><?= $miercoles ?></th>
-                            <th class="text-center" style="<?= ($jueves < $diaActual) ? 'background-color: rgba(100, 100, 100, 0.2); cursor: not-allowed;' : '' ?><?= ($jueves == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Jueves <br><?= $jueves ?></th>
-                            <th class="text-center" style="<?= ($viernes < $diaActual) ? 'background-color: rgba(100, 100, 100, 0.2); cursor: not-allowed;' : '' ?><?= ($viernes == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Viernes <br><?= $viernes ?></th>
+                        <tr >
+                            <th class="text-center bg-secondary text-white fw-bold">Tramos</th>
+                            <th class="text-center" style="<?= ($lunes < $diaActual) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($lunes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Lunes <br><?= $lunes ?></th>
+                            <th class="text-center" style="<?= ($martes < $diaActual) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($martes == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Martes <br><?= $martes ?></th>
+                            <th class="text-center" style="<?= ($miercoles < $diaActual) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($miercoles == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Miércoles <br><?= $miercoles ?></th>
+                            <th class="text-center" style="<?= ($jueves < $diaActual) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($jueves == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Jueves <br><?= $jueves ?></th>
+                            <th class="text-center" style="<?= ($viernes < $diaActual) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($viernes == $diaActual) ?' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Viernes <br><?= $viernes ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,7 +129,7 @@ try {
                                 <?php foreach ($semana as $dia) :
                                     $blocked = $dia < $diaActual;
                                 ?>
-                                    <td class="text-center" style="<?= ($blocked) ? 'background-color: rgba(100, 100, 100, 0.2); cursor: not-allowed;' : '' ?>">
+                                    <td class="text-center" style="<?= ($blocked) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?>">
                                         <?php
                                         // Aqui tengo que sacar los datos de las reservas
                                         $reservaEncontrada = false;
@@ -133,12 +140,12 @@ try {
                                             // Convertir la fecha de la reserva en date
                                             $fechaReserva = Date("d/m/Y", strtotime($reserva['fecha']));
                                             if ($fechaReserva == $dia && $reserva['turno'] == $turno['idTurno']) {
-                                                echo "<div class='d-flex flex-column justify-content-center align-items-center border border-success rounded p-1' style='background-color: rgba(144, 238, 144, 0.3); border-radius: 5px;' id='{$reserva['idReserva']}'>
+                                                echo "<div class='d-flex flex-column justify-content-center align-items-center border border-success rounded p-1 mb-1' style='background-color: rgba(144, 238, 144, 0.3); border-radius: 5px; cursor: pointer;' id='{$reserva['idReserva']}' ondblclick='modificarReserva(this.id);'>
                                                             <h6>{$reserva['profesor']} | {$reserva['asignatura']}</h6>
                                                             <p>{$reserva['clase']} | Alumnos: {$reserva['numeroAlumnos']}</p>
                                                           </div>";
                                                 $plazas -= $reserva['numeroAlumnos'];
-                                                break;
+                                                // break;
                                             }
                                         }
                                         if ($plazas > 0) : ?>

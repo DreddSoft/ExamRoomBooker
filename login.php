@@ -3,7 +3,7 @@
 
 
 // Definimos la variable $mensaje como una cadena vacía.
-$mensaje = "";
+$mensaje = null;
 
 // Verificamos si el parámetro mensaje está presente en la URL, de ser así sanitizamos y guardamos el valor en la variable $mensaje.
 if (isset($_GET['mensaje'])) {
@@ -18,44 +18,50 @@ if (isset($_GET['mensaje'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/Logo_type_1.png" type="image/x-icon">
-    <title>Login</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="shortcut icon" href="./assets/Logo_type_1.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <title>ExamRoomBooker | Login</title>
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
+
     <!--Incluimos el archivo _header.php, que contiene el encabezado común a todas las páginas del sitio.-->
     <?php require_once "_header.php"; ?>
 
     <!--Creamos un formulario HTML para iniciar sesión, con campos para el nombre de usuario y contraseña, además de un botón para enviar datos.-->
     <!--Si la variable $mensaje tiene contenido, se mostrará el mensaje debajo del formulario.-->
     <main>
-        <div>
+        <div class="d-flex flex-column align-items-center my-4" style="color: #642686;">
             <h2>Iniciar Sesion</h2>
         </div>
-        <form action="procesarDatos.php" method="post">
-            <div>
-                <label for="usuario">Usuario</label>
-                <input type="text" name="usuario" id="usuario">
+        <form class="py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow my-5" action="procesarDatos.php" method="post" style="max-width: 400px; margin: auto;">
+            <h4 class="mb-4" style="color: #642686;">Login</h4>
+            <div class="mb-3 w-100">
+            <label for="usuario" class="form-label">Usuario</label>
+            <input type="text" name="usuario" id="usuario" class="form-control" required>
             </div>
-            <div>
-                <label for="pass">Contraseña</label>
-                <input type="password" name="pass" id="pass">
+            <div class="mb-3 w-100">
+            <label for="pass" class="form-label">Contraseña</label>
+            <input type="password" name="pass" id="pass" class="form-control" required>
             </div>
-            <div>
-                <button type="submit">Acceder</button>
+            <div class="d-grid w-100">
+            <button type="submit" class="btn btn-primary">Acceder</button>
             </div>
             <?php if (isset($mensaje)) : ?>
-
-                <div>
-                    <p><?php echo $mensaje; ?></p>
-                </div>
-
+            <div class="mt-3 w-100">
+            <p class="alert alert-danger"><?php echo $mensaje; ?></p>
+            </div>
             <?php endif; ?>
         </form>
     </main>
     <!--Incluimos el archivo _footer.php, que contendrá el pie de página común a todas las páginas del sitio.-->
     <?php require_once "_footer.php"; ?>
-    <script src="script.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+
+
 </body>
 </html>
