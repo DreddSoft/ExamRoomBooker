@@ -9,7 +9,7 @@
     <title>Listado de Profesores</title>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php") ?>
     <?php
     //dar por hecho que el booleano activo es 1 y el booleano admin es 0
