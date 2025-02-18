@@ -99,11 +99,11 @@
                 <form action="cambiarPrivilegios.php" method="post">
                     <?php if($admin == 1):?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
-                        <input type="hidden" value="0" name="status">
+                        <input type="hidden" value="0" name="admin">
                         <button type="submit" class="btn btn-warning">Quitar privilegios</button>
                     <?php else:?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
-                        <input type="hidden" value="1" name="status">
+                        <input type="hidden" value="1" name="admin">
                         <button type="submit" class="btn btn-info">Dar privilegios</button>
                         <?php endif ?>
                 </form>
