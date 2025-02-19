@@ -15,7 +15,7 @@ if ($filename == "index.php" || $filename == "login.php") {
 ?>
 <footer class="container-fluid d-flex flex-row justify-content-between p-3 bg-dark shadow mt-auto">
     <div class="d-flex flex-row justify-content-center align-items-center">
-        <a href="#" class="nav-link text-white">GitHub</a>
+        <a href="https://github.com/DreddSoft/ExamRoomBooker" target="_blank"><img src="assets/GitHub_Logo_White.png" alt="Logo de Github" style="width: 100px;"></a>
     </div>
     <div class="d-flex flex-row justify-content-center align-items-center">
         <img src="<?= $ruta ?>assets/ExamRoomBooker.svg" alt="Logo largo en enlace" style="width: 450px;">
@@ -23,19 +23,19 @@ if ($filename == "index.php" || $filename == "login.php") {
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/ajimvil713">&commat;ajimvil713</a>
+                <a class="nav-link" target="_blank" href="https://github.com/ajimvil713">&commat;ajimvil713</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/davix1997">&commat;davix1997</a>
+                <a class="nav-link" target="_blank" href="https://github.com/davix1997">&commat;davix1997</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/danielgr29">&commat;danielgr29</a>
+                <a class="nav-link" target="_blank" href="https://github.com/danielgr29">&commat;danielgr29</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/ajimvil713">&commat;Ivan-Trevi</a>
+                <a class="nav-link" target="_blank" href="https://github.com/ajimvil713">&commat;Ivan-Trevi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/DreddSoft">&commat;DreddSoft</a>
+                <a class="nav-link" target="_blank" href="https://github.com/DreddSoft">&commat;DreddSoft</a>
             </li>
         </ul>
     </nav>
