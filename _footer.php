@@ -32,7 +32,7 @@ if ($filename == "index.php" || $filename == "login.php") {
                 <a class="nav-link" target="_blank" href="https://github.com/danielgr29">&commat;danielgr29</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" target="_blank" href="https://github.com/ajimvil713">&commat;Ivan-Trevi</a>
+                <a class="nav-link" target="_blank" href="https://github.com/Ivan-Trevi">&commat;Ivan-Trevi</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" target="_blank" href="https://github.com/DreddSoft">&commat;DreddSoft</a>
