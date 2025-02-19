@@ -8,6 +8,7 @@ if (isset($_SESSION['admin'])) {
 
 // Capturamos el nombre del archivo
 $filename = basename($_SERVER['PHP_SELF']);
+$hiddenNav = false;
 
 // Si es el index o el login, que están en la carpeta padre
 if ($filename == "index.php" || $filename == "login.php") {
@@ -18,13 +19,17 @@ if ($filename == "index.php" || $filename == "login.php") {
     $ruta = "../";
 }
 
+if ($filename == "login.php") {
+    $hiddenNav = true;
+}
+
 ?>
 
 <header class="container-fluid d-flex flex-row justify-content-between p-3 bg-dark shadow">
     <div>
         <div class="d-flex flex-row justify-content-center align-items-center">
             <a href="index.php" class="text-decoration-none"><img src="<?= $ruta ?>assets/Logo_type_1.svg" alt="Logo de ExamRoomBooker" style="width: 100px;"></a>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+            <nav class="<?= ($hiddenNav) ? "d-none" : "d-block" ?> navbar navbar-expand-lg navbar-dark bg-dark px-4 ">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="<?= $ruta ?>index.php">Home</a>

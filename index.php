@@ -110,7 +110,7 @@ try {
                 <div><a href="index.php?semana=1" class="btn btn-link">Siguiente &gt;&gt;</a></div>
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
-                <table class="table table-bordered">
+                <table class="table table-bordered w-80">
                     <thead>
                         <tr >
                             <th class="text-center bg-secondary text-white fw-bold">Tramos</th>
@@ -140,7 +140,7 @@ try {
                                             // Convertir la fecha de la reserva en date
                                             $fechaReserva = Date("d/m/Y", strtotime($reserva['fecha']));
                                             if ($fechaReserva == $dia && $reserva['turno'] == $turno['idTurno']) {
-                                                echo "<div class='d-flex flex-column justify-content-center align-items-center border border-success rounded p-1 mb-1' style='background-color: rgba(144, 238, 144, 0.3); border-radius: 5px; cursor: pointer;' id='{$reserva['idReserva']}' ondblclick='modificarReserva(this.id);'>
+                                                echo "<div class='d-flex flex-column justify-content-center align-items-center border border-success rounded p-1 mb-1' style='background-color: rgba(144, 238, 144, 0.3); border-radius: 5px; cursor: " . ($blocked ? "not-allowed" : "pointer") . ";' id='{$reserva['idReserva']}' " . ($blocked ? "" : "ondblclick='modificarReserva(this.id);'") . ">
                                                             <h6>{$reserva['profesor']} | {$reserva['asignatura']}</h6>
                                                             <p>{$reserva['clase']} | Alumnos: {$reserva['numeroAlumnos']}</p>
                                                           </div>";
@@ -150,12 +150,15 @@ try {
                                         }
                                         if ($plazas > 0) : ?>
                                             <p>Plazas libres <?= $plazas ?></p>
+                                            <input type="hidden" name="plazas" id="iptPlazas" value="<?= $plazas ?>">
+                                            <input type="hidden" name="fecha" id="iptFecha" value="<?= $dia ?>">
+                                            <input type="hidden" name="turno" id="iptTurno" value="<?= $turno['idTurno'] ?>">
                                             <?php if ($blocked) : ?>
-                                                <button type='button' class='p-0' style='background: none; border: none;' disabled="true"></button>
+                                                <button type='button' class='p-0' style='background: none; border: none;' disabled="true">
                                                 <i class='bi bi-plus-circle' style="font-size: 1.5rem; color: blue; cursor:not-allowed;"></i>
                                                 </button>
                                             <?php else : ?>
-                                                <button type='button' class='p-0' style='background: none; border: none;'></button>
+                                                <button type='button' class='p-0' style='background: none; border: none;' id="" onclick="crearReserva();">
                                                 <i class='bi bi-plus-circle' style="font-size: 1.5rem; color: blue; cursor:pointer;"></i>
                                                 </button>
                                             <?php endif; ?>

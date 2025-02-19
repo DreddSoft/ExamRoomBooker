@@ -36,7 +36,7 @@ if (isset($_GET['mensaje'])) {
             <h2>Iniciar Sesion</h2>
         </div>
         <form class="py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow my-5" action="procesarDatos.php" method="post" style="max-width: 400px; margin: auto;">
-            <h4 class="mb-4" style="color: #642686;">Login</h4>
+            <img class="pb-3" src="assets/Logo_type_1.svg" alt="Logo de examRoomBooker pequeño" style="width: 100px;">
             <div class="mb-3 w-100">
             <label for="usuario" class="form-label">Usuario</label>
             <input type="text" name="usuario" id="usuario" class="form-control" required>
