@@ -2,22 +2,21 @@
 // Asignado a Adrián
 // Muestra todas las reservas del profesor logeado ordenados por fecha
 
-/* TAREA PENDIENTE:
-*   Descomentar el bloque de comprobacion de la sesion (Cambiar el idProfesor de la consulta por el id del profesor logeado)
-*/
-
 // Inicia la sesión e incluimos la clase con la base de datos
 session_start();
 require_once('../clases/bd.class.php');
 
 // Comrobacion de la sesion
-//if(!isset($_SESSION["idProfesor"])){
-//    header("Location: ../login.php");
-//}
+if(!isset($_SESSION["idProfesor"])){
+    header("Location: ../login.php");
+}
+
+// Recatamos el id del profesor logeado
+$idProfesor = $_SESSION["idProfesor"];
 
 // Consulta sql para obtener todas las reservas del usuario logeado
 /* Del profesor logeado se obtiene:
-*   - Tabla reservas: descripcion, numAlumnos, clase, fecha
+*   - Tabla reservas: id, descripcion, numAlumnos, clase, fecha
 *   - Tabla turno: horario
 *   - Tabla asignatura: nombre
 *
@@ -39,7 +38,7 @@ FROM
     INNER JOIN TURNOS T ON RT.idTurno = T.id
     INNER JOIN ASIGNATURAS A ON R.idAsignatura = A.id
 WHERE
-    R.idProfesor = 12 AND
+    R.idProfesor = $idProfesor AND
     R.fecha >= CURRENT_DATE()
 GROUP BY
     R.id,
@@ -81,15 +80,16 @@ try {
     <?php require_once "../_header.php"; ?>
 
     <h1 class="text-center mt-4 text-primary">Area Personal</h1>
-    <!--<h1 class="display-4 fw-bold text-center my-4">Area personal</h1>-->
 
-    <!-- Impresion de la consulta en secciones -->
+    <!-- Contenedor para imprimir el resultado de las reservas -->
     <main class="container mt-4 my-4">
+        <!-- En caso de que no haya reservas -->
         <?php if (empty($resultados)): ?>
             <div class="alert alert-info" role="alert">
                 Actualmente no dispones de ninguna reserva de la sala.<br>
                 <a href="../index.php" class="alert-link">Reservar una sala</a>
             </div>
+        <!-- En casi de que si haya reservas -->
         <?php else: ?>
             <div class="row g-4">
                 <?php foreach ($resultados as $reserva): ?>
