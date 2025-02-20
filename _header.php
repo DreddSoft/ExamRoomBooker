@@ -28,7 +28,7 @@ if ($filename == "login.php") {
 <header class="container-fluid d-flex flex-row justify-content-between p-3 bg-dark shadow">
     <div>
         <div class="d-flex flex-row justify-content-center align-items-center">
-            <a href="index.php" class="text-decoration-none"><img src="<?= $ruta ?>assets/Logo_type_1.svg" alt="Logo de ExamRoomBooker" style="width: 100px;"></a>
+            <a href="<?= $ruta ?>index.php" class="text-decoration-none"><img src="<?= $ruta ?>assets/Logo_type_1.svg" alt="Logo de ExamRoomBooker" style="width: 100px;"></a>
             <nav class="<?= ($hiddenNav) ? "d-none" : "d-block" ?> navbar navbar-expand-lg navbar-dark bg-dark px-4 ">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
