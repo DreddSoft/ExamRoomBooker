@@ -62,6 +62,7 @@
     <?php require_once("../_header.php")?>
     <main>
         <section class="text-center"><br>
+        <h2 style="color: #642686;">Crear Profesor</h2>
             <form action="crearProfesor.php" method="post">
                 <input type="text" placeholder="ID Profesor" name="id" id="id" class="form-control-lg mt-1"><br>
                 <input type="text" placeholder="Usuario" name="usuario" id="usuario" class="form-control-lg mt-1"><br>
@@ -70,7 +71,7 @@
                 <input type="text" placeholder="Primer apellido" name="ape1" id="ape1" class="form-control-lg mt-1"><br>
                 <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" class="form-control-lg mt-1"><br>
                 <input type="email" placeholder="Correo electrónico" name="email" id="email" class="form-control-lg mt-1"><br><br>
-                <button type="submit" class="btn btn-success">Crear</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
             </form>
         </section>
     </main>

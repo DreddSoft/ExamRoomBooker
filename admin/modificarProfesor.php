@@ -79,6 +79,7 @@
     <?php require_once("../_header.php")?>
     <main>
         <section class="text-center">
+        <h2 style="color: #642686;">Modificar Profesor</h2>
             <form action="modificarProfesor.php?idProfesor=<?=$idProfesor?>" method="post">
                 <input type="text" placeholder="Usuario" name="usuario" class="form-control-lg mt-1" id="usuario" value="<?=$usuario ?>"><br>
                 <input type="password" placeholder="Contraseña" name="passw" class="form-control-lg mt-1" id="passw" value="<?=$pass ?>"><br>
@@ -87,11 +88,11 @@
                 <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control-lg mt-1" id="ape2" value="<?=$ape2 ?>"><br>
                 <input type="email" placeholder="Correo electrónico" name="email" class="form-control-lg mt-1" id="email" value="<?=$email ?>"><br><br>
             <section class="d-inline-flex p-2">
-                <button type="submit" class="btn btn-primary m-1">Modificar</button>
+                <button type="submit" class="btn btn-primary m-1" onclick="return confirm('Está a punto de modificar un usuario, ¿desea continuar?')">Modificar</button>
                 </form>
                 <form action="eliminarProfesor.php" method="post">
                     <input type="hidden" value="<?= $idProfesor?>" name="id">
-                    <button type="submit" class="btn btn-danger m-1">Eliminar</button>
+                    <button type="submit" class="btn btn-danger m-1" onclick="return confirm('Está a punto de eliminar un usuario, ¿desea continuar?')">Eliminar</button>
                 </form>
             </section>
             <section class="d-inline-flex p-2">
