@@ -51,11 +51,12 @@
         //llamo al metodo capturar datos de la clase bd
         $resultado = $bd->capturarDatos($query2);
         //hago una tabla con los datos de resultado
+        echo "<h2 style='color: #642686; text-align: center;'>Listado de Profesores</h2>";
         echo "<form action='mostrarProfesor.php' method='post'>
-                <input type='checkbox' id='mActivos' name='mActivos' class='m-1'>
-                <button type'submit' class='btn btn-info m-1'>Filtrar desactivados</button>
+                <button type'submit' class='btn btn-info m-1'>Filtrar por inactivos</button>
+                <input type='checkbox' id='mActivos' name='mActivos' class='m-1' role='switch'>
             </form>";
-        echo "<table id='tabla'>";
+        echo "<table id='tabla' class='table table-bordered'>";
         echo "<th>ID</th><th>Usuario</th><th>Contraseña</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th><th>Estado</th><th>Email</th><th>Admin</th>";
         foreach ($resultado as $registro) {
             echo "<tr  id='" . $registro['id'] . "'>";
