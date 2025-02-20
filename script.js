@@ -33,7 +33,7 @@ function crearReserva() {
     };
 
     fetch("reserva/crearReserva.php", {
-        method: "POST",
+        method: "GET",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
