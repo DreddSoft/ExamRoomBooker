@@ -32,23 +32,27 @@ function crearReserva() {
         'turno': turno
     };
 
-    fetch("reserva/crearReserva.php", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: JSON.stringify(params)
-    })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = "reserva/crearReserva.php";
+    let paramsString = `plazas=${plazas}&fecha=${fecha}&turno=${turno}`;
 
-            } else {
-                throw new Error("Error al enviar los datos para crear reserva.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+    window.location.href = `reserva/crearReserva.php?${paramsString}`;
+
+    // fetch("reserva/crearReserva.php", {
+    //     method: "GET",
+    //     headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded"
+    //     },
+    //     body: JSON.stringify(params)
+    // })
+    //     .then(response => {
+    //         if (response.ok) {
+                
+
+    //         } else {
+    //             throw new Error("Error al enviar los datos para crear reserva.");
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error("Error:", error);
+    //     });
 
 }
