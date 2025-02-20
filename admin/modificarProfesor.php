@@ -85,12 +85,58 @@
         <section class="text-center">
         <h2 style="color: #642686;">Modificar Profesor</h2>
             <form action="modificarProfesor.php?idProfesor=<?=$idProfesor?>" method="post">
-                <input type="text" placeholder="Usuario" name="usuario" class="form-control-lg mt-1" id="usuario" value="<?=$usuario ?>"><br>
-                <input type="password" placeholder="Contraseña" name="passw" class="form-control-lg mt-1" id="passw" value="<?=$pass ?>"><br>
-                <input type="text" placeholder="Nombre Profesor" name="nombre" class="form-control-lg mt-1" id="nombre" value="<?=$nombre ?>"><br>
-                <input type="text" placeholder="Primer apellido" name="ape1" class="form-control-lg mt-1" id="ape1" value="<?=$ape1 ?>"><br>
-                <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control-lg mt-1" id="ape2" value="<?=$ape2 ?>"><br>
-                <input type="email" placeholder="Correo electrónico" name="email" class="form-control-lg mt-1" id="email" value="<?=$email ?>"><br><br>
+                <div class="d-flex justify-content-center">
+                    <table style="font-weight: bold;">
+                        <tr>
+                            <td>
+                                <label for="usuario">Usuario:&nbsp;</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Usuario" name="usuario" class="form-control-lg" id="usuario" value="<?=$usuario ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="passw">Contraseña:&nbsp;</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Contraseña" name="passw" class="form-control-lg" id="passw" value="<?=$pass ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="nombre">Nombre:&nbsp;</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Nombre Profesor" name="nombre" class="form-control-lg" id="nombre" value="<?=$nombre ?>">
+                            </td>                     
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="ape1">Primer Apellido:&nbsp;</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Primer apellido" name="ape1" class="form-control-lg" id="ape1" value="<?=$ape1 ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="ape2">Segundo Apellido:&nbsp;</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control-lg" id="ape2" value="<?=$ape2 ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="email">Correo Electrónico:&nbsp;</label>
+                            </td>
+                            <td>
+                                <input type="email" placeholder="Correo electrónico" name="email" class="form-control-lg" id="email" value="<?=$email ?>">
+                            </td>
+                        </tr>
+                    </table> 
+                </div>        
             <section class="d-inline-flex p-2">
                 <button type="submit" class="btn btn-primary m-1" onclick="return confirm('Está a punto de modificar un usuario, ¿desea continuar?')">Modificar</button>
                 </form>
