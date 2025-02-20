@@ -71,9 +71,23 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Area Personal</title>
     <link rel="shortcut icon" href="../assets/Logo_type_1.png" type="image/x-icon">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        [id^="reserva-"] {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        [id^="reserva-"]:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+    </style>
+
     <script src="./eventos-area-personal.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -89,7 +103,7 @@ try {
                 Actualmente no dispones de ninguna reserva de la sala.<br>
                 <a href="../index.php" class="alert-link">Reservar una sala</a>
             </div>
-        <!-- En casi de que si haya reservas -->
+        <!-- En caso de que si haya reservas -->
         <?php else: ?>
             <div class="row g-4">
                 <?php foreach ($resultados as $reserva): ?>
