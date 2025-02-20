@@ -1,19 +1,13 @@
 <?php
-    //dar por hecho que el booleano activo es 1 y el booleano admin es 0
-    //comprobar tambien que el usuario que esta conectado es el admin antes de hcer nada(usando la bd), sino redirigir al index.php
-    //poner en el main, no hacer estilos
     //inicio sesion
-    session_start();
-    //ESTO ES PARA PRUEBA, BORRAR LUEGO!!!!!!!!!!!
-    $_SESSION["id"] = 11;
-    $_SESSION["admin"] = 1;
+    session_start();    
     //compruebo si hay un profesor conectado, si no lo mando al login
-    if(!isset($_SESSION["id"])){
+    if(!isset($_SESSION["idProfesor"])){
         header("Location:../login.php");
         exit();
     }
     if($_SESSION["admin"] != 1){
-        header("Location:index.php");
+        header("Location:../index.php");
         exit();
     }
     //requiero la clase bd

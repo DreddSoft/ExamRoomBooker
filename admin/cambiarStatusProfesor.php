@@ -2,12 +2,12 @@
 
 session_start();
 
-    if(!isset($_SESSION["id"])){
+    if(!isset($_SESSION["idProfesor"])){
         header("Location:../login.php");
         exit();
     }
     if($_SESSION["admin"] != 1){
-        header("Location:index.php");
+        header("Location:../index.php");
         exit();
     }
     require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');

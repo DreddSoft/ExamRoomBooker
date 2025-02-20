@@ -1,31 +1,35 @@
 <?php
-
+    //inicio sesion
     session_start();
 
     $idProfesor = null;
+    //compruebo si existe el idProfesor 'pasado mediante get'
     if(isset($_GET["idProfesor"])){
+        //si existe creo una variable y guardo su valor en ella
         $idProfesor = $_GET["idProfesor"];
     }
-    if(!isset($_SESSION["id"])){
+    //compruebo si hay un usuario conectado, si no lo mando al login
+    if(!isset($_SESSION["idProfesor"])){
         header("Location:../login.php");
         exit();
     }
+    //compruebo si el usuario conectado es admin, si no lo mando al index
     if($_SESSION["admin"] != 1){
-        header("Location:index.php");
+        header("Location:../index.php");
         exit();
     }
     require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');
     $bd = new BD();
     try{
         $bd->abrirConexion();
-
+        //consulta que me muestra los datos de un profesor con una id concreta, la guardada anteriormente
         $query1 = "
             SELECT usuario, passw, nombre, ape1,ape2, activo,email,admin FROM profesores
             where id = '$idProfesor';
         ";
-
+        
         $resultado = $bd->capturarDatos($query1);
-
+        //guardo todos los datos de ese usuario
         $usuario = $resultado[0]["usuario"];
         $pass = $resultado[0]["passw"];
         $nombre = $resultado[0]["nombre"];
@@ -35,7 +39,7 @@
         $email = $resultado[0]["email"];
         $admin = $resultado[0]["admin"] == 1 ? 1 : 0;
 
-
+        //aqui es donde se modifican los datos actuales, recogiendo los nuevos datos enviados por post
         if($_SERVER["REQUEST_METHOD"] === "POST"){
             //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
             $usuario = htmlspecialchars($_POST['usuario']);
@@ -44,7 +48,7 @@
             $ape1 = htmlspecialchars($_POST['ape1']);
             $ape2 = htmlspecialchars($_POST['ape2']);
             $email = htmlspecialchars($_POST['email']);
-            //consulta para insertar en la tabla profesores un nuevo profesor con los datos indcados
+            //consulta para modificar un profesor con los datos guardados anteriormente
             $query2 = "
                     UPDATE profesores SET 
                     usuario = '$usuario', 

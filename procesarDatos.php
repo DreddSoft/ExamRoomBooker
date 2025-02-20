@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bd->abrirConexion();
 
         // Definimos una consulta SQL para seleccionar los campos id, nombre, primer apellido, usuario y contraseña de la tabla Profesores.
-        $sql = "SELECT id, nombre, ape1, usuario, passw FROM Profesores";
+        $sql = "SELECT id, nombre, ape1, usuario, passw, admin FROM Profesores";
 
         // Ejecutamos la consulta SQL y almacenamos los resultados en el array $usuarios.
         $usuarios = $bd->capturarDatos($sql);
@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["idProfesor"] = $u["id"];
             $_SESSION['nombre'] = $u['nombre'] . " " . $u['ape1'];
             $_SESSION['usuario'] = $usuario;
+            $_SESSION['admin'] = $u['admin'];
             break;
         }
     }
