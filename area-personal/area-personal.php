@@ -39,7 +39,8 @@ FROM
     INNER JOIN TURNOS T ON RT.idTurno = T.id
     INNER JOIN ASIGNATURAS A ON R.idAsignatura = A.id
 WHERE
-    R.idProfesor = 12
+    R.idProfesor = 12 AND
+    R.fecha >= CURRENT_DATE()
 GROUP BY
     R.id,
     R.descripcion,
@@ -48,7 +49,7 @@ GROUP BY
     R.fecha,
     A.nombre
 ORDER BY
-    ABS(DATEDIFF(R.fecha, CURRENT_DATE())),
+    R.fecha ASC,
     T.horario ASC;"
 ;
 
