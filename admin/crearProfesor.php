@@ -55,17 +55,17 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php")?>
     <main>
-        <section class="text-center"><br>
-        <h2 style="color: #642686;">Crear Profesor</h2>
-            <form action="crearProfesor.php" method="post">
-                <input type="text" placeholder="ID Profesor" name="id" id="id" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Usuario" name="usuario" id="usuario" class="form-control-lg mt-1"><br>
-                <input type="password" placeholder="Contraseña" name="passw" id="passw" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Nombre Profesor" name="nombre" id="nombre" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Primer apellido" name="ape1" id="ape1" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" class="form-control-lg mt-1"><br>
-                <input type="email" placeholder="Correo electrónico" name="email" id="email" class="form-control-lg mt-1"><br><br>
-                <button type="submit" class="btn btn-primary">Crear</button>
+        <section class="text-center m-5"><br>
+            <form action="crearProfesor.php" method="post" class="py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="max-width: 400px; margin: auto;">
+                <h2 class="mb-5" style="color: #642686;">Crear Profesor</h2>
+                <input type="text" placeholder="ID Profesor" require name="id" id="id" class="form-control"><br>
+                <input type="text" placeholder="Usuario" require name="usuario" id="usuario" class="form-control"><br>
+                <input type="password" placeholder="Contraseña" require name="passw" id="passw" class="form-control"><br>
+                <input type="text" placeholder="Nombre Profesor" require name="nombre" id="nombre" class="form-control"><br>
+                <input type="text" placeholder="Primer apellido" require name="ape1" id="ape1" class="form-control"><br>
+                <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" class="form-control"><br>
+                <input type="email" placeholder="Correo electrónico" require name="email" id="email" class="form-control"><br><br>
+                <button type="submit" class="btn btn-primary" style="width: 60%;">Crear</button>
             </form>
         </section>
     </main>
