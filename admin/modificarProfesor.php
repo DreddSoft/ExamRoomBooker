@@ -35,9 +35,11 @@
         $nombre = $resultado[0]["nombre"];
         $ape1 = $resultado[0]["ape1"];
         $ape2 = $resultado[0]["ape2"] ? $resultado[0]["ape2"] : "";
-        $activo = $resultado[0]["activo"];
+        $activo = $resultado[0]["activo"] == 1 ? "Activo" : "Inactivo";
         $email = $resultado[0]["email"];
-        $admin = $resultado[0]["admin"] == 1 ? 1 : 0;
+        $admin = $resultado[0]["admin"] == 1 ? "Admin" : "No admin";
+       
+        
 
         //aqui es donde se modifican los datos actuales, recogiendo los nuevos datos enviados por post
         if($_SERVER["REQUEST_METHOD"] === "POST"){
@@ -81,63 +83,79 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php")?>
-    <main>
-        <section class="text-center">
-        <h2 style="color: #642686;">Modificar Profesor</h2>
+    <main class="d-flex justify-content-center">
+        <section class="text-center m-5 py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="width: 500px;">
             <form action="modificarProfesor.php?idProfesor=<?=$idProfesor?>" method="post">
+                <h2 class="mb-5" style="color: #642686;">Modificar Profesor</h2>
                 <div class="d-flex justify-content-center">
-                    <table style="font-weight: bold;">
+                    <table style="font-weight: bold; text-align: left;">
                         <tr>
                             <td>
-                                <label for="usuario">Usuario:&nbsp;</label>
+                                <label for="usuario">Usuario</label>
                             </td>
                             <td>
-                                <input type="text" placeholder="Usuario" name="usuario" class="form-control-lg" id="usuario" value="<?=$usuario ?>">
+                                <input type="text" placeholder="Usuario" name="usuario" class="form-control" style="width: 280px;" id="usuario" value="<?=$usuario ?>">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label for="passw">Contraseña:&nbsp;</label>
+                                <label for="passw">Contraseña</label>
                             </td>
                             <td>
-                                <input type="text" placeholder="Contraseña" name="passw" class="form-control-lg" id="passw" value="<?=$pass ?>">
+                                <input type="text" placeholder="Contraseña" name="passw" class="form-control" id="passw" value="<?=$pass ?>">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label for="nombre">Nombre:&nbsp;</label>
+                                <label for="nombre">Nombre</label>
                             </td>
                             <td>
-                                <input type="text" placeholder="Nombre Profesor" name="nombre" class="form-control-lg" id="nombre" value="<?=$nombre ?>">
+                                <input type="text" placeholder="Nombre Profesor" name="nombre" class="form-control" id="nombre" value="<?=$nombre ?>">
                             </td>                     
                         </tr>
                         <tr>
                             <td>
-                                <label for="ape1">Primer Apellido:&nbsp;</label>
+                                <label for="ape1">Primer Apellido</label>
                             </td>
                             <td>
-                                <input type="text" placeholder="Primer apellido" name="ape1" class="form-control-lg" id="ape1" value="<?=$ape1 ?>">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="ape2">Segundo Apellido:&nbsp;</label>
-                            </td>
-                            <td>
-                                <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control-lg" id="ape2" value="<?=$ape2 ?>">
+                                <input type="text" placeholder="Primer apellido" name="ape1" class="form-control" id="ape1" value="<?=$ape1 ?>">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label for="email">Correo Electrónico:&nbsp;</label>
+                                <label for="ape2">Segundo Apellido</label>
                             </td>
                             <td>
-                                <input type="email" placeholder="Correo electrónico" name="email" class="form-control-lg" id="email" value="<?=$email ?>">
+                                <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control" id="ape2" value="<?=$ape2 ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="activo">Estado</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Estado" name="activo" class="form-control" disabled id="activo" value="<?=$activo ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="email">Correo Electrónico</label>
+                            </td>
+                            <td>
+                                <input type="email" placeholder="Correo electrónico" name="email" class="form-control" id="email" value="<?=$email ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="admin">Privilegios</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Privilegios" name="admin" class="form-control" disabled id="admin" value="<?=$admin ?>">
                             </td>
                         </tr>
                     </table> 
                 </div>        
-            <section class="d-inline-flex p-2">
+            <section class="d-inline-flex p-2 m-3">
                 <button type="submit" class="btn btn-primary m-1" onclick="return confirm('Está a punto de modificar un usuario, ¿desea continuar?')">Modificar</button>
                 </form>
                 <form action="eliminarProfesor.php" method="post">
@@ -147,7 +165,7 @@
             </section>
             <section class="d-inline-flex p-2">
                 <form action="cambiarStatusProfesor.php" method="post">
-                    <?php if($activo == 1):?>
+                    <?php if($activo == 1 || $activo == "Activo"):?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="0" name="activo">
                         <button type="submit" class="btn btn-secondary m-1">Desactivar</button>
@@ -158,7 +176,7 @@
                         <?php endif ?>
                 </form>
                 <form action="cambiarPrivilegios.php" method="post">
-                    <?php if($admin == 1):?>
+                    <?php if($admin == 1 || $admin == "Admin"):?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="0" name="admin">
                         <button type="submit" class="btn btn-warning m-1">Quitar privilegios</button>
