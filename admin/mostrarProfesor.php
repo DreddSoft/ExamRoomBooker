@@ -7,6 +7,10 @@
     <link rel="shortcut icon" href="assets/Logo_type_1.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Listado de Profesores</title>
+    <style>
+        .cursor{cursor: pointer;}
+        .cursor:hover{filter: brightness(70%);}
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -58,7 +62,7 @@
                 echo "<table id='tabla' class='table table-bordered m-5' style='width: 90%;'>";
                 echo "<th>ID</th><th>Usuario</th><th>Contraseña</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th><th>Estado</th><th>Email</th><th>Admin</th>";
                 foreach ($resultado as $registro) {
-                    echo "<tr  id='" . $registro['id'] . "'>";
+                    echo "<tr  id='" . $registro['id'] . "' class='cursor'>";
                     //paso el valor numerico tanto de "activo" como de "admin" a algo mas comprensible para el usuario
                     if ($registro["activo"] == 1) {
                         $estado = "Activo";
