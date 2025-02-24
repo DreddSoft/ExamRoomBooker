@@ -4,7 +4,6 @@
 session_start();
 
 // Establecemos el tiempo de vida de la cookie de sesión a 30 minutos si no hay actividad
-ini_set('session.gc_maxlifetime', 1800);
 session_set_cookie_params(1800);
 
 // Importamos la clase bd desde el archivo bd.class que se encuentra en la carpeta clases.
