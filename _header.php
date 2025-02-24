@@ -49,9 +49,6 @@ if ($filename == "login.php") {
                         </div>
                     </li>
                     <?php endif; ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= $ruta?>admin/cerrarSesion.php">Cerrar Sesión</a>
-                    </li>
                 </ul>
 
             </nav>
