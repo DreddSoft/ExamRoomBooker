@@ -1,87 +1,5 @@
-<?php
-session_start();
-require_once('../clases/bd.class.php');
-$bd = new BD;
-
-$fechaIntroducida;
-$turnoIntroducido;
-$plazasLimite;
-
-if (isset($_GET["fecha"])) {
-    $fechaIntroducida = htmlspecialchars($_GET["fecha"]);
-    $fechaActualizada = strtotime($fechaIntroducida);
-}
-
-if (isset($_GET["turno"])) {
-    $turnoIntroducido = htmlspecialchars($_GET["turno"]);
-}
-
-if (isset($_GET["plazas"])) {
-    $plazasLimite = htmlspecialchars($_GET["plazas"]);
-}
-
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_SESSION["idProfesor"])) {
-        $usuarioIntroducido = htmlspecialchars(string: $_SESSION["idProfesor"]); // almaceno el ide del profesorF
-        if (isset($_POST["numAlumno"])) {
-            $numeroAlumnos = htmlspecialchars($_POST["numAlumno"]);
-            if (isset($_POST["clase"])) {
-                $clase = htmlspecialchars($_POST["clase"]);
-                if (isset($_POST["descripcion"])) {
-
-                    $descripcion = htmlspecialchars($_POST["descripcion"]);
-
-                    try {
-                        $bd->abrirConexion();
-
-                        $consultaIdAsignatura = "SELECT idAsignatura FROM asignaturasprofesores where  idProfesor=$usuarioIntroducido";
-                        $idAsignatura = $bd->capturarDatos($consultaIdAsignatura);
-
-
-                        $sql = "INSERT INTO 
-                                reservas (
-                                id,
-                                idProfesor,
-                                descripcion,
-                                numAlumnos,
-                                clase,
-                                fecha,
-                                idAsignatura) 
-
-
-                                VALUES (
-                                $idReserva,
-                                $usuarioIntroducido,
-                                '$descripcion',
-                                $numeroAlumnos,
-                                '$clase',
-                                $fechaIntroducida,
-                                $idAsignatura)";
-
-                        // $datos = $bd->capturarDatos($sql);
-                        // foreach ($datos as $registro) {
-                        //     echo "|" . $registro['id'] . " - " . $registro['descripcion'] . " | " . $registro['numAlumnos'] . " | " . $registro['clase'] .  " | " . $registro['fecha'] . " | " . $registro['idAsignatura'] . "|" . "<br>";
-                        // }
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    } finally {
-                        $bd->cerrarConexion();
-                    }
-                }
-            }
-        }
-    }
-} else {
-    // echo "Se produjo un erro con los datos, reviselos bien";
-
-    // header("Location: ../login.php"); 
-}
-
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -93,25 +11,82 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <!-- FOMULARIO CON LOS CAMPOS DE LA TABLA DE RESERVAS, CON LOS CAMPOS QUE HACEN FALTA             
-    / -->
     <?php
     require_once("../_header.php");
+
+    $fechaIntroducida = '';
+    $fechaActualizada = '';
+    $turnoIntroducido = '';
+    $plaza1 = '';
+    $plaza2 = '';
+    $plaza3 = '';
+    $plaza4 = '';
+    $plaza5 = '';
+    $plaza6 = '';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["fecha"])) {
+            $fechaIntroducida = htmlspecialchars($_POST["fecha"]);
+            $fechaActualizada = date('Y-m-d', strtotime($fechaIntroducida)); // Formatear la fecha para MySQL
+        }
+
+        if (isset($_POST["turno"])) {
+            $turnoIntroducido = htmlspecialchars($_POST["turno"]);
+        }
+
+        if (isset($_POST["plaza1"])) {
+            $plaza1 = htmlspecialchars($_POST["plaza1"]);
+        }
+
+        if (isset($_POST["plaza2"])) {
+            $plaza2 = htmlspecialchars($_POST["plaza2"]);
+        }
+
+        if (isset($_POST["plaza3"])) {
+            $plaza3 = htmlspecialchars($_POST["plaza3"]);
+        }
+
+        if (isset($_POST["plaza4"])) {
+            $plaza4 = htmlspecialchars($_POST["plaza4"]);
+        }
+
+        if (isset($_POST["plaza5"])) {
+            $plaza5 = htmlspecialchars($_POST["plaza5"]);
+        }
+
+        if (isset($_POST["plaza6"])) {
+            $plaza6 = htmlspecialchars($_POST["plaza6"]);
+        }
+    }
     ?>
-    <main>
-        <?php echo $fechaIntroducida ?>
+    <main class="container my-4">
+        <h1 class="mb-4">Crear Reserva</h1>
+        <form action="crearReservaServicio.php" method="post">
+            <input type="hidden" name="fecha" value="<?php echo $fechaActualizada; ?>">
+            <input type="hidden" name="turno" value="<?php echo $turnoIntroducido; ?>">
+            <input type="hidden" name="plaza1" value="<?php echo $plaza1; ?>">
+            <input type="hidden" name="plaza2" value="<?php echo $plaza2; ?>">
+            <input type="hidden" name="plaza3" value="<?php echo $plaza3; ?>">
+            <input type="hidden" name="plaza4" value="<?php echo $plaza4; ?>">
+            <input type="hidden" name="plaza5" value="<?php echo $plaza5; ?>">
+            <input type="hidden" name="plaza6" value="<?php echo $plaza6; ?>">
 
-        <form action="crearReserva.php" method="post">
-            <input type="dateTime" id="fecha" value="<?php echo $fechaActualizada;  ?>">
+            <div class="mb-3">
+                <label for="numAlumno" class="form-label">Ingrese la cantidad de alumnos para la reserva:</label>
+                <input type="number" class="form-control" id="numAlumno" name="numAlumno" min="1" required>
+            </div>
 
+            <div class="mb-3">
+                <label for="clase" class="form-label">Ingrese la clase a la que se realiza la reserva:</label>
+                <input type="text" class="form-control" id="clase" name="clase" maxlength="50" required>
+            </div>
 
-            <label for="numAlumno" name="numAlumno"> Ingrese la cantidad de alumnos para la reserva: </label><input type="number" min="1" name="numAlumno">
-            <!-- Segun peticion y consulta con el cliente el minimo de alumnos por reserva es 1  -->
-            <label for="clase" name="clase"> Ingrese la clase a la que se realiza la reserva: </label><input type="text" name="clase" maxlength="50">
-            <label for="descripcion" name="descripcion"> Ingrese la descripcion de la clase: </label><textarea name="descripcion" id="descripcion" maxlength="250"></textarea>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Ingrese la descripción de la clase:</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" maxlength="250" required></textarea>
+            </div>
 
-            <!-- Esto se debe quitar, es solo de prueba, cambiar fecha reserva e id turno por get  -->
-            <input type="submit" value="Enviar">
+            <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
     </main>
 
