@@ -1,6 +1,4 @@
 const btnDropdown = document.getElementById("navbarDropdown");
-const btnLogOut = document.getElementById("logout-btn");
-
 btnDropdown.addEventListener("click", () => {
 
 }, false);
@@ -11,12 +9,6 @@ $(".closeModal").click(() => {
     $("#modal").removeClass("d-block");
 
 });
-
-btnLogOut.addEventListener("click", () => {
-
-    // Redirigir
-    window.location.href = " cerrarSesion.php";
-}, false);
 
 // Función modificarReserva
 function modificarReserva(id) {

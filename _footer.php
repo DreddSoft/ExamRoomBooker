@@ -18,7 +18,7 @@ if ($filename == "index.php" || $filename == "login.php") {
         <a href="https://github.com/DreddSoft/ExamRoomBooker" target="_blank"><img src="<?= $ruta ?>assets/GitHub_Logo_White.png" alt="Logo de Github" style="width: 100px;"></a>
     </div>
     <div class="d-flex flex-row justify-content-center align-items-cente">
-        <button class="btn btn-primary text-white" id="logout-btn">
+        <button class="btn btn-primary text-white" id="logout-btn" onclick="logout();">
             <i class="bi bi-box-arrow-right"></i> Logout
         </button>
     </div>
@@ -46,3 +46,10 @@ if ($filename == "index.php" || $filename == "login.php") {
     </nav>
 
 </footer>
+<script>
+    // Redirigir
+    function logout() {
+        window.location.href = " <?= $ruta ?>cerrarSesion.php";
+
+    }
+</script>
