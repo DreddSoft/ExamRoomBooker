@@ -1,57 +1,57 @@
 <?php
 session_start();
 require_once('../clases/bd.class.php');
-$bd = new BD();
+$bd = new BD;
 
-
-$fechaIntroducida = htmlspecialchars($_GET["fecha"]);
-$turnoIntroducido = htmlspecialchars($_GET["turno"]);
-$plazaIntroducida = htmlspecialchars($_GET["plaza"]);
+$error = '';
+$success = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_SESSION["idProfesor"])) {
-        $usuarioIntroducido = htmlspecialchars(string: $_SESSION["idProfesor"]); // almaceno el ide del profesor
+        $usuarioIntroducido = htmlspecialchars($_SESSION["idProfesor"]); // almaceno el id del profesor
 
-        if (isset($fechaIntroducida) && isset($turnoIntroducido) && isset($plazaIntroducida)) {
-            if (isset($_POST["numAlumno"])) {
-                $numeroAlumnos = htmlspecialchars($_POST["numAlumno"]);
-                if (isset($_POST["clase"])) {
-                    $clase = htmlspecialchars($_POST["clase"]);
-                    if (isset($_POST["descripcion"])) {
-                        try {
-                            $bd->abrirConexion();
+        if (isset($_POST["idReserva"])) {
+            $idReserva = htmlspecialchars($_POST["idReserva"]);
 
-                            // Comprobamos si la reserva existe antes de eliminarla
-                            $consultaComprobacion = "SELECT * FROM reservas WHERE id = $idReserva AND idProfesor = $usuarioIntroducido";
-                            $resultadoComprobacion = $bd->capturarDatos($consultaComprobacion);
+            try {
+                $bd->abrirConexion();
 
-                            // Si la reserva existe, procedemos a eliminarla
-                            if (count($resultadoComprobacion) > 0) {
-                                // Sentencia DELETE para eliminar la reserva
-                                $sqlDelete = "DELETE FROM reservas WHERE id = $idReserva";
-                                $bd->actualizarDatos($sqlDelete);
+                // Comprobamos si la reserva existe antes de eliminarla
+                $consultaComprobacion = "SELECT * FROM reservas WHERE id = $idReserva AND idProfesor = '$usuarioIntroducido'";
+                $resultadoComprobacion = $bd->capturarDatos($consultaComprobacion);
 
-                                echo "Reserva eliminada exitosamente.";
-                            } else {
-                                echo "No se encontró la reserva o no tienes permisos para eliminarla.";
-                            }
-                        } catch (Exception $e) {
-                            echo "Error: " . $e->getMessage();
-                        } finally {
-                            $bd->cerrarConexion();
-                        }
+                // Si la reserva existe, procedemos a eliminarla
+                if (count($resultadoComprobacion) > 0) {
+                    // Sentencia DELETE para eliminar la reserva
+                    $sqlDelete = "DELETE FROM reservas WHERE id = $idReserva";
+                    $resultadoDelete = $bd->actualizarDatos($sqlDelete);
+
+                    if ($resultadoDelete != -1) {
+                        $success = "Reserva eliminada exitosamente.";
+                    } else {
+                        $error = "Error al eliminar la reserva.";
                     }
+                } else {
+                    $error = "No se encontró la reserva o no tienes permisos para eliminarla.";
                 }
+            } catch (Exception $e) {
+                $error = "Error: " . $e->getMessage();
+            } finally {
+                $bd->cerrarConexion();
             }
+        } else {
+            $error = "Error: ID de reserva no proporcionado.";
         }
+    } else {
+        $error = "Error: ID de profesor no encontrado.";
     }
 } else {
-    echo "Método no permitido.";
+    $error = "Método no permitido.";
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -65,13 +65,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body class="d-flex flex-column min-vh-100">
     <?php
     require_once("../_header.php");
-    ?>
-    <main>
-        <form action="eliminarReserva.php" method="post">
-            <label for="idReserva">ID de la reserva a eliminar:</label>
-            <input type="text" name="idReserva" required><br>
 
-            <input type="submit" value="Eliminar Reserva">
+    // Obtener las reservas del profesor
+    if (isset($_SESSION["idProfesor"])) {
+        $usuarioIntroducido = htmlspecialchars($_SESSION["idProfesor"]); // almaceno el id del profesor
+
+        try {
+            $bd->abrirConexion();
+            $consultaReservas = "SELECT id, descripcion, fecha FROM reservas WHERE idProfesor = '$usuarioIntroducido'";
+            $reservas = $bd->capturarDatos($consultaReservas);
+        } catch (Exception $e) {
+            $error = "Error: " . $e->getMessage();
+        } finally {
+            $bd->cerrarConexion();
+        }
+    }
+    ?>
+    <main class="container mt-5">
+        <h1 class="mb-4">Eliminar Reserva</h1>
+        <?php
+        if ($error) {
+            echo '<div class="alert alert-danger" role="alert">' . $error . '</div>';
+        }
+        if ($success) {
+            echo '<div class="alert alert-success" role="alert">' . $success . '</div>';
+        }
+        ?>
+        <form action="eliminarReserva.php" method="post">
+            <div class="mb-3">
+                <label for="idReserva" class="form-label">Seleccione la reserva a eliminar:</label>
+                <select class="form-control" name="idReserva" required>
+                    <?php
+                    if (!empty($reservas)) {
+                        foreach ($reservas as $reserva) {
+                            echo '<option value="' . $reserva['id'] . '">ID: ' . $reserva['id'] . ' - ' . $reserva['descripcion'] . ' - ' . $reserva['fecha'] . '</option>';
+                        }
+                    } else {
+                        echo '<option value="">No hay reservas disponibles</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-danger">Eliminar Reserva</button>
         </form>
     </main>
     <?php

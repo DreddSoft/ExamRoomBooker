@@ -3,63 +3,78 @@ session_start();
 require_once('../clases/bd.class.php');
 $bd = new BD;
 
-
-$fechaIntroducida = htmlspecialchars($_GET["fecha"]);
-$turnoIntroducido = htmlspecialchars($_GET["turno"]);
-$plazaIntroducida = htmlspecialchars($_GET["plaza"]);
+$error = '';
+$success = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_SESSION["idProfesor"])) {
-        $usuarioIntroducido = htmlspecialchars(string: $_SESSION["idProfesor"]); // almaceno el ide del profesor
+        $usuarioIntroducido = htmlspecialchars($_SESSION["idProfesor"]); // almaceno el id del profesor
 
-        if (isset($fechaIntroducida) && isset($turnoIntroducido) && isset($plazaIntroducida)) {
+        if (isset($_POST["fecha"])) {
+            $fechaIntroducida = htmlspecialchars($_POST["fecha"]);
+
             if (isset($_POST["numAlumno"])) {
                 $numeroAlumnos = htmlspecialchars($_POST["numAlumno"]);
                 if (isset($_POST["clase"])) {
                     $clase = htmlspecialchars($_POST["clase"]);
                     if (isset($_POST["descripcion"])) {
+                        $descripcion = htmlspecialchars($_POST["descripcion"]);
 
                         try {
                             $bd->abrirConexion();
 
-                            $consultaIdAsignatura = "SELECT idAsignatura FROM asignaturasprofesores where  idProfesor=$usuarioIntroducido";
-                            $idAsignatura = $bd->capturarDatos($consultaIdAsignatura);
+                            $consultaIdAsignatura = "SELECT idAsignatura FROM asignaturasprofesores WHERE idProfesor='$usuarioIntroducido'";
+                            $idAsignaturaArray = $bd->capturarDatos($consultaIdAsignatura);
+                            if (!empty($idAsignaturaArray)) {
+                                $idAsignatura = $idAsignaturaArray[0]['idAsignatura'];
 
-                            $sql =
-                                "UPDATE reservas 
-                                    id=$idReserva,
-                                    descripcion=$descripcion,
-                                    numAlumnos=$numeroAlumnos,
-                                    clase=$clase,
-                                    fecha=$fechaIntroducida,
-                                    idAsignatura=$idAsignatura;
-                                FROM 
-                                reservar
-                                WHERE 
-                                idProfesor = $usuarioIntroducido
-                                ";
+                                $sql = "UPDATE reservas SET
+                                            descripcion='$descripcion',
+                                            numAlumnos=$numeroAlumnos,
+                                            clase='$clase',
+                                            fecha='$fechaIntroducida',
+                                            idAsignatura=$idAsignatura
+                                        WHERE 
+                                            idProfesor='$usuarioIntroducido' AND 
+                                            fecha='$fechaIntroducida'";
+
+                                $resultado = $bd->insertarDatos($sql);
+
+                                if ($resultado != -1) {
+                                    $success = "Reserva actualizada con éxito.";
+                                } else {
+                                    $error = "Error al actualizar la reserva.";
+                                }
+                            } else {
+                                $error = "Error: No se encontró la asignatura para el profesor.";
+                            }
                         } catch (Exception $e) {
-                            echo $e->getMessage();
+                            $error = $e->getMessage();
                         } finally {
                             $bd->cerrarConexion();
                         }
+                    } else {
+                        $error = "Error: Descripción no proporcionada.";
                     }
+                } else {
+                    $error = "Error: Clase no proporcionada.";
                 }
+            } else {
+                $error = "Error: Número de alumnos no proporcionado.";
             }
+        } else {
+            $error = "Error: Fecha no proporcionada.";
         }
+    } else {
+        $error = "Error: ID de profesor no encontrado.";
     }
-} else {
-    echo "Se produjo un erro con los datos, reviselos bien";
-
-    // header("Location: ../login.php"); 
+} else if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+    $error = "Método de solicitud no permitido.";
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -71,22 +86,52 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <!-- FOMULARIO CON LOS CAMPOS DE LA TABLA DE RESERVAS, CON LOS CAMPOS QUE HACEN FALTA            
-
-    / -->
     <?php
     require_once("../_header.php");
+
+    // Obtener las reservas del profesor
+    if (isset($_SESSION["idProfesor"])) {
+        $usuarioIntroducido = htmlspecialchars($_SESSION["idProfesor"]); // almaceno el id del profesor
+
+        try {
+            $bd->abrirConexion();
+            $consultaReservas = "SELECT id, descripcion, fecha FROM reservas WHERE idProfesor = '$usuarioIntroducido'";
+            $reservas = $bd->capturarDatos($consultaReservas);
+        } catch (Exception $e) {
+            $error = "Error: " . $e->getMessage();
+        } finally {
+            $bd->cerrarConexion();
+        }
+    }
     ?>
-    <main>
-
-        <form action="crearReserva.php" method="post">
-            <label for="numAlumno" name="numAlumno"> Ingrese la cantidad de alumnos para la reserva: </label><input type="number" min="1" name="numAlumno"><br>
-            <!-- Segun peticion y consulta con el cliente el minimo de alumnos por reserva es 1  -->
-            <label for="clase" name="clase"> Ingrese la clase a la que se realiza la reserva: </label><input type="text" name="clase" maxlength="50"><br>
-            <label for="descripcion" name="descripcion"> Ingrese la descripcion de la clase: </label><textarea name="descripcion" id="descripcion" maxlength="250"></textarea><br>
-
-            <!-- Esto se debe quitar, es solo de prueba, cambiar fecha reserva e id turno por get  -->
-            <input type="submit" value="Enviar">
+    <main class="container mt-5">
+        <h1 class="mb-4">Editar Reserva</h1>
+        <?php
+        if ($error) {
+            echo '<div class="alert alert-danger" role="alert">' . $error . '</div>';
+        }
+        if ($success) {
+            echo '<div class="alert alert-success" role="alert">' . $success . '</div>';
+        }
+        ?>
+        <form action="editarReserva.php" method="post">
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha de la reserva:</label>
+                <input type="date" class="form-control" name="fecha" required>
+            </div>
+            <div class="mb-3">
+                <label for="numAlumno" class="form-label">Ingrese la cantidad de alumnos para la reserva:</label>
+                <input type="number" class="form-control" min="1" name="numAlumno" required>
+            </div>
+            <div class="mb-3">
+                <label for="clase" class="form-label">Ingrese la clase a la que se realiza la reserva:</label>
+                <input type="text" class="form-control" name="clase" maxlength="50" required>
+            </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Ingrese la descripción de la clase:</label>
+                <textarea class="form-control" name="descripcion" id="descripcion" maxlength="250" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
     </main>
     <?php
