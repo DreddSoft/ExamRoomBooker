@@ -21,7 +21,7 @@ if (isset($_SESSION['nombre'])) {
 $idProfesor = $_SESSION["idProfesor"];
 
 // Capturamos el lunes de la semana actual
-$diaActual = date("d/m/Y");
+$diaActual = date("d-m-Y");
 
 // Sacamos el lunes de la semana actual
 $semanaActual = strtotime('monday this week');
@@ -37,11 +37,11 @@ if ($nuevaSemana < $semanaActual) {
 }
 
 
-$lunes = Date("d/m/Y", $nuevaSemana);
-$martes = Date("d/m/Y", strtotime('+1 day', $nuevaSemana));
-$miercoles = Date("d/m/Y", strtotime('+2 days', $nuevaSemana));
-$jueves = Date("d/m/Y", strtotime('+3 days', $nuevaSemana));
-$viernes = Date("d/m/Y", strtotime('+4 days', $nuevaSemana));
+$lunes = Date("d-m-Y", $nuevaSemana);
+$martes = Date("d-m-Y", strtotime('+1 day', $nuevaSemana));
+$miercoles = Date("d-m-Y", strtotime('+2 days', $nuevaSemana));
+$jueves = Date("d-m-Y", strtotime('+3 days', $nuevaSemana));
+$viernes = Date("d-m-Y", strtotime('+4 days', $nuevaSemana));
 
 
 $semana = [$lunes, $martes, $miercoles, $jueves, $viernes];
@@ -87,7 +87,7 @@ try {
     $bd->cerrarConexion();
 }
 
-
+$cnt = 1;
 
 ?>
 <!DOCTYPE html>
@@ -129,12 +129,12 @@ try {
                 <table class="table table-bordered w-80">
                     <thead>
                         <tr>
-                            <th class="text-center bg-secondary text-white fw-bold">Tramos</th>
-                            <th class="text-center" style="<?= (strtotime($lunes) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($lunes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Lunes <br><?= $lunes ?></th>
-                            <th class="text-center" style="<?= (strtotime($martes) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($martes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Martes <br><?= $martes ?></th>
-                            <th class="text-center" style="<?= (strtotime($miercoles) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($miercoles == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Miércoles <br><?= $miercoles ?></th>
-                            <th class="text-center" style="<?= (strtotime($jueves) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($jueves == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Jueves <br><?= $jueves ?></th>
-                            <th class="text-center" style="<?= (strtotime($viernes) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($viernes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : '' ?>">Viernes <br><?= $viernes ?></th>
+                            <th class="text-center bg-primary text-white fw-bold" style>Tramos</th>
+                            <th class="text-center" style="<?= (strtotime($lunes) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($lunes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : 'background-color: rgba(144, 194, 238, 0.1);' ?>">Lunes <br><?= str_replace("-", "/", $lunes) ?></th>
+                            <th class="text-center" style="<?= (strtotime($martes) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($martes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : 'background-color: rgba(144, 194, 238, 0.1);' ?>">Martes <br><?= str_replace("-", "/", $martes) ?></th>
+                            <th class="text-center" style="<?= (strtotime($miercoles) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($miercoles == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : 'background-color: rgba(144, 194, 238, 0.1);' ?>">Miércoles <br><?= str_replace("-", "/", $miercoles) ?></th>
+                            <th class="text-center" style="<?= (strtotime($jueves) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($jueves == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : 'background-color: rgba(144, 194, 238, 0.1);' ?>">Jueves <br><?= str_replace("-", "/", $jueves) ?></th>
+                            <th class="text-center" style="<?= (strtotime($viernes) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($viernes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : 'background-color: rgba(144, 194, 238, 0.1);' ?>">Viernes <br><?= str_replace("-", "/", $viernes) ?></th>
                         </tr>
                         
                     </thead>
@@ -142,7 +142,7 @@ try {
                         <?php foreach ($turnos as $turno) : ?>
 
                             <tr>
-                                <td class="bg-secondary text-white fw-bold"><?= $turno["horario"] ?></td>
+                                <td class="bg-primary text-white  fw-bold"><?= $turno["horario"] ?></td>
                                 <?php foreach ($semana as $dia) :
                                     $blocked = strtotime($dia) < strtotime($diaActual);
                                 ?>
@@ -155,7 +155,7 @@ try {
                                         foreach ($reservas as $reserva) {
 
                                             // Convertir la fecha de la reserva en date
-                                            $fechaReserva = Date("d/m/Y", strtotime($reserva['fecha']));
+                                            $fechaReserva = Date("d-m-Y", strtotime($reserva['fecha']));
                                             if ($fechaReserva == $dia && $reserva['turno'] == $turno['idTurno']) {
 
                                                 // Si es de ese profesor
@@ -170,7 +170,7 @@ try {
                                         }
                                         if ($plazas > 0) : ?>
                                             <p>Plazas libres <?= $plazas ?></p>
-                                            <input type="hidden" name="plazas" id="iptPlazas" value="<?= $plazas ?>">
+                                            
                                             <input type="hidden" name="fecha" id="iptFecha" value="<?= $dia ?>">
                                             <input type="hidden" name="turno" id="iptTurno" value="<?= $turno['idTurno'] ?>">
                                             <?php if ($blocked) : ?>
@@ -183,6 +183,8 @@ try {
                                                 </button>
                                             <?php endif; ?>
                                         <?php endif; ?>
+                                        <input type="hidden" name="plazas" id="iptPlazas<?= $cnt ?>" value="<?= $plazas ?>">
+                                        <?php $cnt++; ?>
                                     </td>
                                 <?php endforeach; ?>
                             </tr>
