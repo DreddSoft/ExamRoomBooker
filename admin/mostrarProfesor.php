@@ -7,6 +7,10 @@
     <link rel="shortcut icon" href="assets/Logo_type_1.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Listado de Profesores</title>
+    <style>
+        .cursor{cursor: pointer;}
+        .cursor:hover{filter: brightness(70%);}
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -34,16 +38,12 @@
             header("Location:index.php");
             exit();
         }
+        //si existe mActivos en post, creo una variable con la que voy a permitir al admin filtar por profesores activos
         if(isset($_POST['mActivos'])){
-            $mActivos = $_POST['mActivos'];
-            if($mActivos == 1){
-                $consulta = "WHERE activo = 1";
-            }else{
-                $consulta = "WHERE activo = 0";
-            }
+            $consulta = "WHERE activo = 1";         
         }else{
             $consulta = "";
-        }   
+        }
         //consulta para seleccionar todos los profesores
         $query2 = "
                 SELECT * FROM Profesores $consulta;
@@ -51,30 +51,35 @@
         //llamo al metodo capturar datos de la clase bd
         $resultado = $bd->capturarDatos($query2);
         //hago una tabla con los datos de resultado
-        echo "<h2 style='color: #642686; text-align: center;'>Listado de Profesores</h2>";
-        echo "<form action='mostrarProfesor.php' method='post'>
-                <button type'submit' class='btn btn-info m-1'>Filtrar por inactivos</button>
-                <input type='checkbox' id='mActivos' name='mActivos' class='m-1' role='switch'>
-            </form>";
-        echo "<table id='tabla' class='table table-bordered'>";
-        echo "<th>ID</th><th>Usuario</th><th>Contraseña</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th><th>Estado</th><th>Email</th><th>Admin</th>";
-        foreach ($resultado as $registro) {
-            echo "<tr  id='" . $registro['id'] . "'>";
-            //paso el valor numerico tanto de "activo" como de "admin" a algo mas comprensible para el usuario
-            if ($registro["activo"] == 1) {
-                $estado = "Activo";
-            } else {
-                $estado = "Inactivo";
-            }
-            if ($registro["admin"] == 1) {
-                $esAdmin = "Admin";
-            } else {
-                $esAdmin = "No admin";
-            }
-            echo "<td>" . $registro['id'] . "</td><td>" . $registro['usuario'] . "</td><td>" . $registro['passw'] . "</td><td>" . $registro['nombre'] . "</td><td>" . $registro['ape1'] . "</td><td>" . $registro['ape2'] . "</td><td>" . $estado . "</td><td>" . $registro['email'] . "</td><td>" . $esAdmin . "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
+        echo "<main>";
+            echo "<h2 style='color: #642686; text-align: center;' class='m-5'>Listado de Profesores</h2>";
+            //boton para filtar por activo o inactivo
+            echo "<form action='mostrarProfesor.php' method='post'>
+                    <button type'submit' class='btn btn-info ms-4'>Filtrar por activos</button>
+                    <input type='checkbox' id='mActivos' name='mActivos' class='m-1' role='switch'>
+                </form>";
+            echo "<section class='text-center'>";
+                echo "<table id='tabla' class='table table-bordered m-5' style='width: 90%;'>";
+                echo "<th style='background-color:DodgerBlue;'>ID</th><th style='background-color:DodgerBlue;'>Usuario</th><th style='background-color:DodgerBlue;'>Nombre</th><th style='background-color:DodgerBlue;'>1er Apellido</th><th style='background-color:DodgerBlue;'>2do Apellido</th><th style='background-color:DodgerBlue;'>Estado</th><th style='background-color:DodgerBlue;'>Email</th><th style='background-color:DodgerBlue;'>Admin</th>";
+                foreach ($resultado as $registro) {
+                    echo "<tr  id='" . $registro['id'] . "' class='cursor'>";
+                    //paso el valor numerico tanto de "activo" como de "admin" a algo mas comprensible para el usuario
+                    if ($registro["activo"] == 1) {
+                        $estado = "Activo";
+                    } else {
+                        $estado = "Inactivo";
+                    }
+                    if ($registro["admin"] == 1) {
+                        $esAdmin = "Admin";
+                    } else {
+                        $esAdmin = "No admin";
+                    }
+                    echo "<td>" . $registro['id'] . "</td><td>" . $registro['usuario'] . "</td><td>" . $registro['nombre'] . "</td><td>" . $registro['ape1'] . "</td><td>" . $registro['ape2'] . "</td><td>" . $estado . "</td><td>" . $registro['email'] . "</td><td>" . $esAdmin . "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+            echo "</section>";
+        echo "</main>";
         }catch(Exception $e){
             echo $e->getMessage();
         }finally{

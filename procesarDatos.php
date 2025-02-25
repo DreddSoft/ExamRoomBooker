@@ -4,7 +4,6 @@
 session_start();
 
 // Establecemos el tiempo de vida de la cookie de sesión a 30 minutos si no hay actividad
-ini_set('session.gc_maxlifetime', 1800);
 session_set_cookie_params(1800);
 
 // Importamos la clase bd desde el archivo bd.class que se encuentra en la carpeta clases.
@@ -28,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bd->abrirConexion();
 
         // Definimos una consulta SQL para seleccionar los campos id, nombre, primer apellido, usuario y contraseña de la tabla Profesores.
-        $sql = "SELECT id, nombre, ape1, usuario, passw, admin FROM Profesores";
+        $sql = "SELECT id, nombre, ape1, usuario, passw, admin, email FROM Profesores";
 
         // Ejecutamos la consulta SQL y almacenamos los resultados en el array $usuarios.
         $usuarios = $bd->capturarDatos($sql);
@@ -42,13 +41,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = trim(htmlspecialchars($_POST['usuario']));
     $pass = trim(htmlspecialchars($_POST['pass']));
 
-    // Convertimos el nombre de usuario a mayúsculas.
-    $usuario = strtoupper($usuario);
 
     // Verificamos si el nombre del usuario y la contraseña proporcionados coinciden con algún registro en el array $usuarios.
     $usuarioValido = false;
     foreach ($usuarios as $u) {
-        if ($u['usuario'] === $usuario && $u['passw'] === $pass) {
+        if (($u['usuario'] === $usuario || $u['email'] === $usuario) && $u['passw'] === $pass) {
             $usuarioValido = true;
             $_SESSION["idProfesor"] = $u["id"];
             $_SESSION['nombre'] = $u['nombre'] . " " . $u['ape1'];

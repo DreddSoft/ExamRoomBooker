@@ -77,14 +77,17 @@ try {
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        [id^="reserva-"] {
-            cursor: pointer;
+        [id^="reserva-"] .card {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
-        [id^="reserva-"]:hover {
+        [id^="reserva-"] .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        [id^="reserva-"] {
+            cursor: pointer;
         }
     </style>
 

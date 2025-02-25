@@ -41,6 +41,34 @@
             //cierro la conexion con la bd
             $bd->cerrarConexion();
         }
+
+    try{
+        //conecto a la base de datos
+        $conexion = $bd->abrirConexion();
+            //compruebo que el método es post
+            if($_SERVER["REQUEST_METHOD"] === "POST"){
+                //guardo el id del profesor
+                $id = htmlspecialchars($_POST['id']);
+                //compruebo si se han seleccionado las asignaturas , si es asi guardo los datos 
+                if (isset($_POST['asignaturas'])) {
+                    $asignaturas = $_POST['asignaturas'];
+                    //para dcada una de las asignaturas guardadas hago un insert into con el id de cada una y el id del profesor
+                    foreach ($asignaturas as $asignatura) {
+                        $query = "
+                        INSERT INTO asignaturasprofesores (idProfesor, idAsignatura)
+                        VALUES ('$id', '$asignatura');
+                    ";
+                        //uso el metodo insertar datos de la clase bd
+                        $bd->insertarDatos($query);
+                    }
+                }
+            }
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }finally{
+                //cierro la conexion con la bd
+                $bd->cerrarConexion();
+            }
 ?>
 
 <!DOCTYPE html>
@@ -55,17 +83,29 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php")?>
     <main>
-        <section class="text-center"><br>
-        <h2 style="color: #642686;">Crear Profesor</h2>
-            <form action="crearProfesor.php" method="post">
-                <input type="text" placeholder="ID Profesor" name="id" id="id" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Usuario" name="usuario" id="usuario" class="form-control-lg mt-1"><br>
-                <input type="password" placeholder="Contraseña" name="passw" id="passw" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Nombre Profesor" name="nombre" id="nombre" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Primer apellido" name="ape1" id="ape1" class="form-control-lg mt-1"><br>
-                <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" class="form-control-lg mt-1"><br>
-                <input type="email" placeholder="Correo electrónico" name="email" id="email" class="form-control-lg mt-1"><br><br>
-                <button type="submit" class="btn btn-primary">Crear</button>
+        <section class="text-center m-5"><br>
+            <form action="crearProfesor.php" method="post" class="py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="max-width: 400px; margin: auto;">
+                <h2 class="mb-5" style="color: #642686;">Crear Profesor</h2>
+                <input type="text" placeholder="ID Profesor" require name="id" id="id" class="form-control"><br>
+                <input type="text" placeholder="Usuario" require name="usuario" id="usuario" class="form-control"><br>
+                <input type="password" placeholder="Contraseña" require name="passw" id="passw" class="form-control"><br>
+                <input type="text" placeholder="Nombre Profesor" require name="nombre" id="nombre" class="form-control"><br>
+                <input type="text" placeholder="Primer apellido" require name="ape1" id="ape1" class="form-control"><br>
+                <input type="text" placeholder="Segundo apellido" name="ape2" id="ape2" class="form-control"><br>
+                <input type="email" placeholder="Correo electrónico" require name="email" id="email" class="form-control"><br><br>
+                <label for="opciones">Seleccione asignaturas:</label>
+                <select name="asignaturas[]" id="asignaturas" multiple class="form-control">
+                    <option value="1">Biología</option>
+                    <option value="2">Química</option>
+                    <option value="3">Matemáticas I</option>
+                    <option value="4">Álgebra</option>
+                    <option value="5">Lengua Española</option>
+                    <option value="6">Literatura Universal</option>
+                    <option value="7">Bases De Datos</option>
+                    <option value="8">Entorno Servidor</option>
+                    <option value="9">Entorno Cliente</option>
+                </select><br>
+                <button type="submit" class="btn btn-primary" style="width: 60%;">Crear</button>
             </form>
         </section>
     </main>

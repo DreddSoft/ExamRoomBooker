@@ -27,7 +27,6 @@
             SELECT usuario, passw, nombre, ape1,ape2, activo,email,admin FROM profesores
             where id = '$idProfesor';
         ";
-        
         $resultado = $bd->capturarDatos($query1);
         //guardo todos los datos de ese usuario
         $usuario = $resultado[0]["usuario"];
@@ -35,33 +34,22 @@
         $nombre = $resultado[0]["nombre"];
         $ape1 = $resultado[0]["ape1"];
         $ape2 = $resultado[0]["ape2"] ? $resultado[0]["ape2"] : "";
-        $activo = $resultado[0]["activo"];
+        $activo = $resultado[0]["activo"] == 1 ? "Activo" : "Inactivo";
         $email = $resultado[0]["email"];
-        $admin = $resultado[0]["admin"] == 1 ? 1 : 0;
+        $admin = $resultado[0]["admin"] == 1 ? "Admin" : "No admin";
 
-        //aqui es donde se modifican los datos actuales, recogiendo los nuevos datos enviados por post
-        if($_SERVER["REQUEST_METHOD"] === "POST"){
-            //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
-            $usuario = htmlspecialchars($_POST['usuario']);
-            $passw = htmlspecialchars($_POST['passw']);
-            $nombre = htmlspecialchars($_POST['nombre']);
-            $ape1 = htmlspecialchars($_POST['ape1']);
-            $ape2 = htmlspecialchars($_POST['ape2']);
-            $email = htmlspecialchars($_POST['email']);
-            //consulta para modificar un profesor con los datos guardados anteriormente
-            $query2 = "
-                    UPDATE profesores SET 
-                    usuario = '$usuario', 
-                    passw = '$passw', 
-                    nombre = '$nombre', 
-                    ape1 = '$ape1', 
-                    ape2 = '$ape2', 
-                    email = '$email'
-                    WHERE id = $idProfesor;
-                ";
-                //uso el metodo actualizar datos de la clase bd
-                $bd->actualizarDatos($query2);       
-        }      
+        //guardo las asignaturas que tiene ese profesor
+        $query3 = "
+        SELECT idAsignatura FROM asignaturasprofesores
+        WHERE idProfesor = $idProfesor;
+        ";
+        $resultado = $bd->capturarDatos($query3);
+
+        //creo un array con las asignaturas que tiene ese profesor y que lo usare en el select poara que me aparezcan preseleccionadas
+        $asignaturas = [];
+        foreach ($resultado as $asignatura) {
+        $asignaturas[] = $asignatura['idAsignatura'];
+        }  
     }catch(Exception $e){
         echo $e->getMessage();
     }finally{
@@ -81,17 +69,102 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php")?>
-    <main>
-        <section class="text-center">
-        <h2 style="color: #642686;">Modificar Profesor</h2>
-            <form action="modificarProfesor.php?idProfesor=<?=$idProfesor?>" method="post">
-                <input type="text" placeholder="Usuario" name="usuario" class="form-control-lg mt-1" id="usuario" value="<?=$usuario ?>"><br>
-                <input type="password" placeholder="Contraseña" name="passw" class="form-control-lg mt-1" id="passw" value="<?=$pass ?>"><br>
-                <input type="text" placeholder="Nombre Profesor" name="nombre" class="form-control-lg mt-1" id="nombre" value="<?=$nombre ?>"><br>
-                <input type="text" placeholder="Primer apellido" name="ape1" class="form-control-lg mt-1" id="ape1" value="<?=$ape1 ?>"><br>
-                <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control-lg mt-1" id="ape2" value="<?=$ape2 ?>"><br>
-                <input type="email" placeholder="Correo electrónico" name="email" class="form-control-lg mt-1" id="email" value="<?=$email ?>"><br><br>
-            <section class="d-inline-flex p-2">
+    <main class="d-flex justify-content-center">
+        <section class="text-center m-5 py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="width: 500px;">
+            <form action="cambiosProfesor.php" method="post">
+                <h2 class="mb-5" style="color: #642686;">Modificar Profesor</h2>
+                <div class="d-flex justify-content-center">
+                    <table style="font-weight: bold; text-align: left;">
+                        <tr>
+                            <td>
+                                <input type="text" name="idProfesor" class="form-control" style="width: 280px;" hidden id="idProfesor" value="<?=$idProfesor ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="usuario">Usuario</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Usuario" name="usuario" class="form-control" style="width: 280px;" id="usuario" value="<?=$usuario ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="passw">Contraseña</label>
+                            </td>
+                            <td>
+                                <input type="password" placeholder="Contraseña" name="passw" class="form-control" id="passw" value="<?=$pass ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="nombre">Nombre</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Nombre Profesor" name="nombre" class="form-control" id="nombre" value="<?=$nombre ?>">
+                            </td>                     
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="ape1">Primer Apellido</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Primer apellido" name="ape1" class="form-control" id="ape1" value="<?=$ape1 ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="ape2">Segundo Apellido</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Segundo apellido" name="ape2" class="form-control" id="ape2" value="<?=$ape2 ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="activo">Estado</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Estado" name="activo" class="form-control" disabled id="activo" value="<?=$activo ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="email">Correo Electrónico</label>
+                            </td>
+                            <td>
+                                <input type="email" placeholder="Correo electrónico" name="email" class="form-control" id="email" value="<?=$email ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="admin">Privilegios</label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Privilegios" name="admin" class="form-control" disabled id="admin" value="<?=$admin ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="asignaturas">Asignaturas</label>
+                            </td>
+                            <td>
+                                <select name="asignaturas[]" id="asignaturas" multiple class="form-control">
+                                    <option value="1" <?php if (in_array(1,$asignaturas)) echo 'selected'; ?>>Biología</option>
+                                    <option value="2" <?php if (in_array(2,$asignaturas)) echo 'selected'; ?>>Química</option>
+                                    <option value="3" <?php if (in_array(3,$asignaturas)) echo 'selected'; ?>>Matemáticas I</option>
+                                    <option value="4" <?php if (in_array(4,$asignaturas)) echo 'selected'; ?>>Álgebra</option>
+                                    <option value="5" <?php if (in_array(5,$asignaturas)) echo 'selected'; ?>>Lengua Española</option>
+                                    <option value="6" <?php if (in_array(6,$asignaturas)) echo 'selected'; ?>>Literatura Universal</option>
+                                    <option value="7" <?php if (in_array(7,$asignaturas)) echo 'selected'; ?>>Bases De Datos</option>
+                                    <option value="8" <?php if (in_array(8,$asignaturas)) echo 'selected'; ?>>Entorno Servidor</option>
+                                    <option value="9" <?php if (in_array(9,$asignaturas)) echo 'selected'; ?>>Entorno Cliente</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table> 
+                </div>        
+            <section class="d-inline-flex p-2 m-3">
                 <button type="submit" class="btn btn-primary m-1" onclick="return confirm('Está a punto de modificar un usuario, ¿desea continuar?')">Modificar</button>
                 </form>
                 <form action="eliminarProfesor.php" method="post">
@@ -101,7 +174,7 @@
             </section>
             <section class="d-inline-flex p-2">
                 <form action="cambiarStatusProfesor.php" method="post">
-                    <?php if($activo == 1):?>
+                    <?php if($activo == 1 || $activo == "Activo"):?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="0" name="activo">
                         <button type="submit" class="btn btn-secondary m-1">Desactivar</button>
@@ -112,7 +185,7 @@
                         <?php endif ?>
                 </form>
                 <form action="cambiarPrivilegios.php" method="post">
-                    <?php if($admin == 1):?>
+                    <?php if($admin == 1 || $admin == "Admin"):?>
                         <input type="hidden" value="<?= $idProfesor?>" name="id">
                         <input type="hidden" value="0" name="admin">
                         <button type="submit" class="btn btn-warning m-1">Quitar privilegios</button>
