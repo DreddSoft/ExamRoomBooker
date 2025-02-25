@@ -60,7 +60,7 @@
                 </form>";
             echo "<section class='text-center'>";
                 echo "<table id='tabla' class='table table-bordered m-5' style='width: 90%;'>";
-                echo "<th>ID</th><th>Usuario</th><th>Contraseña</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th><th>Estado</th><th>Email</th><th>Admin</th>";
+                echo "<th>ID</th><th>Usuario</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th><th>Estado</th><th>Email</th><th>Admin</th>";
                 foreach ($resultado as $registro) {
                     echo "<tr  id='" . $registro['id'] . "' class='cursor'>";
                     //paso el valor numerico tanto de "activo" como de "admin" a algo mas comprensible para el usuario
@@ -74,7 +74,7 @@
                     } else {
                         $esAdmin = "No admin";
                     }
-                    echo "<td>" . $registro['id'] . "</td><td>" . $registro['usuario'] . "</td><td>" . $registro['passw'] . "</td><td>" . $registro['nombre'] . "</td><td>" . $registro['ape1'] . "</td><td>" . $registro['ape2'] . "</td><td>" . $estado . "</td><td>" . $registro['email'] . "</td><td>" . $esAdmin . "</td>";
+                    echo "<td>" . $registro['id'] . "</td><td>" . $registro['usuario'] . "</td><td>" . $registro['nombre'] . "</td><td>" . $registro['ape1'] . "</td><td>" . $registro['ape2'] . "</td><td>" . $estado . "</td><td>" . $registro['email'] . "</td><td>" . $esAdmin . "</td>";
                     echo "</tr>";
                 }
                 echo "</table>";
