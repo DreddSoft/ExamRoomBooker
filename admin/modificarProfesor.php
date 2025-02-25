@@ -49,49 +49,7 @@
         $asignaturas = [];
         foreach ($resultado as $asignatura) {
         $asignaturas[] = $asignatura['idAsignatura'];
-        }
-
-        //aqui es donde se modifican los datos actuales, recogiendo los nuevos datos enviados por post
-        if($_SERVER["REQUEST_METHOD"] === "POST"){
-
-            //guardo las asignaturas nuevas para usarlas en una consulta
-            $asignaturasNuevas = $_POST['asignaturas'];
-            //borro todas sus asignaturas actuales
-            $query4 = "
-                DELETE FROM asignaturasprofesores
-                WHERE idProfesor = $idProfesor;
-            ";
-            $bd->actualizarDatos($query4);
-
-            //hago un insert into con las nuevas asignaturas seleccionadas
-            foreach ($asignaturasNuevas as $idAsignatura) {
-                $query5 = "
-                    INSERT INTO asignaturasprofesores (idProfesor, idAsignatura) 
-                    VALUES ($idProfesor, $idAsignatura);
-                ";
-                $bd->actualizarDatos($query5);
-    }
-            //guardo los datos que me ha pasado el usuario en variables, que voy a usar en la consulta
-            $usuario = htmlspecialchars($_POST['usuario']);
-            $passw = htmlspecialchars($_POST['passw']);
-            $nombre = htmlspecialchars($_POST['nombre']);
-            $ape1 = htmlspecialchars($_POST['ape1']);
-            $ape2 = htmlspecialchars($_POST['ape2']);
-            $email = htmlspecialchars($_POST['email']);
-            //consulta para modificar un profesor con los datos guardados anteriormente
-            $query2 = "
-                    UPDATE profesores SET 
-                    usuario = '$usuario', 
-                    passw = '$passw', 
-                    nombre = '$nombre', 
-                    ape1 = '$ape1', 
-                    ape2 = '$ape2', 
-                    email = '$email'
-                    WHERE id = $idProfesor;
-                ";
-                //uso el metodo actualizar datos de la clase bd
-                $bd->actualizarDatos($query2);       
-        }      
+        }  
     }catch(Exception $e){
         echo $e->getMessage();
     }finally{
@@ -113,10 +71,15 @@
     <?php require_once("../_header.php")?>
     <main class="d-flex justify-content-center">
         <section class="text-center m-5 py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="width: 500px;">
-            <form action="modificarProfesor.php?idProfesor=<?=$idProfesor?>" method="post">
+            <form action="cambiosProfesor.php" method="post">
                 <h2 class="mb-5" style="color: #642686;">Modificar Profesor</h2>
                 <div class="d-flex justify-content-center">
                     <table style="font-weight: bold; text-align: left;">
+                        <tr>
+                            <td>
+                                <input type="text" name="idProfesor" class="form-control" style="width: 280px;" hidden id="idProfesor" value="<?=$idProfesor ?>">
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <label for="usuario">Usuario</label>
