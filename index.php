@@ -50,6 +50,11 @@ $semana = [$lunes, $martes, $miercoles, $jueves, $viernes];
 $bd = new BD();
 $showModal = false;
 
+if (isset($_GET["mensaje"])) {
+    $mensaje = htmlspecialchars($_GET["mensaje"]);
+    $showModal = true;
+}
+
 try {
 
     // Conectamos
@@ -87,7 +92,8 @@ try {
     $bd->cerrarConexion();
 }
 
-$cnt = 1;
+$fila = 1;
+
 
 ?>
 <!DOCTYPE html>
@@ -136,14 +142,17 @@ $cnt = 1;
                             <th class="text-center" style="<?= (strtotime($jueves) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($jueves == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : 'background-color: rgba(144, 194, 238, 0.1);' ?>">Jueves <br><?= str_replace("-", "/", $jueves) ?></th>
                             <th class="text-center" style="<?= (strtotime($viernes) < strtotime($diaActual)) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?><?= ($viernes == $diaActual) ? ' background-color: rgba(144, 238, 144, 0.1);' : 'background-color: rgba(144, 194, 238, 0.1);' ?>">Viernes <br><?= str_replace("-", "/", $viernes) ?></th>
                         </tr>
-                        
+
                     </thead>
                     <tbody>
-                        <?php foreach ($turnos as $turno) : ?>
+                        <?php foreach ($turnos as $turno) :
+                            $col = 1;
+                        ?>
 
                             <tr>
                                 <td class="bg-primary text-white  fw-bold"><?= $turno["horario"] ?></td>
                                 <?php foreach ($semana as $dia) :
+
                                     $blocked = strtotime($dia) < strtotime($diaActual);
                                 ?>
                                     <td class="text-center" style="<?= ($blocked) ? 'background-color: rgba(196, 196, 196, 0.2); cursor: not-allowed;' : '' ?>">
@@ -151,6 +160,8 @@ $cnt = 1;
                                         // Aqui tengo que sacar los datos de las reservas
                                         $reservaEncontrada = false;
                                         $plazas = 100;
+
+                                        echo $fila . " - " . $col;
 
                                         foreach ($reservas as $reserva) {
 
@@ -168,25 +179,35 @@ $cnt = 1;
                                                 $plazas -= $reserva['numeroAlumnos'];
                                             }
                                         }
-                                        if ($plazas > 0) : ?>
+                                        if ($plazas > 0) :
+
+                                            $idFecha = "iptFecha$fila-$col";
+                                            $idTurno = "iptTurno$fila-$col";
+                                        ?>
                                             <p>Plazas libres <?= $plazas ?></p>
-                                            
-                                            <input type="hidden" name="fecha" id="iptFecha" value="<?= $dia ?>">
-                                            <input type="hidden" name="turno" id="iptTurno" value="<?= $turno['idTurno'] ?>">
+
+
                                             <?php if ($blocked) : ?>
                                                 <button type='button' class='p-0' style='background: none; border: none;' disabled="true">
                                                     <i class='bi bi-plus-circle' style="font-size: 1.5rem; color: blue; cursor:not-allowed;"></i>
                                                 </button>
                                             <?php else : ?>
-                                                <button type='button' class='p-0' style='background: none; border: none;' id="" onclick="crearReserva();">
-                                                    <i class='bi bi-plus-circle' style="font-size: 1.5rem; color: blue; cursor:pointer;"></i>
-                                                </button>
+                                                <form action="reserva/crearReserva.php" method="post">
+                                                    <input type="hidden" name="fecha" id="<?= $idFecha ?>" value="<?= $dia ?>">
+                                                    <input type="hidden" name="turno" id="<?= $idTurno ?>" value="<?= $turno['idTurno'] ?>">
+                                                    <button type='submit' class='p-0' style='background: none; border: none;'>
+                                                        <i class='bi bi-plus-circle' style="font-size: 1.5rem; color: blue; cursor:pointer;"></i>
+                                                    </button>
+                                                </form>
                                             <?php endif; ?>
-                                        <?php endif; ?>
-                                        <input type="hidden" name="plazas" id="iptPlazas<?= $cnt ?>" value="<?= $plazas ?>">
-                                        <?php $cnt++; ?>
+                                        <?php endif;
+                                        $idPlazas = "iptPlazas$fila-$col";
+                                        ?>
+                                        <input type="hidden" name="plazas" id="<?= $idPlazas ?>" value="<?= $plazas ?>">
+                                        <?php $col++; ?>
                                     </td>
                                 <?php endforeach; ?>
+                                <?php $fila++; ?>
                             </tr>
 
                         <?php endforeach; ?>
