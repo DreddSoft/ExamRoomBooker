@@ -102,9 +102,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bd->cerrarConexion();
     }
 
+    //TODO: Crear un PDF y enviarlo con los datos de la reserva
     $msj = "Exito: Nueva Reserva creada con id: $idRva";
-    header("Location: ../index.php?mensaje=$msj");
+    header("Location: confirmacionReserva.pdf.php?idReserva=$idRva");
     exit();
+
+
+    // $msj = "Exito: Nueva Reserva creada con id: $idRva";
+    // header("Location: ../index.php?mensaje=$msj");
+    // exit();
 } else {
     $msj = "Error: método de envío erróneo en crearReserva.php";
     header("Location: ../index.php?mensaje=$msj");

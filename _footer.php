@@ -13,7 +13,7 @@ if ($filename == "index.php" || $filename == "login.php") {
 }
 
 ?>
-<footer class="container-fluid d-flex flex-row justify-content-between p-3 bg-dark shadow mt-auto">
+<footer class="container-fluid d-flex flex-row justify-content-between p-3 bg-dark shadow mt-auto flex-wrap">
     <div class="d-flex flex-row justify-content-center align-items-center">
         <a href="https://github.com/DreddSoft/ExamRoomBooker" target="_blank"><img src="<?= $ruta ?>assets/GitHub_Logo_White.png" alt="Logo de Github" style="width: 100px;"></a>
     </div>

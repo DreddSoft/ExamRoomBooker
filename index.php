@@ -161,8 +161,6 @@ $fila = 1;
                                         $reservaEncontrada = false;
                                         $plazas = 100;
 
-                                        echo $fila . " - " . $col;
-
                                         foreach ($reservas as $reserva) {
 
                                             // Convertir la fecha de la reserva en date
@@ -223,14 +221,14 @@ $fila = 1;
             <div class="modal d-block" tabindex="999" role="dialog" id="modal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header d-flex justify-content-between align-items-center bg-info">
                             <h5 class="modal-title">Información</h5>
-                            <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="btn btn-primary closeModal" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <p><?= empty($mensaje) ? "Mensaje informativo base: Nada que informar" : $mensaje ?></p>
+                        <div class="modal-body d-flex justify-content-center align-items-center">
+                            <p class="text-center"><?= empty($mensaje) ? "Mensaje informativo base: Nada que informar" : $mensaje ?></p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Close</button>
