@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         // Redireccion con idReserva
-        header("Location: editarReserva.php?id=$idReserva&success=1");
+        header("Location: modificarConfirmacion.pdf.php?idReserva=$idReserva");
         exit();
     } catch (Exception $e) {
         $msj = "Error: " . $e->getMessage();

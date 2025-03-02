@@ -230,9 +230,9 @@ $text_base = "<!DOCTYPE html>
 <body>
     <div class='container'>
         <img src='cid:logo_header' style='width: 150px; height: auto; display: block; margin: 0 auto;'>
-        <h2>Confirmación de Reserva #$idReserva</h2>
+        <h2>Modificación de Reserva #$idReserva</h2>
         <p>Estimado/a $profesor,</p>
-        <p>Nos complace informarle que su reserva ha sido confirmada con éxito. Adjunto a este correo encontrará su comprobante de reserva. Le recomendamos guardarlo para futuras referencias.</p>
+        <p>Nos complace informarle que su reserva ha sido modificada con éxito. Adjunto a este correo encontrará su comprobante de reserva. Le recomendamos guardarlo para futuras referencias.</p>
         <p>Si tiene alguna consulta, no dude en ponerse en contacto con nosotros.</p>
         <p><b>Atentamente,</b><br>ExamRoomBooker</p>
         <div class='footer'>
@@ -242,6 +242,7 @@ $text_base = "<!DOCTYPE html>
 </body>
 </html>
 ";
+
 
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
@@ -257,7 +258,7 @@ try {
     $mail->Port       = $_ENV["SMTP_PORT"];                     //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom($_ENV["SMTP_USER"]);                         //Sender's email address
+    $mail->setFrom($_ENV["SMTP_USER"], 'ExamRoomBooker');                         //Sender's email address
     $mail->addAddress($email);                                  //Recipient's email address
 
     //Content
@@ -273,11 +274,11 @@ try {
     $mail->send();
     // echo 'El correo se ha enviado de forma exitosa, su destinatario debe haber recivido el correo';
 
-    $msj = "Creada Reserva $idReserva con exito.";
-    header("Location: ../index.php?mensaje=$msj");
+    // $msj = "Modificada reserva $idReserva con exito.";
+    header("Location: editarReserva.php?id=$idReserva&success=1");
     exit();
 } catch (Exception $e) {
     $msj = "Error: " . $e->getMessage();
-    header("Location: ../index.php?mensaje=$msj");
+    header("Location: editarReserva.php?id=$idReserva&mensaje=$msj");
     exit();
 }

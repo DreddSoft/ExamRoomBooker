@@ -23,6 +23,10 @@
             $id = htmlspecialchars($_POST['id']);
             $usuario = htmlspecialchars($_POST['usuario']);
             $passw = htmlspecialchars($_POST['passw']);
+
+            // Cifrar la contraseña
+            $hashedPasswd = password_hash($passw, PASSWORD_DEFAULT);
+
             $nombre = htmlspecialchars($_POST['nombre']);
             $ape1 = htmlspecialchars($_POST['ape1']);
             $ape2 = htmlspecialchars($_POST['ape2']);
@@ -30,7 +34,7 @@
             //consulta para insertar en la tabla profesores un nuevo profesor con los datos indcados
             $query2 = "
                     INSERT INTO profesores (id, usuario, passw, nombre, ape1, ape2, activo, email, admin)
-                    VALUES ('$id', '$usuario', '$passw', '$nombre', '$ape1', '$ape2', 1, '$email', 0);
+                    VALUES ('$id', '$usuario', '$hashedPasswd', '$nombre', '$ape1', '$ape2', 1, '$email', 0);
                 ";
                 //uso el metodo insertar datos de la clase bd
                 $bd->insertarDatos($query2);

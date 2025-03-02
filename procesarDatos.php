@@ -1,11 +1,5 @@
 <?php
 
-// Iniciamos sesion
-session_start();
-
-// Establecemos el tiempo de vida de la cookie de sesión a 30 minutos si no hay actividad
-session_set_cookie_params(1800);
-
 // Importamos la clase bd desde el archivo bd.class que se encuentra en la carpeta clases.
 require_once "clases/bd.class.php";
 
@@ -20,6 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Creamos una instancia de la clase BD.
     $bd = new BD;
 
+    // Capturamos y sanitizamos la entrada
+    $usuario = trim(htmlspecialchars($_POST['usuario']));
+    $pass = trim($_POST['pass']);
+
     // Tratamos de ejecutar el bloque de código que sigue, si ocurre una excepción se manejaría con el catch.
     try {
 
@@ -27,47 +25,46 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bd->abrirConexion();
 
         // Definimos una consulta SQL para seleccionar los campos id, nombre, primer apellido, usuario y contraseña de la tabla Profesores.
-        $sql = "SELECT id, nombre, ape1, usuario, passw, admin, email FROM Profesores";
+        $sql = "SELECT id, nombre, ape1, usuario, passw, admin, email 
+        FROM Profesores 
+        WHERE usuario = '$usuario' 
+        OR email = '$usuario'";
 
         // Ejecutamos la consulta SQL y almacenamos los resultados en el array $usuarios.
-        $usuarios = $bd->capturarDatos($sql);
+        $usuarioData = $bd->capturarDatos($sql);
+
+        // if (password_verify($pass, $usuarioData[0]["passw"])) {
+        //     echo "Si";
+        // }else {
+        //     echo "No";
+        // }
+
+        if (!empty($usuarioData) && password_verify($pass, $usuarioData[0]["passw"])) {
+
+            // Iniciamos sesion
+            session_start();
+
+            // Establecemos el tiempo de vida de la cookie de sesión a 30 minutos si no hay actividad
+            session_set_cookie_params(1800);
+
+            $_SESSION["idProfesor"] = $usuarioData[0]["id"];
+            $_SESSION['nombre'] = $usuarioData[0]['nombre'] . " " . $usuarioData[0]['ape1'];
+            $_SESSION['usuario'] = $usuarioData[0]['usuario'];
+            $_SESSION['admin'] = $usuarioData[0]['admin'];
+
+            header("Location: index.php");
+            exit();
+
+        } else {
+            $mensaje = "Usuario o contraseña incorrectos.";
+            header("Location: login.php?mensaje=" . urlencode($mensaje));
+            exit();
+        }
     } catch (Exception $e) {
-        echo "Error al capturar usuarios en la base de datos: " . $e->getMessage();
+        $mensaje = "Error al capturar usuarios en la base de datos: " . $e->getMessage();
+        header("Location: login.php?mensaje=" . urlencode($mensaje));
+        exit();
     } finally {
         $bd->cerrarConexion();
     }
-
-    // Capturamos y sanitizamos los datos del formulario enviados por POST, eliminando espacios en blanco y convirtiendo caracteres especiales a entidades HTML.
-    $usuario = trim(htmlspecialchars($_POST['usuario']));
-    $pass = trim(htmlspecialchars($_POST['pass']));
-
-
-    // Verificamos si el nombre del usuario y la contraseña proporcionados coinciden con algún registro en el array $usuarios.
-    $usuarioValido = false;
-    foreach ($usuarios as $u) {
-        if (($u['usuario'] === $usuario || $u['email'] === $usuario) && $u['passw'] === $pass) {
-            $usuarioValido = true;
-            $_SESSION["idProfesor"] = $u["id"];
-            $_SESSION['nombre'] = $u['nombre'] . " " . $u['ape1'];
-            $_SESSION['usuario'] = $usuario;
-            $_SESSION['admin'] = $u['admin'];
-            break;
-        }
-    }
-
-    if ($usuarioValido) {
-        // Si las credenciales coinciden, redirigimos al usuario a index.php
-        header("Location: index.php");
-        exit();
-    } else {
-        // Si las credenciales no coinciden, definimos un mensaje de error y redirigimos al usuario a login.php con el mensaje de error como parámetro.
-        $mensaje = "Usuario o contraseña incorrectos.";
-        header("Location: login.php?mensaje=$mensaje");
-        exit();
-    }
-} else {
-    // Si el método de solicitud no es POST, definiremos un mensaje de error indicando que el método de envío es incorrecto y redirige al usaurio a login.php.
-    $mensaje = "El método de envío es incorrecto.";
-    header("Location: login.php?mensaje=$mensaje");
-    exit();
 }
