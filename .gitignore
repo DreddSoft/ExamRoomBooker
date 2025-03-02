@@ -30,6 +30,7 @@ vscode/
 
 # Carpeta de base de datos
 database/
+clases/bd.class.php
 
 # Archivos SQL
 *.sql

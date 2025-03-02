@@ -114,6 +114,8 @@ try {
 }
 
 
+$conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
+
 ?>
 
 <!DOCTYPE html>
@@ -146,90 +148,100 @@ try {
             <h2 class="mb-4" style="color: #642686;">Editar Reserva</h2>
         </div>
 
-        <form action="editarReservaServicio.php" method="post" class="d-flex flex-column align-items-center mb-4" style="width: 600px; margin: auto;">
-            <table class="table table-bordered w-100">
-                <tr>
-                    <th class="w-auto bg-info text-dark">Id de la Reserva</th>
-                    <td class="d-flex align-items-center justify-content-center"><input type="text" id="idReserva" name="idReserva" class="w-100 h-100 border-0 text-center" value="<?= $idReserva ?>" readonly></td>
-                </tr>
-                <tr>
-                    <th class="w-auto bg-info text-dark">Profesor</th>
-                    <td class="d-flex align-items-center justify-content-center"><input type="text" id="profesor" name="profesor" class="w-100 h-100 border-0 text-center" value="<?= $profesor ?>" readonly></td>
-                </tr>
+        <div class="d-flex justify-content-center">
+            <form action="editarReservaServicio.php" method="post" class="d-flex flex-column align-items-center mb-4" style="width: 600px; margin: auto;">
+                <table class="table table-bordered w-100">
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Id de la Reserva</th>
+                        <td class="d-flex align-items-center justify-content-center"><input type="text" id="idReserva" name="idReserva" class="w-100 h-100 border-0 text-center" value="<?= $idReserva ?>" readonly></td>
+                    </tr>
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Profesor</th>
+                        <td class="d-flex align-items-center justify-content-center"><input type="text" id="profesor" name="profesor" class="w-100 h-100 border-0 text-center" value="<?= $profesor ?>" readonly></td>
+                    </tr>
 
-                <tr>
-                    <th class="w-auto bg-info text-dark">Descripcion</th>
-                    <td class="d-flex align-items-center justify-content-center"><textarea type="text" id="desc" name="desc" class="w-100 h-100 border-0 text-center"><?= $reserva["descripcion"] ?></textarea></td>
-                </tr>
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Descripcion</th>
+                        <td class="d-flex align-items-center justify-content-center"><textarea type="text" id="desc" name="desc" class="w-100 h-100 border-0 text-center"><?= $reserva["descripcion"] ?></textarea></td>
+                    </tr>
 
-                <tr>
-                    <th class="w-auto bg-info text-dark">Número de Alumnos</th>
-                    <td class="d-flex align-items-center justify-content-center"><input type="number" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>"></td>
-                </tr>
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Número de Alumnos</th>
+                        <td class="d-flex align-items-center justify-content-center"><input type="number" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>"></td>
+                    </tr>
 
-                <tr>
-                    <th class="w-auto bg-info text-dark">Clase</th>
-                    <td class="d-flex align-items-center justify-content-center"><input type="text" id="clase" name="clase" class="w-100 h-100 border-0 text-center" value="<?= $reserva["clase"] ?>"></td>
-                </tr>
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Clase</th>
+                        <td class="d-flex align-items-center justify-content-center"><input type="text" id="clase" name="clase" class="w-100 h-100 border-0 text-center" value="<?= $reserva["clase"] ?>"></td>
+                    </tr>
 
-                <tr>
-                    <th class="w-auto bg-info text-dark">Fecha</th>
-                    <td class="d-flex align-items-center justify-content-center"><input type="date" id="fecha" name="fecha" class="w-100 h-100 border-0 text-center" value="<?= date('Y-m-d', strtotime($reserva["fecha"])); ?>"></td>
-                </tr>
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Fecha</th>
+                        <td class="d-flex align-items-center justify-content-center"><input type="date" id="fecha" name="fecha" class="w-100 h-100 border-0 text-center" value="<?= date('Y-m-d', strtotime($reserva["fecha"])); ?>"></td>
+                    </tr>
 
-                <tr>
-                    <th class="w-auto bg-info text-dark">Asignaturas</th>
-                    <td class="d-flex align-items-center justify-content-center">
-                        <select class="w-100 h-100 border-0 text-center" name="asig" id="asig">
-                            <?php foreach ($asignaturas as $asignatura): ?>
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Asignaturas</th>
+                        <td class="d-flex align-items-center justify-content-center">
+                            <select class="w-100 h-100 border-0 text-center" name="asig" id="asig">
+                                <?php foreach ($asignaturas as $asignatura): ?>
 
-                                <option value="<?= $asignatura["id"] ?>" <?= ($reserva["idAsignatura"] == $asignatura["id"]) ? " selected" : "" ?>><?= $asignatura["nombre"] ?></option>
-                            <?php endforeach; ?>
+                                    <option value="<?= $asignatura["id"] ?>" <?= ($reserva["idAsignatura"] == $asignatura["id"]) ? " selected" : "" ?>><?= $asignatura["nombre"] ?></option>
+                                <?php endforeach; ?>
 
-                        </select>
-                    </td>
-                </tr>
+                            </select>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <th class="w-auto bg-info text-dark">Turno</th>
-                    <td class="d-flex align-items-center justify-content-center gap-2">
-                        <input type="hidden" name="primerTurno" id="primerTurno" value="<?= $primerTurno ?>">
-                        <?php foreach ($plazas as $plaza) :
-                            $seleccionado = false;
-                            foreach ($turnosReserva as $turno) {
-                                if ($turno["id"] == $plaza["idTurno"]) {
-                                    $seleccionado = true;
+                    <tr>
+                        <th class="w-auto bg-info text-dark">Turno</th>
+                        <td class="d-flex align-items-center justify-content-center gap-2">
+                            <input type="hidden" name="primerTurno" id="primerTurno" value="<?= $primerTurno ?>">
+                            <?php foreach ($plazas as $plaza) :
+                                $seleccionado = false;
+                                foreach ($turnosReserva as $turno) {
+                                    if ($turno["id"] == $plaza["idTurno"]) {
+                                        $seleccionado = true;
+                                    }
                                 }
-                            }
 
-                        ?>
+                            ?>
 
-                            <input class="btn-check" type="checkbox" name="turnos[]" id="<?= $plaza['idTurno']; ?>" value="<?= $plaza['idTurno']; ?>" data-disp="<?= $plaza['disponibilidad']; ?>" <?= ($seleccionado) ? " checked" : "" ?>>
-                            <label class="btn btn-outline-primary" for="<?= $plaza['idTurno']; ?>" id="turno<?= $plaza['idTurno']; ?>">
-                                <?= $plaza['idTurno']; ?>
-                            </label>
-                        <?php endforeach; ?>
-                    </td>
-                </tr>
-                <?php if ($success) : ?>
-                    <div class="bg-success bg-opacity-10 border border-success text-success p-2 rounded mb-3">
-                        <p class="mb-0">Reserva Modificada correctamente</p>
-                    </div>
-                <?php endif; ?>
+                                <input class="btn-check" type="checkbox" name="turnos[]" id="<?= $plaza['idTurno']; ?>" value="<?= $plaza['idTurno']; ?>" data-disp="<?= $plaza['disponibilidad']; ?>" <?= ($seleccionado) ? " checked" : "" ?>>
+                                <label class="btn btn-outline-primary" for="<?= $plaza['idTurno']; ?>" id="turno<?= $plaza['idTurno']; ?>">
+                                    <?= $plaza['idTurno']; ?>
+                                </label>
+                            <?php endforeach; ?>
+                        </td>
+                    </tr>
+                    <?php if ($success) : ?>
+                        <div class="bg-success bg-opacity-10 border border-success text-success p-2 rounded mb-3">
+                            <p class="mb-0">Reserva Modificada correctamente</p>
+                        </div>
+                    <?php endif; ?>
 
-                <?php if ($error) : ?>
-                    <div class="bg-danger bg-opacity-10 border border-danger text-danger p-2 rounded mb-3">
-                        <p class="mb-0"><?= $msj ?></p>
-                    </div>
-                <?php endif; ?>
+                    <?php if ($error) : ?>
+                        <div class="bg-danger bg-opacity-10 border border-danger text-danger p-2 rounded mb-3">
+                            <p class="mb-0"><?= $msj ?></p>
+                        </div>
+                    <?php endif; ?>
 
 
-            </table>
-            <div class="d-flex justify-content-center align-items-center gap-2">
-                <button type="submit" class="btn btn-primary">Modificar</button>
-                <button class="btn btn-danger" id="btn-delete" type="button">Eliminar</button>
-            </div>
-        </form>
+                </table>
+                <div class="d-flex justify-content-center align-items-center gap-2">
+                    <button type="submit" class="btn btn-primary">Modificar</button>
+                    <button class="btn btn-danger" id="btn-delete" type="button">Eliminar</button>
+                </div>
+            </form>
+
+            <?php if (file_exists($conf)) : ?>
+                <div class="d-flex justify-content-center">
+                    <embed src="<?= $conf ?>" type="application/pdf" width="600" height="400">
+                </div>
+
+            <?php endif; ?>
+        </div>
+
     </main>
 
     <?php require_once("../_footer.php"); ?>

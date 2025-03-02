@@ -113,7 +113,7 @@ try {
                     <div class="col-md-4" id="reserva-<?php echo $reserva['id']; ?>">
                         <div class="card">
                             <div class="card-header bg-primary text-white">
-                                <?php echo htmlspecialchars($reserva['nombre']); ?>
+                                <?php echo $reserva["id"] . " - " . htmlspecialchars($reserva['nombre']); ?>
                             </div>
 
                             <div class="card-body">
