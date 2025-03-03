@@ -56,7 +56,7 @@ for (let i = 0; i < checkboxes.length; i++) {
                 if (!checkbox.checked) {
                     checkbox.removeAttribute("disabled");
                     todosDesactivados = 0;
-    
+
                 }
             });
         }
@@ -113,10 +113,16 @@ btnDelete.addEventListener("click", eliminarReserva, false);
 // Funcion para eliminar Reserva
 function eliminarReserva() {
 
-    // Capturar idReserva
-    let idReserva = parseInt(document.getElementById("idReserva").value);
+    ok = confirm("Atento, está usted a punto de eliminar la reserva, ¿Desea continuar?");
 
-    // Redirigir a eliminarReserva.php
-    window.location.href = `eliminarReserva.php?idReserva=${idReserva}`;
-    
+
+    if (ok) {
+        // Capturar idReserva
+        let idReserva = parseInt(document.getElementById("idReserva").value);
+
+        // Redirigir a eliminarReserva.php
+        window.location.href = `eliminarReserva.php?idReserva=${idReserva}`;
+    }
+
+
 }

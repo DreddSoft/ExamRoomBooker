@@ -162,7 +162,7 @@ $html = "
     <p>Le confirmamos que su reserva ha sido procesada con éxito. A continuación, los detalles:</p>
     <table class='table'>
         <tr><th>Fecha de reserva</th><td>$fecha</td></tr>
-        <tr><th>Clase o sala</th><td>$clase</td></tr>
+        <tr><th>Curso</th><td>$clase</td></tr>
         <tr><th>Número de alumnos</th><td>$numAlumnos</td></tr>
         <tr><th>Asignatura o actividad</th><td>$nombreAsignatura</td></tr>
         <tr><th>Descripción</th><td>$descripcion</td></tr>

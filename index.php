@@ -129,6 +129,11 @@ $fila = 1;
                         <span class="btn btn-link text-muted">&lt;&lt; Anterior</span>
                     <?php endif; ?>
                 </div>
+                <div>
+                    <span class="text-secondary font-italic text-sm-center">Haga click en el simbolo <i class='bi bi-plus-circle mx-2' style="font-size: 1.5rem; color: blue; cursor:pointer;"></i> para crear una reserva.</span>
+                    <br>
+                    <span class="text-secondary font-italic text-sm-center">Doble click sobre el recuadro de la reserva para editarla.</span>
+                </div>
                 <div><a href="index.php?semana=<?= $numSemana + 1 ?>" class="btn btn-link">Siguiente &gt;&gt;</a></div>
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center">
@@ -169,7 +174,7 @@ $fila = 1;
 
                                                 // Si es de ese profesor
                                                 if ($reserva['idProfesor'] === $idProfesor) {
-                                                    echo "<div class='d-flex flex-column justify-content-center align-items-center border border-success rounded p-1 mb-1' style='background-color: rgba(144, 238, 144, 0.3); border-radius: 5px; cursor: " . ($blocked ? "not-allowed" : "pointer") . ";' id='{$reserva['idReserva']}' " . ($blocked ? "" : "ondblclick='modificarReserva(this.id);'") . ">
+                                                    echo "<div class='d-flex flex-column justify-content-center align-items-center border border-success rounded p-1 mb-1' style='background-color: rgba(144, 238, 144, 0.3); border-radius: 5px; cursor: " . ($blocked ? "not-allowed" : "pointer") . ";' id='{$reserva['idReserva']}' " . ($blocked ? "" : "ondblclick='modificarReserva(this.id);'") . " title='Doble click para editar'>
                                                             <h6>{$reserva['profesor']} | {$reserva['asignatura']}</h6>
                                                             <p>{$reserva['clase']} | Alumnos: {$reserva['numeroAlumnos']}</p>
                                                           </div>";
@@ -193,7 +198,7 @@ $fila = 1;
                                                 <form action="reserva/crearReserva.php" method="post">
                                                     <input type="hidden" name="fecha" id="<?= $idFecha ?>" value="<?= $dia ?>">
                                                     <input type="hidden" name="turno" id="<?= $idTurno ?>" value="<?= $turno['idTurno'] ?>">
-                                                    <button type='submit' class='p-0' style='background: none; border: none;'>
+                                                    <button type='submit' class='p-0' style='background: none; border: none;' title="Pulsa aquí">
                                                         <i class='bi bi-plus-circle' style="font-size: 1.5rem; color: blue; cursor:pointer;"></i>
                                                     </button>
                                                 </form>

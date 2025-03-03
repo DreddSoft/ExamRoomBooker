@@ -130,7 +130,7 @@ global $fecha, $turno;
                         <input type="number" class="form-control" id="numAlumno" name="numAlumno" min="1" required style="max-width: 100px;">
                     </div>
                     <div class="w-50">
-                        <label for="clase" class="form-label me-2">Clase</label>
+                        <label for="clase" class="form-label me-2">Curso</label>
                         <input type="text" class="form-control" id="clase" name="clase" required>
                     </div>
 

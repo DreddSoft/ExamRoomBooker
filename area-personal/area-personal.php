@@ -116,8 +116,8 @@ try {
                                 <?php echo $reserva["id"] . " - " . htmlspecialchars($reserva['nombre']); ?>
                             </div>
 
-                            <div class="card-body">
-                                <h5 class="card-title">Aula: <?php echo htmlspecialchars($reserva['clase']); ?></h5>
+                            <div class="card-body" title="Doble click para editar">
+                                <h5 class="card-title">Curso: <?php echo htmlspecialchars($reserva['clase']); ?></h5>
 
                                 <p class="card-text">
                                     <strong>Descripción:</strong> <?php echo htmlspecialchars($reserva['descripcion']); ?><br>
