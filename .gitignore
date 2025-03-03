@@ -29,11 +29,10 @@ vscode/
 *.jpeg
 
 # Carpeta de base de datos
-database/
 clases/bd.class.php
 
 # Archivos SQL
-*.sql
+mis_sentencias.sql
 
 # Recomendados generales
 node_modules/
