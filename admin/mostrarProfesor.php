@@ -46,8 +46,12 @@
         }
         //si existe mActivos en post, creo una variable con la que voy a permitir al admin filtar por profesores activos
         if (isset($_POST['mActivos'])) {
-            $consulta = "WHERE activo = 1";
-        } else {
+            if ($_POST['mActivos'] == 1) {
+                $consulta = "WHERE activo = 1";
+            }else{
+                $consulta = "WHERE activo = 0";
+            } 
+        }else {
             $consulta = "";
         }
         //consulta para seleccionar todos los profesores
@@ -61,24 +65,21 @@
         echo "<h2 style='color: #642686; text-align: center;' class='m-5'>Listado de Profesores</h2>";
         //boton para filtar por activo o inactivo
         echo "<form action='mostrarProfesor.php' method='post' class='d-flex justify-content-around align-items-center'>
-
-                    <div>
-                                <input class='btn-check' type='radio' name='activos' id='act1' value='1'>
-                                <label class='btn btn-outline-primary' for='act1'>
-                                    Activos
-                                </label>
-                                <input class='btn-check' type='radio' name='activos' id='act2' value='0'>
-                                <label class='btn btn-outline-primary' for='act2'>
-                                    Inactivos
-                                </label>
-                    </div>
-          
-
-                <button class='btn btn-primary' type='button'>
+                <div>
+                    <input class='btn-check' type='radio' name='mActivos' id='act1' value='1'>
+                    <label class='btn btn-outline-primary' for='act1'>
+                        Activos
+                    </label>
+                    <input class='btn-check' type='radio' name='mActivos' id='act2' value='0'>
+                    <label class='btn btn-outline-primary' for='act2'>
+                        Inactivos
+                    </label>
+                </div>
+                <button class='btn btn-primary' type='submit'>
                     <i class='bi bi-search'></i> Filtrar
                 </button>
             </span>
-                </form>";
+            </form>";
         echo "<i class='text-secundary d-flex justify-content-center align-items-center mb-0'>Doble click sobre la fila para modificar el profesor.</i>";
         echo "<section class='text-center m-0'>";
         echo "<table id='tabla' class='table table-bordered m-5' style='width: 90%;'>";
