@@ -27,6 +27,7 @@ vscode/
 .env.local
 *.jpg
 *.jpeg
+*.pdf
 
 # Carpeta de base de datos
 clases/bd.class.php
