@@ -18,6 +18,11 @@ if ($_SESSION["admin"] != 1) {
     header("Location:../index.php");
     exit();
 }
+if($_SESSION["idProfesor"] == $idProfesor){
+    $bloquear = true;
+}else{
+    $bloquear = false;
+}
 require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');
 $bd = new BD();
 try {
@@ -149,6 +154,9 @@ try {
                             </td>
                         </tr>
                         <tr>
+                            <td colspan="2"><i class="text-secondary">Pulse la tecla control (crtl) para seleccionar varias</i></td>
+                        </tr>
+                        <tr>
                             <td>
                                 <label for="asignaturas">Asignaturas</label>
                             </td>
@@ -173,7 +181,7 @@ try {
             </form>
             <form action="eliminarProfesor.php" method="post">
                 <input type="hidden" value="<?= $idProfesor ?>" name="id">
-                <button type="submit" class="btn btn-danger m-1" onclick="return confirm('Está a punto de eliminar un usuario, ¿desea continuar?')">Eliminar</button>
+                <button type="submit" class="btn btn-danger m-1" <?php if($bloquear)echo "hidden"?> onclick="return confirm('Está a punto de eliminar un usuario, ¿desea continuar?')">Eliminar</button>
             </form>
         </section>
         <section class="d-inline-flex p-2">
@@ -181,22 +189,22 @@ try {
                 <?php if ($activo == 1 || $activo == "Activo"): ?>
                     <input type="hidden" value="<?= $idProfesor ?>" name="id">
                     <input type="hidden" value="0" name="activo">
-                    <button type="submit" class="btn btn-secondary m-1">Desactivar</button>
+                    <button type="submit" class="btn btn-secondary m-1" <?php if($bloquear)echo "hidden"?>>Desactivar</button>
                 <?php else: ?>
                     <input type="hidden" value="<?= $idProfesor ?>" name="id">
                     <input type="hidden" value="1" name="activo">
-                    <button type="submit" class="btn btn-success m-1">Activar</button>
+                    <button type="submit" class="btn btn-success m-1" <?php if($bloquear)echo "hidden"?>>Activar</button>
                 <?php endif ?>
             </form>
             <form action="cambiarPrivilegios.php" method="post">
                 <?php if ($admin == 1 || $admin == "Admin"): ?>
                     <input type="hidden" value="<?= $idProfesor ?>" name="id">
                     <input type="hidden" value="0" name="admin">
-                    <button type="submit" class="btn btn-warning m-1">Quitar privilegios</button>
+                    <button type="submit" class="btn btn-warning m-1" <?php if($bloquear)echo "hidden"?>>Quitar privilegios</button>
                 <?php else: ?>
                     <input type="hidden" value="<?= $idProfesor ?>" name="id">
                     <input type="hidden" value="1" name="admin">
-                    <button type="submit" class="btn btn-info m-1">Dar privilegios</button>
+                    <button type="submit" class="btn btn-info m-1" <?php if($bloquear)echo "hidden"?>>Dar privilegios</button>
                 <?php endif ?>
             </form>
         </section>
