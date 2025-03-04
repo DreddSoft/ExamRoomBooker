@@ -167,7 +167,7 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
 
                     <tr>
                         <th class="w-auto bg-info text-dark">Número de Alumnos</th>
-                        <td class="d-flex align-items-center justify-content-center"><input type="number" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>"></td>
+                        <td class="d-flex align-items-center justify-content-center"><input type="number" min="1" pattern="\d{1,3}" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>"></td>
                     </tr>
 
                     <tr>
