@@ -76,11 +76,11 @@ try {
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php") ?>
     <main class="d-flex justify-content-center">
-        <section class="text-center m-5 py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="width: 500px;">
+        <section class="text-center m-5 py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="width: 600px;">
             <form action="cambiosProfesor.php" method="post">
                 <h2 class="mb-5" style="color: #642686;">Modificar Profesor</h2>
                 <div class="d-flex justify-content-center">
-                    <table style="font-weight: bold; text-align: left;">
+                    <table style="font-weight: bold; text-align: left; width: 500px;">
                         <tr>
                             <td>
                                 <input type="text" name="idProfesor" class="form-control" style="width: 280px;" hidden id="idProfesor" value="<?= $idProfesor ?>">

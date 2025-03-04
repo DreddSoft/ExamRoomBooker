@@ -98,7 +98,7 @@ try {
     <?php require_once("../_header.php") ?>
     <main>
         <section class="text-center m-5"><br>
-            <form action="crearProfesor.php" method="post" class="py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="max-width: 400px; margin: auto;">
+            <form action="crearProfesor.php" method="post" class="py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="max-width: 500px; margin: auto;">
                 <h2 class="mb-5" style="color: #642686;">Crear Profesor</h2>
                 <input type="text" placeholder="Usuario" require name="usuario" id="usuario" class="form-control"><br>
                 <input type="password" placeholder="Contraseña" require name="passw" id="passw" class="form-control"><br>
