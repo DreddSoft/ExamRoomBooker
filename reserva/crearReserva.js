@@ -1,5 +1,7 @@
 // Capturamos todos los inputs
 const checkboxes = document.getElementsByClassName("btn-check");
+const form = document.getElementById("form-reserva");
+const btnSubmit = document.getElementById("btn-submit");
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -22,6 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 }, false);
 
+form.addEventListener("submit", (e) => {
+
+    // Cortamos el envío del formulario
+    e.preventDefault();
+
+    
+
+}, false);
+
+btnSubmit.addEventListener("click", () => {
+
+    btnSubmit.setAttribute("disabled", true);
+
+    // if (btnSubmit.getAttribute("disabled") == true) {
+
+    // }
+
+}, false);
 
 // Recorremos los checkboxes comprobando que 
 for (let i = 0; i < checkboxes.length; i++) {
@@ -90,4 +110,5 @@ function numMaxAlumnos() {
     iptAlumnos.setAttribute("max", max);
     
 }
+
 

@@ -167,17 +167,17 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
 
                     <tr>
                         <th class="w-auto bg-info text-dark">Número de Alumnos</th>
-                        <td class="d-flex align-items-center justify-content-center"><input type="number" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>"></td>
+                        <td class="d-flex align-items-center justify-content-center"><input type="number" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>" required></td>
                     </tr>
 
                     <tr>
                         <th class="w-auto bg-info text-dark">Curso</th>
-                        <td class="d-flex align-items-center justify-content-center"><input type="text" id="clase" name="clase" class="w-100 h-100 border-0 text-center" value="<?= $reserva["clase"] ?>"></td>
+                        <td class="d-flex align-items-center justify-content-center"><input type="text" id="clase" name="clase" class="w-100 h-100 border-0 text-center" value="<?= $reserva["clase"] ?>" required></td>
                     </tr>
 
                     <tr>
                         <th class="w-auto bg-info text-dark">Fecha</th>
-                        <td class="d-flex align-items-center justify-content-center"><input type="date" id="fecha" name="fecha" class="w-100 h-100 border-0 text-center" value="<?= date('Y-m-d', strtotime($reserva["fecha"])); ?>"></td>
+                        <td class="d-flex align-items-center justify-content-center"><input type="date" id="fecha" name="fecha" class="w-100 h-100 border-0 text-center" value="<?= date('Y-m-d', strtotime($reserva["fecha"])); ?>" required></td>
                     </tr>
 
                     <tr>
@@ -208,7 +208,7 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
                             ?>
 
                                 <input class="btn-check" type="checkbox" name="turnos[]" id="<?= $plaza['idTurno']; ?>" value="<?= $plaza['idTurno']; ?>" data-disp="<?= $plaza['disponibilidad']; ?>" <?= ($seleccionado) ? " checked" : "" ?>>
-                                <label class="btn btn-outline-primary" for="<?= $plaza['idTurno']; ?>" id="turno<?= $plaza['idTurno']; ?>">
+                                <label class="btn btn-outline-primary" for="<?= $plaza['idTurno']; ?>" id="turno<?= $plaza['idTurno']; ?>" >
                                     <?= $plaza['idTurno']; ?>
                                 </label>
                             <?php endforeach; ?>

@@ -89,9 +89,11 @@ global $fecha, $turno;
 
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php"); ?>
+
+    
     <main class="container my-4">
         <h2 class="mb-4">Crear Reserva</h2>
-        <form class="mx-auto p-4 border rounded shadow" style="max-width: 600px;" action="crearReservaServicio.php" method="post">
+        <form class="mx-auto p-4 border rounded shadow" id="form-reserva" style="max-width: 600px;" action="crearReservaServicio.php" method="post">
             <h3 style="color: #642686;" class="my-3 text-center">Datos de la Reserva</h3>
 
             <div class="mb-3 w-100">
@@ -127,7 +129,7 @@ global $fecha, $turno;
                 <div class="mb-3 w-100 d-flex flex-row">
                     <div class="w-50">
                         <label for="numAlumno" class="form-label me-2">Número de Alumnos</label>
-                        <input type="number" class="form-control" id="numAlumno" name="numAlumno" min="1" required style="max-width: 100px;">
+                        <input type="number" class="form-control" id="numAlumno" name="numAlumno" min="1" pattern="[0-9]+" required style="max-width: 100px;">
                     </div>
                     <div class="w-50">
                         <label for="clase" class="form-label me-2">Curso</label>
@@ -152,7 +154,7 @@ global $fecha, $turno;
                 <textarea class="form-control" id="descripcion" name="descripcion" maxlength="250" required></textarea>
             </div>
             <div class="w-100 d-flex justify-content-center align-center">
-                <button type="submit" class="btn btn-primary">Crear Reserva</button>
+                <button type="submit" id="btn-submit" class="btn btn-primary">Crear Reserva</button>
 
             </div>
             <?php if ($showError) : ?>
