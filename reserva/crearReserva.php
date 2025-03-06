@@ -16,6 +16,22 @@ if (isset($_SESSION['idProfesor'])) {
     exit();
 }
 
+// * CODIGO PARA CONTROLAR LA INACTIVIDAD DEL USUARIO
+$maxTime = 600;
+
+if (isset($_SESSION["ultimo_acceso"])) {
+    $tiempo_transcurrido = time() - $_SESSION["ultimo_acceso"];
+
+    if ($tiempo_transcurrido > $maxTime) {
+
+        header("Location: ../cerrarSesion.php");
+        exit();
+    }
+}
+
+// Actualizamos en cada accion del user
+$_SESSION['ultimo_acceso'] = time();
+
 
 $bd = new BD();
 $msj = "";

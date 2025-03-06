@@ -44,17 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Iniciamos sesion
             session_start();
 
-            // Establecemos el tiempo de vida de la cookie de sesión a 30 minutos si no hay actividad
-            session_set_cookie_params(1800);
-
             $_SESSION["idProfesor"] = $usuarioData[0]["id"];
             $_SESSION['nombre'] = $usuarioData[0]['nombre'] . " " . $usuarioData[0]['ape1'];
             $_SESSION['usuario'] = $usuarioData[0]['usuario'];
             $_SESSION['admin'] = $usuarioData[0]['admin'];
+            $_SESSION['ultimo_acceso'] = time();
 
             header("Location: index.php");
             exit();
-
         } else {
             $mensaje = "Usuario o contraseña incorrectos.";
             header("Location: login.php?mensaje=" . urlencode($mensaje));

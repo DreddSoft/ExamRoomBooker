@@ -10,6 +10,23 @@ if ($_SESSION["admin"] != 1) {
     header("Location:../index.php");
     exit();
 }
+
+// * CODIGO PARA CONTROLAR LA INACTIVIDAD DEL USUARIO
+$maxTime = 600;
+
+if (isset($_SESSION["ultimo_acceso"])) {
+    $tiempo_transcurrido = time() - $_SESSION["ultimo_acceso"];
+
+    if ($tiempo_transcurrido > $maxTime) {
+
+        header("Location: ../cerrarSesion.php");
+        exit();
+    }
+}
+
+// Actualizamos en cada accion del user
+$_SESSION['ultimo_acceso'] = time();
+
 //requiero la clase bd
 require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');
 $bd = new BD();
@@ -43,10 +60,6 @@ try {
         if ($idInsertado == -1) {
             throw new Exception("No se ha creado el profesor correctamente.");
         }
-
-
-
-        
     }
 } catch (Exception $e) {
     echo $e->getMessage();

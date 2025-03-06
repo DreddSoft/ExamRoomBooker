@@ -4,11 +4,28 @@ session_start();
 
 require_once "clases/bd.class.php";
 
-
 // Si no hay ningún usuario registrado, lo redirigiríamos al login para así poder registrarse y/o iniciar sesión
 if (!$_SESSION['idProfesor']) {
     header("Location: login.php");
 }
+
+// * CODIGO PARA CONTROLAR LA INACTIVIDAD DEL USUARIO
+$maxTime = 600;
+
+if (isset($_SESSION["ultimo_acceso"])) {
+    $tiempo_transcurrido = time() - $_SESSION["ultimo_acceso"];
+
+    if ($tiempo_transcurrido > $maxTime) {
+
+        header("Location: cerrarSesion.php");
+        exit();
+    }
+}
+
+// Actualizamos en cada accion del user
+$_SESSION['ultimo_acceso'] = time();
+
+// Si ha transcurrido mas del tiempo de inactividad
 
 // Siempre sanitizamos el codigo en variables
 $profesor = null;

@@ -21,9 +21,19 @@ formEditar.addEventListener("submit", (event) => {
     let ok = confirm("Esta a punto de modificar la reserva, ¿Desea continuar?");
 
     if (ok) {
-        formEditar.submit();
 
+        // Mostrar pantalla de carga
         showLoading();
+
+        // Habilitar todos los checkbox para que los lea el formulario
+        checkboxes.forEach((checkbox) => {
+
+                checkbox.removeAttribute("disabled");
+
+        });
+
+        // Enviar
+        formEditar.submit();
 
     }
 
@@ -167,10 +177,6 @@ function actualizarEstadoTurnos() {
         // El primero, el ultimo y los previos y siguientes habilitados
         if (i === primero - 1 || i === primero || i === ultimo || i === ultimo + 1) {
             checkbox.removeAttribute("disabled");
-        } else if (marcados.includes(i)) {
-            checkbox.removeAttribute("disabled");
-            checkbox.setAttribute("readonly", true);
-
         } else {
             // Resto bloqueados
             checkbox.setAttribute("disabled", true);

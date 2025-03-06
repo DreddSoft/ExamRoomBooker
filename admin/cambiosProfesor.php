@@ -2,6 +2,22 @@
 //inicio sesion
 session_start();
 
+// * CODIGO PARA CONTROLAR LA INACTIVIDAD DEL USUARIO
+$maxTime = 600;
+
+if (isset($_SESSION["ultimo_acceso"])) {
+    $tiempo_transcurrido = time() - $_SESSION["ultimo_acceso"];
+
+    if ($tiempo_transcurrido > $maxTime) {
+
+        header("Location: ../cerrarSesion.php");
+        exit();
+    }
+}
+
+// Actualizamos en cada accion del user
+$_SESSION['ultimo_acceso'] = time();
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');
 $bd = new BD();
 try {
