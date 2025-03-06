@@ -123,7 +123,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     header("Location: confirmacionReserva.pdf.php?idReserva=$idRva");
     exit();
 
-
     // $msj = "Exito: Nueva Reserva creada con id: $idRva";
     // header("Location: ../index.php?mensaje=$msj");
     // exit();

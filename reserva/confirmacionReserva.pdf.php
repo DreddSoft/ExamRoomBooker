@@ -230,7 +230,7 @@ $text_base = "<!DOCTYPE html>
 <body>
     <div class='container'>
         <img src='cid:logo_header' style='width: 150px; height: auto; display: block; margin: 0 auto;'>
-        <h2>Confirmación de Reserva #$idReserva</h2>
+        <h2>Confirmación de Reserva</h2>
         <p>Estimado/a $profesor,</p>
         <p>Nos complace informarle que su reserva ha sido confirmada con éxito. Adjunto a este correo encontrará su comprobante de reserva. Le recomendamos guardarlo para futuras referencias.</p>
         <p>Si tiene alguna consulta, no dude en ponerse en contacto con nosotros.</p>
