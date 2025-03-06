@@ -1,66 +1,58 @@
 // Capturamos todos los inputs
-const checkboxes = document.getElementsByClassName("btn-check");
+const checkboxes = document.querySelectorAll("input[type='checkbox']");
+
 // Capturar la fecha
 const iptFecha = document.getElementById("fecha");
+const formEditar = document.getElementById("form-editar");
+const loading = document.getElementById("loading-screen");
+
+
 
 // Capturar boton eliminar
 const btnDelete = document.getElementById("btn-delete");
 
+// Evento para el envio del formulario de modificacion
+formEditar.addEventListener("submit", (event) => {
+
+    // Detener el envio 
+    event.preventDefault();
+
+    // Pedir confirmacion
+    let ok = confirm("Esta a punto de modificar la reserva, ¿Desea continuar?");
+
+    if (ok) {
+        formEditar.submit();
+
+        showLoading();
+
+    }
+
+    return;
+
+}, false);
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Capturar el primer turno
-    let primerTurno = parseInt(document.getElementById("primerTurno").value);
+    hideLoading();
 
-    Array.from(checkboxes).forEach(checkbox => {
+    actualizarEstadoTurnos();
 
-        let id = parseInt(checkbox.id);
-
-        if (id < primerTurno) {
-            checkbox.setAttribute("hidden", true);
-            document.getElementById(`turno${id}`).setAttribute("hidden", true);
-        }
-
-    });
+    establecerMaximoTurnosMarcados();
 
 }, false);
 
 for (let i = 0; i < checkboxes.length; i++) {
+
+
     checkboxes[i].addEventListener('click', function () {
-        // Deshabilitar todos los checkboxes
-        let todosDesactivados = 0;
-        Array.from(checkboxes).forEach(checkbox => {
 
-            if (!checkbox.checked) {
-                checkbox.setAttribute("disabled", true);
-                todosDesactivados++;
+        actualizarEstadoTurnos();
 
-            }
-        });
+        establecerMaximoTurnosMarcados();
 
-        // Habilitar el checkbox actual
-        this.removeAttribute("disabled");
-
-        // Habilitar el checkbox anterior si existe
-        if (i > 0) {
-            checkboxes[i - 1].removeAttribute("disabled");
-        }
-
-        // Habilitar el checkbox siguiente si existe
-        if (i < checkboxes.length - 1) {
-            checkboxes[i + 1].removeAttribute("disabled");
-        }
-
-        if (todosDesactivados == 6) {
-            Array.from(checkboxes).forEach(checkbox => {
-
-                if (!checkbox.checked) {
-                    checkbox.removeAttribute("disabled");
-                    todosDesactivados = 0;
-
-                }
-            });
-        }
     }, false);
+
+
 }
 
 iptFecha.addEventListener("change", () => {
@@ -117,6 +109,10 @@ function eliminarReserva() {
 
 
     if (ok) {
+
+        // Pantalla de carga
+        showLoading();
+
         // Capturar idReserva
         let idReserva = parseInt(document.getElementById("idReserva").value);
 
@@ -124,5 +120,89 @@ function eliminarReserva() {
         window.location.href = `eliminarReserva.php?idReserva=${idReserva}`;
     }
 
+
+}
+
+
+
+// Funciones para pantallas de cargas
+function showLoading() {
+
+    loading.classList.remove("d-none");
+    loading.classList.add("d-flex");
+
+}
+
+function hideLoading() {
+
+    loading.classList.remove("d-flex");
+    loading.classList.add("d-none");
+
+}
+
+function actualizarEstadoTurnos() {
+
+    let marcados = [];
+
+    checkboxes.forEach((checkbox, i) => {
+
+        // Si esta marcado lo metemos en el array de marcados
+        if (checkbox.checked) {
+            marcados.push(i);
+        }
+    });
+
+    // Si la longitud de marcados es 0 es que no hay ninguno marcado
+    if (marcados.length == 0) {
+        // Habilitamos todos
+        checkboxes.forEach(checkbox => checkbox.removeAttribute("disabled"));
+        return;
+    }
+
+    // Sacamos el primero y el ultimo marcados
+    let primero = marcados[0];
+    let ultimo = marcados[marcados.length - 1];
+
+    checkboxes.forEach((checkbox, i) => {
+        // El primero, el ultimo y los previos y siguientes habilitados
+        if (i === primero - 1 || i === primero || i === ultimo || i === ultimo + 1) {
+            checkbox.removeAttribute("disabled");
+        } else if (marcados.includes(i)) {
+            checkbox.removeAttribute("disabled");
+            checkbox.setAttribute("readonly", true);
+
+        } else {
+            // Resto bloqueados
+            checkbox.setAttribute("disabled", true);
+        }
+    });
+
+}
+
+// Funcion establecer el maximo de los marcados
+function establecerMaximoTurnosMarcados() {
+
+    // menorMax
+    let menorMax = Infinity;
+
+    checkboxes.forEach((checkbox, i) => {
+
+        // Si esta marcado
+        if (checkbox.checked) {
+
+            let disp = parseInt(checkbox.dataset.disp);
+
+            // Si la disponibilidad es menor que el max
+            if (disp < menorMax) {
+
+                // Guardamos como menorMax
+                menorMax = disp;
+            }
+        }
+    });
+
+    // Asignamos el menor valor al atributo max
+    formEditar.elements[3].setAttribute("max", menorMax);
+    console.log(menorMax);
 
 }

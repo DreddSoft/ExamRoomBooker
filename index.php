@@ -223,25 +223,31 @@ $fila = 1;
 
         <?php if ($showModal): ?>
             <!-- MODAL -->
-            <div class="modal d-block" tabindex="999" role="dialog" id="modal">
+            <div class="modal d-block border-white" tabindex="999" role="dialog" id="modal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header d-flex justify-content-between align-items-center bg-info">
-                            <h5 class="modal-title">Información</h5>
-                            <button type="button" class="btn btn-primary closeModal" data-dismiss="modal" aria-label="Close">
+                        <div class="modal-header d-flex justify-content-between align-items-center bg-light">
+                            <h5 class="modal-title text-dark">Información</h5>
+                            <button type="button" class="btn btn-light closeModal" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body d-flex justify-content-center align-items-center">
-                            <p class="text-center"><?= empty($mensaje) ? "Mensaje informativo base: Nada que informar" : $mensaje ?></p>
+                            <p class="text-center text-primary"><?= empty($mensaje) ? "Mensaje informativo base: Nada que informar" : $mensaje ?></p>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Close</button>
+                        <div class="modal-footer bg-light">
+                            <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
             </div>
         <?php endif; ?>
+
+        <div class="position-fixed top-50 start-50 translate-middle w-100 h-100 d-none justify-content-center align-items-center bg-white bg-opacity-75" id="loading-screen" style="z-index: 999;">
+            <div class="spinner-border text-primary m-auto" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </main>
 
 

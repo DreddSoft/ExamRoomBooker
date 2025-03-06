@@ -149,7 +149,7 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
         </div>
 
         <div class="d-flex justify-content-center">
-            <form action="editarReservaServicio.php" method="post" class="d-flex flex-column align-items-center mb-4" style="width: 600px; margin: auto;">
+            <form action="editarReservaServicio.php" method="post" class="d-flex flex-column align-items-center mb-4" style="width: 600px; margin: auto;" id="form-editar">
                 <table class="table table-bordered w-100">
                     <tr>
                         <th class="w-auto bg-info text-dark">Id de la Reserva</th>
@@ -162,12 +162,12 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
 
                     <tr>
                         <th class="w-auto bg-info text-dark">Descripcion</th>
-                        <td class="d-flex align-items-center justify-content-center"><textarea type="text" id="desc" name="desc" class="w-100 h-100 border-0 text-center"><?= $reserva["descripcion"] ?></textarea></td>
+                        <td class="d-flex align-items-center justify-content-center"><textarea type="text" id="desc" name="desc" class="w-100 h-100 border-0 text-center" required><?= $reserva["descripcion"] ?></textarea></td>
                     </tr>
 
                     <tr>
                         <th class="w-auto bg-info text-dark">Número de Alumnos</th>
-                        <td class="d-flex align-items-center justify-content-center"><input type="number" min="1" pattern="\d{1,3}" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>"></td>
+                        <td class="d-flex align-items-center justify-content-center"><input type="number" min="1" max="100" pattern="\d{1,3}" id="alumnos" name="alumnos" class="w-100 h-100 border-0 text-center" value="<?= $reserva["numAlumnos"] ?>" required></td>
                     </tr>
 
                     <tr>
@@ -183,7 +183,7 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
                     <tr>
                         <th class="w-auto bg-info text-dark">Asignaturas</th>
                         <td class="d-flex align-items-center justify-content-center">
-                            <select class="w-100 h-100 border-0 text-center" name="asig" id="asig">
+                            <select class="w-100 h-100 border-0 text-center" name="asig" id="asig" required>
                                 <?php foreach ($asignaturas as $asignatura): ?>
 
                                     <option value="<?= $asignatura["id"] ?>" <?= ($reserva["idAsignatura"] == $asignatura["id"]) ? " selected" : "" ?>><?= $asignatura["nombre"] ?></option>
@@ -240,6 +240,12 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
                 </div>
 
             <?php endif; ?>
+
+            <div class="position-fixed top-50 start-50 translate-middle w-100 h-100 d-none justify-content-center align-items-center bg-white bg-opacity-75" id="loading-screen" style="z-index: 999;">
+                <div class="spinner-border text-primary m-auto" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
 
     </main>

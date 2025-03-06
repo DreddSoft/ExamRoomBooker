@@ -90,7 +90,7 @@ global $fecha, $turno;
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php"); ?>
 
-    
+
     <main class="container my-4">
         <h2 class="mb-4">Crear Reserva</h2>
         <form class="mx-auto p-4 border rounded shadow" id="form-reserva" style="max-width: 600px;" action="crearReservaServicio.php" method="post">
@@ -111,7 +111,7 @@ global $fecha, $turno;
                 <?php foreach ($plazas as $plaza) : ?>
                     <?php if ($plaza['disponibilidad'] > 0 && $plaza['idTurno'] >= $turno) : ?>
                         <div class="form-check">
-                            <input class="btn-check" type="checkbox" name="turnos[]" id="turno<?= $plaza['idTurno']; ?>" value="<?= $plaza['idTurno']; ?>" data-disp="<?= $plaza['disponibilidad']; ?>"; <?= ($turno == $plaza['idTurno']) ? ' checked' : ''; ?> >
+                            <input class="btn-check" type="checkbox" name="turnos[]" id="turno<?= $plaza['idTurno']; ?>" value="<?= $plaza['idTurno']; ?>" data-disp="<?= $plaza['disponibilidad']; ?>" ; <?= ($turno == $plaza['idTurno']) ? ' checked' : ''; ?>>
                             <label class="btn btn-outline-primary" for="turno<?= $plaza['idTurno']; ?>">
                                 <?= $plaza['idTurno']; ?>
                             </label>
@@ -163,6 +163,12 @@ global $fecha, $turno;
                 </div>
             <?php endif; ?>
         </form>
+
+        <div class="position-fixed top-50 start-50 translate-middle w-100 h-100 d-none justify-content-center align-items-center bg-white bg-opacity-75" id="loading-screen" style="z-index: 999;">
+            <div class="spinner-border text-primary m-auto" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </main>
 
     <?php require_once("../_footer.php"); ?>

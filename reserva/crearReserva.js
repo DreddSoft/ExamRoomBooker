@@ -1,9 +1,13 @@
 // Capturamos todos los inputs
 const checkboxes = document.getElementsByClassName("btn-check");
 const form = document.getElementById("form-reserva");
-const btnSubmit = document.getElementById("btn-submit");
+
+const loading = document.getElementById("loading-screen");
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    // Quitar pantalla de cargar
+    hideLoading();
 
     // Al cargar que aplique la disponibilidad del check que este marcado
     // Sacar el valor del check marcado
@@ -29,17 +33,15 @@ form.addEventListener("submit", (e) => {
     // Cortamos el envío del formulario
     e.preventDefault();
 
-    
+    let ok = confirm("Esta a punto de crear una reserva, ¿Desea continuar?");
 
-}, false);
+    if (ok) {
+        console.log("Se envia");
+        form.submit();
+        showLoading();
+    }
 
-btnSubmit.addEventListener("click", () => {
-
-    btnSubmit.setAttribute("disabled", true);
-
-    // if (btnSubmit.getAttribute("disabled") == true) {
-
-    // }
+    return;
 
 }, false);
 
@@ -111,4 +113,18 @@ function numMaxAlumnos() {
     
 }
 
+// Funciones para pantallas de cargas
+function showLoading() {
+
+    loading.classList.remove("d-none");
+    loading.classList.add("d-flex");
+
+}
+
+function hideLoading() {
+
+    loading.classList.remove("d-flex");
+    loading.classList.add("d-none");
+
+}
 
