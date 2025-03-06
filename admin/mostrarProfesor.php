@@ -81,7 +81,7 @@
         echo "<main>";
         echo "<h2 style='color: #642686; text-align: center;' class='m-5'>Listado de Profesores</h2>";
         //boton para filtar por activo o inactivo
-        echo "<form action='mostrarProfesor.php' method='post' class='d-flex justify-content-around align-items-center'>
+        echo "<form action='mostrarProfesor.php' method='post' id='form-filtros' class='d-flex justify-content-around align-items-center'>
                 <div>
                     <input class='btn-check' type='radio' name='mActivos' id='act1' value='1'>
                     <label class='btn btn-outline-primary' for='act1'>
@@ -127,6 +127,11 @@
         $bd->cerrarConexion();
     }
     ?>
+    <div class="position-fixed top-50 start-50 translate-middle w-100 h-100 d-none justify-content-center align-items-center bg-white bg-opacity-75" id="loading-screen" style="z-index: 999;">
+        <div class="spinner-border text-primary m-auto" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <?php require_once("../_footer.php") ?>
     <script src="admin_logica.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
