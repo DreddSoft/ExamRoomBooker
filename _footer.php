@@ -49,7 +49,16 @@ if ($filename == "index.php" || $filename == "login.php") {
 <script>
     // Redirigir
     function logout() {
-        window.location.href = " <?= $ruta ?>cerrarSesion.php";
+
+        let ok = confirm("Esta usted a punto de cerrar sesión, ¿Desea continuar?");
+
+        if (ok) {
+
+            // Redirigimos
+            window.location.href = " <?= $ruta ?>cerrarSesion.php";
+
+        }
+
 
     }
 </script>

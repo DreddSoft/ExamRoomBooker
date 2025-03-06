@@ -1,6 +1,7 @@
 // Capturar variables
 const formFiltros = document.getElementById("form-filtros");
 const loading = document.getElementById("loading-screen");
+const formCreaProfe = document.getElementById("form-CreaProfe");
 
 window.addEventListener("DOMContentLoaded", () => {
 
@@ -21,6 +22,27 @@ if (formFiltros) {
         formFiltros.submit();
 
     }, false);
+}
+
+if (formCreaProfe) {
+
+    formCreaProfe.addEventListener("submit", (event) => {
+
+        // Prevenimos el evento
+        event.preventDefault();
+
+        // Preguntamos
+        let ok = confirm("Esta a punto de crear un profesor, ¿Desea continuar?");
+
+        if (ok) {
+            showLoading();
+            formCreaProfe.submit();
+        }
+
+        return;
+
+    });
+
 }
 
 
