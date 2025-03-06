@@ -60,6 +60,8 @@ try {
         if ($idInsertado == -1) {
             throw new Exception("No se ha creado el profesor correctamente.");
         }
+        //mando al usuario a mostrar profesor
+        header("Location:mostrarProfesor.php");
     }
 } catch (Exception $e) {
     echo $e->getMessage();
