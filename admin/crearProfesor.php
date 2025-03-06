@@ -60,21 +60,6 @@ try {
         if ($idInsertado == -1) {
             throw new Exception("No se ha creado el profesor correctamente.");
         }
-        //mando al usuario a mostrar profesor
-        header("Location:mostrarProfesor.php");
-    }
-} catch (Exception $e) {
-    echo $e->getMessage();
-} finally {
-    //cierro la conexion con la bd
-    $bd->cerrarConexion();
-}
-
-try {
-    //conecto a la base de datos
-    $conexion = $bd->abrirConexion();
-    //compruebo que el método es post
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
         //guardo el id del profesor
         //compruebo si se han seleccionado las asignaturas , si es asi guardo los datos 
         if (isset($_POST['asignaturas'])) {
@@ -88,6 +73,9 @@ try {
                 //uso el metodo insertar datos de la clase bd
                 $bd->insertarDatos($query);
             }
+            //mando al usuario a mostrar profesor
+            header("Location:mostrarProfesor.php");
+            exit();
         }
     }
 } catch (Exception $e) {
