@@ -273,7 +273,7 @@ try {
     $mail->send();
     // echo 'El correo se ha enviado de forma exitosa, su destinatario debe haber recivido el correo';
 
-    $msj = "Creada Reserva $idReserva con exito.";
+    $msj = "Creada Reserva con exito.";
     header("Location: ../index.php?mensaje=$msj");
     exit();
 } catch (Exception $e) {
