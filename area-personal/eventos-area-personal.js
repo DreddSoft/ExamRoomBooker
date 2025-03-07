@@ -1,5 +1,10 @@
 const loading = document.getElementById("loading-screen");
 
+// Evento cuando la página se muestra (incluye recarga y navegación hacia atrás)
+window.addEventListener('pageshow', function(event) {
+    hideLoading();
+});
+
 // Evento para redirigir la web si se hace doble clic en una tarjeta de reserva
 document.addEventListener('DOMContentLoaded', function() {
 
