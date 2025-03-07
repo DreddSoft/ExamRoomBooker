@@ -26,7 +26,7 @@ if (isset($_SESSION["ultimo_acceso"])) {
 
 // Actualizamos en cada accion del user
 $_SESSION['ultimo_acceso'] = time();
-
+$error = null;
 //requiero la clase bd
 require_once($_SERVER['DOCUMENT_ROOT'] . '/examroombooker/clases/bd.class.php');
 $bd = new BD();
@@ -79,7 +79,14 @@ try {
         }
     }
 } catch (Exception $e) {
-    echo $e->getMessage();
+    $msgerror = $e->getMessage();
+    if(str_contains($msgerror, "usuario")){
+        $error = "No se ha podido crear correctamento, el usuario ya existe";
+    }
+    if(str_contains($msgerror, "email")){
+        $error = "No se ha podido crear correctamento, el email ya existe";
+    }
+    // $error = "No se ha creado correctamente: " . $e->getMessage();
 } finally {
     //cierro la conexion con la bd
     $bd->cerrarConexion();
@@ -101,7 +108,12 @@ try {
 <body class="d-flex flex-column min-vh-100">
     <?php require_once("../_header.php") ?>
     <main>
-        <section class="text-center m-5"><br>
+        <section class="text-center d-flex flex-column justify-content-center align-items-center m-5"><br>
+            <?php if (isset($error)) : ?>
+                <div class="bg-danger bg-opacity-10 border border-danger text-danger p-2 rounded mb-3" style="max-width: 500px;">
+                    <p class="mb-0"><?= $error ?></p>
+                </div>
+            <?php endif; ?>
             <form action="crearProfesor.php" method="post" id="form-CreaProfe" class="py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="max-width: 500px; margin: auto;">
                 <h2 class="mb-5" style="color: #642686;">Crear Profesor</h2>
                 <input type="text" placeholder="Usuario" require name="usuario" id="usuario" class="form-control"><br>
