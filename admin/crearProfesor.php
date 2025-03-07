@@ -77,16 +77,28 @@ try {
             header("Location:mostrarProfesor.php");
             exit();
         }
+
+
+
     }
+
+    $sql = "SELECT id, nombre FROM Asignaturas";
+
+    $todasAsignaturas = $bd->capturarDatos($sql);
+
+    if (empty($todasAsignaturas)) {
+        throw new Exception("No se ha podido capturar todas las asignaturas.");
+    }
+
 } catch (Exception $e) {
     $msgerror = $e->getMessage();
     if(str_contains($msgerror, "usuario")){
         $error = "No se ha podido crear correctamento, el usuario ya existe";
-    }
-    if(str_contains($msgerror, "email")){
+    } else if(str_contains($msgerror, "email")){
         $error = "No se ha podido crear correctamento, el email ya existe";
+    } else {
+        $error = "No se ha creado correctamente: " . $e->getMessage();
     }
-    // $error = "No se ha creado correctamente: " . $e->getMessage();
 } finally {
     //cierro la conexion con la bd
     $bd->cerrarConexion();
@@ -125,15 +137,9 @@ try {
                 <label for="opciones">Seleccione asignaturas:</label>
                 <i class="text-secondary">Pulse la tecla control (crtl) para seleccionar varias</i>
                 <select name="asignaturas[]" id="asignaturas" multiple class="form-control">
-                    <option value="1">Biología</option>
-                    <option value="2">Química</option>
-                    <option value="3">Matemáticas I</option>
-                    <option value="4">Álgebra</option>
-                    <option value="5">Lengua Española</option>
-                    <option value="6">Literatura Universal</option>
-                    <option value="7">Bases De Datos</option>
-                    <option value="8">Entorno Servidor</option>
-                    <option value="9">Entorno Cliente</option>
+                    <?php foreach($todasAsignaturas as $asignatura) : ?>
+                        <option value="<?= $asignatura["id"] ?>"><?= $asignatura["nombre"] ?></option>
+                    <?php endforeach; ?>
                 </select><br>
                 <button type="submit" class="btn btn-primary" style="width: 60%;">Crear</button>
             </form>

@@ -135,7 +135,7 @@ try {
                     <p class="mb-0"><?= $msj ?></p>
                 </div>
             <?php endif; ?>
-            <form action="cambiosProfesor.php" method="post">
+            <form action="cambiosProfesor.php" method="post" id="form-change-profesor">
                 <h2 class="mb-5" style="color: #642686;">Modificar Profesor</h2>
                 <div class="d-flex justify-content-center">
                     <table style="font-weight: bold; text-align: left; width: 500px;">
@@ -229,11 +229,11 @@ try {
                     </table>
                 </div>
                 <section class="d-inline-flex p-2 m-3">
-                    <button type="submit" class="btn btn-primary m-1" onclick="return confirm('Está a punto de modificar un usuario, ¿desea continuar?')">Modificar</button>
+                    <button type="submit" class="btn btn-primary m-1">Modificar</button>
             </form>
-            <form action="eliminarProfesor.php" method="post">
+            <form action="eliminarProfesor.php" method="post" id="form-delete-profesor">
                 <input type="hidden" value="<?= $idProfesor ?>" name="id">
-                <button type="submit" class="btn btn-danger m-1" <?php if ($bloquear) echo "hidden" ?> onclick="return confirm('Está a punto de eliminar un usuario, ¿desea continuar?')">Eliminar</button>
+                <button type="submit" class="btn btn-danger m-1" <?php if ($bloquear) echo "hidden" ?>>Eliminar</button>
             </form>
         </section>
         <?php if ($_SESSION["super"] == 1) : ?>
@@ -272,7 +272,7 @@ try {
     </div>
     <?php require_once("../_footer.php") ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="admin_logica.js"></script>
+    <script src="modificarProfesor.js"></script>
 </body>
 
 </html>

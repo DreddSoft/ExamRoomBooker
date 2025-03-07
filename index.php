@@ -37,6 +37,11 @@ if (isset($_SESSION['nombre'])) {
 
 $idProfesor = $_SESSION["idProfesor"];
 
+$esAdmin = false;
+if ($_SESSION["admin"] == 1) {
+    $esAdmin = true;
+}
+
 // Capturamos el lunes de la semana actual
 $diaActual = date("d-m-Y");
 
@@ -149,7 +154,7 @@ $fila = 1;
                 <div>
                     <span class="text-secondary font-italic text-sm-center">Haga click en el simbolo <i class='bi bi-plus-circle mx-2' style="font-size: 1.5rem; color: blue; cursor:pointer;"></i> para crear una reserva.</span>
                     <br>
-                    <span class="text-secondary font-italic text-sm-center">Doble click sobre el recuadro de la reserva para editarla.</span>
+                    <span class="text-secondary font-italic text-sm-center">Doble click sobre el recuadro verde de la reserva para editarla.</span>
                 </div>
                 <div><a href="index.php?semana=<?= $numSemana + 1 ?>" class="btn btn-link">Siguiente &gt;&gt;</a></div>
             </div>
@@ -195,6 +200,12 @@ $fila = 1;
                                                             <h6>{$reserva['profesor']} | {$reserva['asignatura']}</h6>
                                                             <p>{$reserva['clase']} | Alumnos: {$reserva['numeroAlumnos']}</p>
                                                           </div>";
+                                                } else if ($esAdmin) {
+                                                        echo "<div class='d-flex flex-column justify-content-center align-items-center border border-warning rounded p-1 mb-1' style='background-color: rgba(238, 238, 144, 0.3); border-radius: 5px; cursor: not-allowed;' id='{$reserva['idReserva']}' title='Reserva bloqueada'>
+                                                                <h6>{$reserva['profesor']} | {$reserva['asignatura']}</h6>
+                                                                <p>{$reserva['clase']} | Alumnos: {$reserva['numeroAlumnos']}</p>
+                                                              </div>";
+                                                    
                                                 }
                                                 $plazas -= $reserva['numeroAlumnos'];
                                             }
