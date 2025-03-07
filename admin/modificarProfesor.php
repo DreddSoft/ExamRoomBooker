@@ -19,6 +19,19 @@ if ($_SESSION["admin"] != 1) {
     exit();
 }
 
+$error = null;
+$success = null;
+
+if (isset($_GET["error"])) {
+    $error = true;
+}
+
+if (isset($_GET["success"])) {
+    $success = true;
+}
+
+$msj = null;
+
 // * CODIGO PARA CONTROLAR LA INACTIVIDAD DEL USUARIO
 $maxTime = 600;
 
@@ -46,10 +59,14 @@ try {
     $bd->abrirConexion();
     //consulta que me muestra los datos de un profesor con una id concreta, la guardada anteriormente
     $query1 = "
-            SELECT usuario, passw, nombre, ape1,ape2, activo,email,admin FROM profesores
+            SELECT usuario, passw, nombre, ape1, ape2, activo, email, admin, super FROM profesores
             where id = '$idProfesor';
         ";
     $resultado = $bd->capturarDatos($query1);
+
+    if (empty($resultado)) {
+        throw new Exception("No se han capturado los datos del profesor.");
+    }
     //guardo todos los datos de ese usuario
     $usuario = $resultado[0]["usuario"];
     $nombre = $resultado[0]["nombre"];
@@ -66,13 +83,26 @@ try {
         ";
     $resultado = $bd->capturarDatos($query3);
 
+    if (empty($resultado)) {
+        throw new Exception("No se han capturado los datos de las asignaturas del profesor.");
+    }
+
     //creo un array con las asignaturas que tiene ese profesor y que lo usare en el select poara que me aparezcan preseleccionadas
     $asignaturas = [];
     foreach ($resultado as $asignatura) {
         $asignaturas[] = $asignatura['idAsignatura'];
     }
+
+    $sql = "SELECT id, nombre FROM Asignaturas";
+
+    $todasAsignaturas = $bd->capturarDatos($sql);
+
+    if (empty($todasAsignaturas)) {
+        throw new Exception("No se han podido capturar todas las asignaturas.");
+    }
 } catch (Exception $e) {
-    echo $e->getMessage();
+    $msj = "Erorr: " . $e->getMessage();
+    $error = true;
 } finally {
     //cierro la conexion con la bd
     $bd->cerrarConexion();
@@ -95,6 +125,17 @@ try {
     <?php require_once("../_header.php") ?>
     <main class="d-flex justify-content-center">
         <section class="text-center m-5 py-5 px-4 d-flex flex-column align-items-center bg-light rounded shadow" style="width: 600px;">
+            <?php if ($success) : ?>
+                <div class="bg-success bg-opacity-10 border border-success text-success p-2 rounded mb-3">
+                    <p class="mb-0"><?= $msj ?></p>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($error) : ?>
+                <div class="bg-danger bg-opacity-10 border border-danger text-danger p-2 rounded mb-3">
+                    <p class="mb-0"><?= $msj ?></p>
+                </div>
+            <?php endif; ?>
             <form action="cambiosProfesor.php" method="post">
                 <h2 class="mb-5" style="color: #642686;">Modificar Profesor</h2>
                 <div class="d-flex justify-content-center">
@@ -180,15 +221,9 @@ try {
                             </td>
                             <td>
                                 <select name="asignaturas[]" id="asignaturas" multiple class="form-control">
-                                    <option value="1" <?php if (in_array(1, $asignaturas)) echo 'selected'; ?>>Biología</option>
-                                    <option value="2" <?php if (in_array(2, $asignaturas)) echo 'selected'; ?>>Química</option>
-                                    <option value="3" <?php if (in_array(3, $asignaturas)) echo 'selected'; ?>>Matemáticas I</option>
-                                    <option value="4" <?php if (in_array(4, $asignaturas)) echo 'selected'; ?>>Álgebra</option>
-                                    <option value="5" <?php if (in_array(5, $asignaturas)) echo 'selected'; ?>>Lengua Española</option>
-                                    <option value="6" <?php if (in_array(6, $asignaturas)) echo 'selected'; ?>>Literatura Universal</option>
-                                    <option value="7" <?php if (in_array(7, $asignaturas)) echo 'selected'; ?>>Bases De Datos</option>
-                                    <option value="8" <?php if (in_array(8, $asignaturas)) echo 'selected'; ?>>Entorno Servidor</option>
-                                    <option value="9" <?php if (in_array(9, $asignaturas)) echo 'selected'; ?>>Entorno Cliente</option>
+                                    <?php foreach ($todasAsignaturas as $asignatura) : ?>
+                                        <option value="<?= $asignatura["id"] ?>" <?php if (in_array($asignatura["id"], $asignaturas)) echo 'selected'; ?>><?= $asignatura["nombre"] ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </td>
                         </tr>
@@ -202,31 +237,34 @@ try {
                 <button type="submit" class="btn btn-danger m-1" <?php if ($bloquear) echo "hidden" ?> onclick="return confirm('Está a punto de eliminar un usuario, ¿desea continuar?')">Eliminar</button>
             </form>
         </section>
-        <section class="d-inline-flex p-2">
-            <form action="cambiarStatusProfesor.php" method="post">
-                <?php if ($activo == 1 || $activo == "Activo"): ?>
-                    <input type="hidden" value="<?= $idProfesor ?>" name="id">
-                    <input type="hidden" value="0" name="activo">
-                    <button type="submit" class="btn btn-secondary m-1" <?php if ($bloquear) echo "hidden" ?>>Desactivar</button>
-                <?php else: ?>
-                    <input type="hidden" value="<?= $idProfesor ?>" name="id">
-                    <input type="hidden" value="1" name="activo">
-                    <button type="submit" class="btn btn-success m-1" <?php if ($bloquear) echo "hidden" ?>>Activar</button>
-                <?php endif ?>
-            </form>
-            <form action="cambiarPrivilegios.php" method="post">
-                <?php if ($admin == 1 || $admin == "Admin"): ?>
-                    <input type="hidden" value="<?= $idProfesor ?>" name="id">
-                    <input type="hidden" value="0" name="admin">
-                    <button type="submit" class="btn btn-warning m-1" <?php if ($bloquear) echo "hidden" ?>>Quitar privilegios</button>
-                <?php else: ?>
-                    <input type="hidden" value="<?= $idProfesor ?>" name="id">
-                    <input type="hidden" value="1" name="admin">
-                    <button type="submit" class="btn btn-info m-1" <?php if ($bloquear) echo "hidden" ?>>Dar privilegios</button>
-                <?php endif ?>
-            </form>
-        </section>
-        </section>
+        <?php if ($_SESSION["super"] == 1) : ?>
+            <section class="d-inline-flex p-2">
+
+                <form action="cambiarStatusProfesor.php" method="post">
+                    <?php if ($activo == 1 || $activo == "Activo"): ?>
+                        <input type="hidden" value="<?= $idProfesor ?>" name="id">
+                        <input type="hidden" value="0" name="activo">
+                        <button type="submit" class="btn btn-secondary m-1" <?php if ($bloquear) echo "hidden" ?>>Desactivar</button>
+                    <?php else: ?>
+                        <input type="hidden" value="<?= $idProfesor ?>" name="id">
+                        <input type="hidden" value="1" name="activo">
+                        <button type="submit" class="btn btn-success m-1" <?php if ($bloquear) echo "hidden" ?>>Activar</button>
+                    <?php endif ?>
+                </form>
+                <form action="cambiarPrivilegios.php" method="post">
+                    <?php if ($admin == 1 || $admin == "Admin"): ?>
+                        <input type="hidden" value="<?= $idProfesor ?>" name="id">
+                        <input type="hidden" value="0" name="admin">
+                        <button type="submit" class="btn btn-warning m-1" <?php if ($bloquear) echo "hidden" ?>>Quitar privilegios</button>
+                    <?php else: ?>
+                        <input type="hidden" value="<?= $idProfesor ?>" name="id">
+                        <input type="hidden" value="1" name="admin">
+                        <button type="submit" class="btn btn-info m-1" <?php if ($bloquear) echo "hidden" ?>>Dar privilegios</button>
+                    <?php endif ?>
+                </form>
+
+            </section>
+        <?php endif; ?>
     </main>
     <div class="position-fixed top-50 start-50 translate-middle w-100 h-100 d-none justify-content-center align-items-center bg-white bg-opacity-75" id="loading-screen" style="z-index: 999;">
         <div class="spinner-border text-primary m-auto" role="status" style="width: 3rem; height: 3rem;">

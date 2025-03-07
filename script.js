@@ -8,18 +8,18 @@ window.addEventListener("DOMContentLoaded", () => {
 
 }, false)
 
+if (btnDropdown) {
+    btnDropdown.addEventListener("click", () => {
 
-btnDropdown.addEventListener("click", () => {
-
-}, false);
-
+    }, false);
+    
+}
 
 $(".closeModal").click(() => {
-
+    
     $("#modal").removeClass("d-block");
-
+    
 });
-
 // Función modificarReserva
 function modificarReserva(id) {
 

@@ -6,8 +6,6 @@ const iptFecha = document.getElementById("fecha");
 const formEditar = document.getElementById("form-editar");
 const loading = document.getElementById("loading-screen");
 
-
-
 // Capturar boton eliminar
 const btnDelete = document.getElementById("btn-delete");
 
@@ -42,6 +40,8 @@ formEditar.addEventListener("submit", (event) => {
 }, false);
 
 document.addEventListener("DOMContentLoaded", () => {
+
+
 
     hideLoading();
 
@@ -209,6 +209,6 @@ function establecerMaximoTurnosMarcados() {
 
     // Asignamos el menor valor al atributo max
     formEditar.elements[3].setAttribute("max", menorMax);
-    console.log(menorMax);
+    // console.log(menorMax);
 
 }

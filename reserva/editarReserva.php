@@ -215,15 +215,17 @@ $conf = "confirmaciones/confirmacionReserva_$idReserva.pdf";
                             <input type="hidden" name="primerTurno" id="primerTurno" value="<?= $primerTurno ?>">
                             <?php foreach ($plazas as $plaza) :
                                 $seleccionado = false;
+                                $disponibilidad = $plaza['disponibilidad'];
                                 foreach ($turnosReserva as $turno) {
                                     if ($turno["id"] == $plaza["idTurno"]) {
                                         $seleccionado = true;
+                                        $disponibilidad += $reserva["numAlumnos"];
                                     }
                                 }
 
                             ?>
 
-                                <input class="btn-check" type="checkbox" name="turnos[]" id="<?= $plaza['idTurno']; ?>" value="<?= $plaza['idTurno']; ?>" data-disp="<?= $plaza['disponibilidad']; ?>" <?= ($seleccionado) ? " checked" : "" ?>>
+                                <input class="btn-check" type="checkbox" name="turnos[]" id="<?= $plaza['idTurno']; ?>" value="<?= $plaza['idTurno']; ?>" data-disp="<?= $disponibilidad ?>" <?= ($seleccionado) ? " checked" : "" ?>>
                                 <label class="btn btn-outline-primary" for="<?= $plaza['idTurno']; ?>" id="turno<?= $plaza['idTurno']; ?>" >
                                     <?= $plaza['idTurno']; ?>
                                 </label>

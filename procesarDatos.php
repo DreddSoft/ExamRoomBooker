@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bd->abrirConexion();
 
         // Definimos una consulta SQL para seleccionar los campos id, nombre, primer apellido, usuario y contraseña de la tabla Profesores.
-        $sql = "SELECT id, nombre, ape1, usuario, passw, admin, email 
+        $sql = "SELECT id, nombre, ape1, usuario, passw, admin, email, super, activo 
         FROM Profesores 
         WHERE usuario = '$usuario' 
         OR email = '$usuario'";
@@ -41,6 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (!empty($usuarioData) && password_verify($pass, $usuarioData[0]["passw"])) {
 
+            // Si esta desactivado
+            if ($usuarioData[0]['activo'] == 0) {
+                $mensaje = "Este usuario esta desactivado. Por favor, contacte con el administrador";
+                header("Location: login.php?mensaje=" . urlencode($mensaje));
+                exit();
+            }
+
             // Iniciamos sesion
             session_start();
 
@@ -48,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['nombre'] = $usuarioData[0]['nombre'] . " " . $usuarioData[0]['ape1'];
             $_SESSION['usuario'] = $usuarioData[0]['usuario'];
             $_SESSION['admin'] = $usuarioData[0]['admin'];
+            $_SESSION['super'] = $usuarioData[0]['super'];
             $_SESSION['ultimo_acceso'] = time();
 
             header("Location: index.php");
