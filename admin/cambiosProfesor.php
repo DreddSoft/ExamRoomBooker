@@ -84,10 +84,14 @@ try {
             $bd->actualizarDatos($query2);
         }
 
-        header("Location: modificarProfesor.php?idProfesor=$idProfesor");
+        $msj = "Profesor modificado correctamente.";
+        header("Location: modificarProfesor.php?idProfesor=$idProfesor&success=1&mensaje=" . urlencode($msj));
+        exit();
     }
 } catch (Exception $e) {
-    echo $e->getMessage();
+    $msj = "Error: " . $e->getMessage();
+    header("Location: modificarProfesor.php?idProfesor=$idProfesor&error=1&mensaje=" . urlencode($msj));
+    exit();
 } finally {
     //cierro la conexion con la bd
     $bd->cerrarConexion();

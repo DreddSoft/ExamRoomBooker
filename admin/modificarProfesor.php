@@ -31,6 +31,9 @@ if (isset($_GET["success"])) {
 }
 
 $msj = null;
+if (isset($_GET["mensaje"])) {
+    $msj = $_GET["mensaje"];
+}
 
 // * CODIGO PARA CONTROLAR LA INACTIVIDAD DEL USUARIO
 $maxTime = 600;
@@ -82,10 +85,6 @@ try {
         WHERE idProfesor = $idProfesor;
         ";
     $resultado = $bd->capturarDatos($query3);
-
-    if (empty($resultado)) {
-        throw new Exception("No se han capturado los datos de las asignaturas del profesor.");
-    }
 
     //creo un array con las asignaturas que tiene ese profesor y que lo usare en el select poara que me aparezcan preseleccionadas
     $asignaturas = [];
